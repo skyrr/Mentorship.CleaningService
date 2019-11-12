@@ -4,9 +4,9 @@ using System.Text;
 
 namespace Mentorship.CleaningService.Models
 {
-    public class Client
+    public class ClientAddress
     {
-        public int Id { get; set; }
-        public int PersonId { get; set; }
+        public int AddressId { get; set; }
+        public int ClientId { get; set; }
     }
 }
