@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Mentorship.CleaningService.Models
 {
-    public class Address
+    public class Address : IEntity
     {
         public int Id { get; set; }
         public string StreetName { get; set; }

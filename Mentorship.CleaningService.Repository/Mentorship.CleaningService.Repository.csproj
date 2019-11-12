@@ -4,4 +4,9 @@
     <TargetFramework>netcoreapp2.2</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Mentorship.CleaningService.DataAccess\Mentorship.CleaningService.DataAccess.csproj" />
+    <ProjectReference Include="..\Mentorship.CleaningService.Models\Mentorship.CleaningService.Models.csproj" />
+  </ItemGroup>
+
 </Project>
