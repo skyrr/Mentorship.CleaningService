@@ -7,36 +7,35 @@ using Mentorship.CleaningService.Models;
 
 namespace Mentorship.CleaningService.Repository
 {
-    class ClientRepository : IRepository
+    class WorkerRepository : IRepository<Worker>
     {
-        private ClientDbContext clientDbContext;
-        public ClientRepository()
+        private readonly IWorkerDbContext _dbContext;
+        public WorkerRepository(IWorkerDbContext dbContext)
         {
-            clientDbContext = new ClientDbContext();
+            _dbContext = dbContext;
         }
 
-        public IEntity GetById(int id)
+        public Worker GetById(int id)
         {
-            IEntity client = clientDbContext.Clients.Where(x=>x.Id==id).SingleOrDefault();
-            return client;
+            return _dbContext.Workers.FirstOrDefault(c => c.Id.Equals(id));
         }
 
-        public IQueryable<IEntity> GetAll()
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEntity Create(IEntity entity)
+        public IQueryable<Worker> GetAll()
         {
             throw new NotImplementedException();
         }
 
-        public IEntity Update(IEntity entity)
+        public Worker Create(Worker entity)
         {
             throw new NotImplementedException();
         }
 
-        public void Delete(IEntity entity)
+        public Worker Update(Worker entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Delete(Worker entity)
         {
             throw new NotImplementedException();
         }

@@ -6,12 +6,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Mentorship.CleaningService.Repository
 {
-    public interface IRepository
+    public interface IRepository<T> where T : IEntity
     {
-        IEntity GetById(int id);
-        IQueryable<IEntity> GetAll();
-        IEntity Create(IEntity entity);
-        IEntity Update(IEntity entity);
-        void Delete(IEntity entity);
+        T GetById(int id);
+        IQueryable<T> GetAll();
+        T Create(T entity);
+        T Update(T entity);
+        void Delete(T entity);
     }
 }

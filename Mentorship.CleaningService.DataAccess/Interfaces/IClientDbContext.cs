@@ -6,8 +6,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Mentorship.CleaningService.DataAccess
 {
-    public class ClientDbContext : DbContext
+    public interface IClientDbContext
     {
-        public DbSet<Client> Clients { get; set; }
+        DbSet<Client> Clients { get; set; }
     }
 }
