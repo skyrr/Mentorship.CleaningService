@@ -7,7 +7,7 @@ using Mentorship.CleaningService.Models;
 
 namespace Mentorship.CleaningService.Repository
 {
-    class PersonRepository : IRepository<Person>
+    public class PersonRepository : IRepository<Person>
     {
         private readonly IPersonDbContext _dbContext;
         public PersonRepository(IPersonDbContext dbContext)

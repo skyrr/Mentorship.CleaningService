@@ -7,7 +7,7 @@ using Mentorship.CleaningService.Models;
 
 namespace Mentorship.CleaningService.Repository
 {
-    class AddressRepository : IRepository<Address>
+    public class AddressRepository : IRepository<Address>
     {
         private readonly IAddressDbContext _dbContext;
         public AddressRepository(IAddressDbContext dbContext)
