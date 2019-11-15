@@ -35,9 +35,14 @@ namespace Mentorship.CleaningService.Repository
             throw new NotImplementedException();
         }
 
-        public void Delete(Person entity)
+        public bool Delete(Person entity)
         {
             throw new NotImplementedException();
+        }
+
+        public void Dispose()
+        {
+            _dbContext?.Dispose();
         }
     }
 }

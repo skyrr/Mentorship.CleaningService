@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Mentorship.CleaningService.DataAccess;
+﻿using Mentorship.CleaningService.DataAccess;
+using Mentorship.CleaningService.Models;
+using Mentorship.CleaningService.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Mentorship.CleaningService.WebApi
@@ -17,6 +14,10 @@ namespace Mentorship.CleaningService.WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<IPersonDbContext, CleaningServiceDbContext>();
+            services.AddScoped<IWorkerDbContext, CleaningServiceDbContext>();
+            services.AddScoped<IAddressDbContext, CleaningServiceDbContext>();
+            services.AddScoped<IClientDbContext, CleaningServiceDbContext>();
+            services.AddScoped<IRepository<Address>, AddressRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -26,11 +27,6 @@ namespace Mentorship.CleaningService.WebApi
             {
                 app.UseDeveloperExceptionPage();
             }
-
-            app.Run(async (context) =>
-            {
-                await context.Response.WriteAsync("Hello World!");
-            });
         }
     }
 }

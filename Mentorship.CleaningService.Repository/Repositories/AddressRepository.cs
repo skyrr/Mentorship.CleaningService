@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Mentorship.CleaningService.DataAccess;
 using Mentorship.CleaningService.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Mentorship.CleaningService.Repository
 {
@@ -21,7 +22,7 @@ namespace Mentorship.CleaningService.Repository
 
         public IQueryable<Address> GetAll()
         {
-            throw new NotImplementedException();
+            return _dbContext.Addresses;
         }
 
         public Address Create(Address entity)
@@ -34,9 +35,16 @@ namespace Mentorship.CleaningService.Repository
             throw new NotImplementedException();
         }
 
-        public void Delete(Address entity)
+        public bool Delete(Address entity)
         {
-            throw new NotImplementedException();
+            entity.IsDeleted = true;
+            _dbContext.Entry(entity).State = EntityState.Modified;
+            return true;
+        }
+
+        public void Dispose()
+        {
+            _dbContext?.Dispose();
         }
     }
 }

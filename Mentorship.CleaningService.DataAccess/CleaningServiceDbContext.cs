@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Mentorship.CleaningService.Models;
+﻿using Mentorship.CleaningService.Models;
+using Mentorship.CleaningService.Models.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Mentorship.CleaningService.DataAccess
@@ -12,5 +10,24 @@ namespace Mentorship.CleaningService.DataAccess
         public DbSet<Person> Persons { get; set; }
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Worker> Workers { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<ClientAddress>()
+                .HasKey(x => new { x.ClientId, x.AddressId });
+
+            modelBuilder.Entity<ClientAddress>()
+                .HasOne(ca => ca.Client)
+                .WithMany(client => client.ClientAddresses)
+                .HasForeignKey(ca => ca.ClientId);
+
+            modelBuilder.Entity<ClientAddress>()
+                .HasOne(ca => ca.Address)
+                .WithMany(address => address.ClientAddresses)
+                .HasForeignKey(ca => ca.AddressId);
+
+            modelBuilder.Entity<Person>()
+                .HasOne(p => p.Address);
+        }
     }
 }
