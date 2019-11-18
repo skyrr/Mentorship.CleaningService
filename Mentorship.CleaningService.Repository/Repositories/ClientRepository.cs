@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Mentorship.CleaningService.DataAccess;
 using Mentorship.CleaningService.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Mentorship.CleaningService.Repository
 {
@@ -17,27 +18,31 @@ namespace Mentorship.CleaningService.Repository
 
         public Client GetById(int id)
         {
-            return _dbContext.Clients.FirstOrDefault(c => c.Id.Equals(id));
+            return _dbContext.Clients.FirstOrDefault(c => c.Id.Equals(id) && !c.IsDeleted);
         }
 
         public IQueryable<Client> GetAll()
         {
-            throw new NotImplementedException();
+            return _dbContext.Clients.Where(a => !a.IsDeleted); ;
         }
 
-        public Client Create(Client entity)
+        public bool Create(Client entity)
         {
-            throw new NotImplementedException();
+            _dbContext.Entry(entity).State = EntityState.Added;
+            return true;
         }
 
-        public Client Update(Client entity)
+        public bool Update(Client entity)
         {
-            throw new NotImplementedException();
+            _dbContext.Entry(entity).State = EntityState.Modified;
+            return true;
         }
 
         public bool Delete(Client entity)
         {
-            throw new NotImplementedException();
+            entity.IsDeleted = true;
+            _dbContext.Entry(entity).State = EntityState.Modified;
+            return true;
         }
 
         public void Dispose()

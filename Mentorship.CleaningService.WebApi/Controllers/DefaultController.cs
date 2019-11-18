@@ -1,20 +1,22 @@
-﻿using System;
-using System.Web.Http;
-using Mentorship.CleaningService.Models;
+﻿using Mentorship.CleaningService.Models;
 using Mentorship.CleaningService.Repository;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Mentorship.CleaningService.WebApi.Controllers
 {
-    public class DefaultController : ApiController
+    [System.Web.Http.Route("api/[controller]")]
+    [ApiController]
+    public class DefaultController : Controller
     {
         private readonly IRepository<Address> _addressRepository;
-        public DefaultController(IRepository<Address> addressRepository)
+        public DefaultController()
         {
-            _addressRepository = addressRepository;
         }
+
         [HttpGet]
-        public void Index()
+        public string Index()
         {
+            return "Test";
         }
 
         protected override void Dispose(bool disposing)

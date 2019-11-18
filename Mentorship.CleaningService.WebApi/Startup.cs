@@ -18,6 +18,7 @@ namespace Mentorship.CleaningService.WebApi
             services.AddScoped<IAddressDbContext, CleaningServiceDbContext>();
             services.AddScoped<IClientDbContext, CleaningServiceDbContext>();
             services.AddScoped<IRepository<Address>, AddressRepository>();
+            services.AddMvcCore();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -27,6 +28,15 @@ namespace Mentorship.CleaningService.WebApi
             {
                 app.UseDeveloperExceptionPage();
             }
+            else
+            {
+                //app.UseHsts();
+            }
+
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
+            //app.UseHttpsRedirection();
+            app.UseMvc();
         }
     }
 }
