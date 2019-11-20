@@ -11,5 +11,7 @@ namespace Mentorship.CleaningService.Models
         public bool IsDeleted { get; set; }
         public Person Person { get; set; }
         public virtual ICollection<ClientAddress> ClientAddresses { get; set; }
+        public virtual ICollection<Demand> Demands { get; set; }
+        public virtual ICollection<Contract> Contracts { get; set; }
     }
 }

@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Mentorship.CleaningService.Models
+namespace Mentorship.CleaningService.Models.Models
 {
-    public class Worker : IEntity
+    public class Role : IEntity
     {
         public int Id { get; set; }
         public bool IsDeleted { get; set; }
-        public Person Person { get; set; }
+        public string RoleName { get; set; }
     }
 }
