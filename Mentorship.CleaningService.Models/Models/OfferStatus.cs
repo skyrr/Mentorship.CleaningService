@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Mentorship.CleaningService.Models.Models
+namespace Mentorship.CleaningService.Models
 {
     public class OfferStatus : IEntity
     {

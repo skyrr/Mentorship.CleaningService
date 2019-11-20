@@ -4,10 +4,13 @@ using System.Text;
 
 namespace Mentorship.CleaningService.Models
 {
-    public class Role : IEntity
+    public class WorkerRoles : IEntity
     {
+        public int WorkerId { get; set; }
+        public int RoleId { get; set; }
+        public Worker Worker { get; set; }
+        public Role Role { get; set; }
         public int Id { get; set; }
         public bool IsDeleted { get; set; }
-        public string RoleName { get; set; }
     }
 }
