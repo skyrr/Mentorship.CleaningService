@@ -9,5 +9,6 @@ namespace Mentorship.CleaningService.Models
         public int Id { get; set; }
         public bool IsDeleted { get; set; }
         public OfferStatus OfferStatus { get; set; }
+        public Company Company { get; set; }
     }
 }

@@ -7,6 +7,12 @@ namespace Mentorship.CleaningService.Models
 {
     public class Company : IEntity
     {
+        public Company()
+        {
+            Offers = new List<Offer>();
+            Contracts = new List<Contract>();
+            Workers = new List<Worker>();
+        }
         public int Id { get; set; }
         public bool IsDeleted { get; set; }
         public string CompanyName { get; set; }

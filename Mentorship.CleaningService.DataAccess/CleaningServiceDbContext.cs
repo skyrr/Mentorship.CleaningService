@@ -25,12 +25,10 @@ namespace Mentorship.CleaningService.DataAccess
         {
             modelBuilder.Entity<ClientAddress>()
                 .HasKey(x => new { x.ClientId, x.AddressId });
-
             modelBuilder.Entity<ClientAddress>()
                 .HasOne(ca => ca.Client)
                 .WithMany(client => client.ClientAddresses)
                 .HasForeignKey(ca => ca.ClientId);
-
             modelBuilder.Entity<ClientAddress>()
                 .HasOne(ca => ca.Address)
                 .WithMany(address => address.ClientAddresses)
@@ -38,6 +36,34 @@ namespace Mentorship.CleaningService.DataAccess
 
             modelBuilder.Entity<Person>()
                 .HasOne(p => p.Address);
+
+            modelBuilder.Entity<Contract>()
+                .HasOne(c => c.ContractStatus);
+            modelBuilder.Entity<Contract>()
+                .HasOne(c => c.Client);
+            modelBuilder.Entity<Contract>()
+                .HasOne(c => c.Company);
+            modelBuilder.Entity<Contract>()
+                .HasOne(c => c.ServicePlan);
+
+            modelBuilder.Entity<Company>()
+                .HasMany(w => w.Workers);
+            modelBuilder.Entity<Company>()
+                .HasMany(w => w.Offers);
+            modelBuilder.Entity<Company>()
+                .HasMany(w => w.Contracts);
+
+            modelBuilder.Entity<Demand>()
+                .HasOne(c => c.DemandStatus);
+            modelBuilder.Entity<Demand>()
+                .HasOne(c => c.Client);
+
+            modelBuilder.Entity<Offer>()
+                .HasOne(c => c.OfferStatus);
+            modelBuilder.Entity<Offer>()
+                .HasOne(c => c.Company);
+
+
         }
     }
 }
