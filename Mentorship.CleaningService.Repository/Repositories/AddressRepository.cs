@@ -17,7 +17,7 @@ namespace Mentorship.CleaningService.Repository
         }
         public Address GetById(int id)
         {
-            return _dbContext.Addresses.FirstOrDefault(c => c.Id.Equals(id) && !c.IsDeleted);
+            return new Address {Id = 1, City = "Lviv"};// _dbContext.Addresses.FirstOrDefault(c => c.Id.Equals(id) && !c.IsDeleted);}
         }
 
         public IQueryable<Address> GetAll()

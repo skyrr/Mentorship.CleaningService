@@ -23,7 +23,11 @@ namespace Mentorship.CleaningService.Repository
 
         public IQueryable<Contract> GetAll()
         {
-            return _dbContext.Contracts.Where(a => !a.IsDeleted); ;
+            return _dbContext.Contracts
+                .Include(c => c.Address)
+                .Include(c => c.Client)
+                .Include(c => c .Company)
+                .Where(a => !a.IsDeleted); ;
         }
 
         public bool Create(Contract entity)

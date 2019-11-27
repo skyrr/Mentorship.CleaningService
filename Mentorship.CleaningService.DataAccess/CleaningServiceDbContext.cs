@@ -1,5 +1,6 @@
 ﻿using Mentorship.CleaningService.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace Mentorship.CleaningService.DataAccess
 {
@@ -7,6 +8,13 @@ namespace Mentorship.CleaningService.DataAccess
         IAddressDbContext, ICompanyDbContext, IContractDbContext, IContractStatusDbContext, IDemandDbContext, IDemandStatusDbContext,
         IOfferDbContext, IOfferStatusDbContext, IRoleDbContext, IServicePlanDbContext
     {
+        private readonly IConfiguration _configuration;
+
+        public CleaningServiceDbContext(DbContextOptions options, IConfiguration configuration) : base(options)
+        {
+            _configuration = configuration;
+        }
+
         public DbSet<Company> Companies { get; set; }
         public DbSet<Contract> Contracts { get; set; }
         public DbSet<Client> Clients { get; set; }
@@ -64,6 +72,14 @@ namespace Mentorship.CleaningService.DataAccess
                 .HasOne(c => c.Company);
 
 
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer(_configuration["ConnectionStrings:DefaultConnection"]);
+            }
         }
     }
 }
