@@ -7,14 +7,14 @@ namespace Mentorship.CleaningService.Repository
 {
     public class RepositoryFactory : IRepositoryFactory<IEntity>
     {
-        private readonly IRepository<IEntity> _entryRepository;
+        private readonly IRepositoryFactory<IEntity> _entryRepository;
         public RepositoryFactory(IServiceProvider provider)
         {
-            _entryRepository = provider.GetService(typeof(RepositoryFactory)) as IRepository<IEntity>;
+            _entryRepository = provider.GetService(typeof(RepositoryFactory)) as IRepositoryFactory<IEntity>;
         }
-        public IRepository<T> GetRepository<T>() where T : IEntity
+        public IRepository<IEntity> GetRepository<T>() where T : IEntity
         {
-            return (IRepository<T>) _entryRepository;
+            return (IRepository<IEntity>)_entryRepository;
         }
     }
 }

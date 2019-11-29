@@ -9,11 +9,11 @@ namespace Mentorship.CleaningService.WebApi.Controllers
     [ApiController]
     public class AddressController : Controller
     {
-        private readonly IRepository<Address> _addressRepository;
+        private readonly IRepository<IEntity> _addressRepository;
 
         public AddressController(RepositoryFactory addressRepository) //, IServiceProvider provider
         {
-            _addressRepository = addressRepository.GetRepository<Address>();
+            _addressRepository = addressRepository.GetRepository<Address>();//GetRepository<Address>();
             //_addressRepository = provider.GetService(typeof(IRepository<Address>)) as IRepository<Address>;
         }
 

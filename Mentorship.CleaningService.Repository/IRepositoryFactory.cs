@@ -7,6 +7,6 @@ namespace Mentorship.CleaningService.Repository
 {
     public interface IRepositoryFactory<T> where  T : IEntity
     {
-        IRepository<T> GetRepository<T>() where T : IEntity;
+        IRepository<IEntity> GetRepository<T>() where T : IEntity;
     }
 }
