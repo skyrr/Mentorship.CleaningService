@@ -2,6 +2,7 @@
 using Mentorship.CleaningService.DataAccess.Interfaces;
 using Mentorship.CleaningService.Models;
 using Mentorship.CleaningService.Repository;
+using Mentorship.CleaningService.WebApi.Controllers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Formatters;
@@ -44,9 +45,6 @@ namespace Mentorship.CleaningService.WebApi
                     opt.SerializerSettings.Formatting = Formatting.Indented;
                 });
             services.AddDbContext<CleaningServiceDbContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
-            //var connection = @"Data Source=.;Initial Catalog=DeliveryDB2;Integrated Security=True;Pooling=False;uid=delivery; Password=123456Qaz.;";
-
-            //services.AddDbContext<CleaningServiceDbContext>(options => options.UseSqlServer(connection));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
