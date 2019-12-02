@@ -71,6 +71,16 @@ namespace Mentorship.CleaningService.DataAccess
             modelBuilder.Entity<Offer>()
                 .HasOne(c => c.Company);
 
+            modelBuilder.Entity<WorkerRoles>()
+                .HasKey(x => new { x.WorkerId, x.RoleId });
+            modelBuilder.Entity<WorkerRoles>()
+                .HasOne(wr => wr.Worker)
+                .WithMany(role => role.WorkerRoles)
+                .HasForeignKey(wr => wr.WorkerId);
+            modelBuilder.Entity<WorkerRoles>()
+                .HasOne(wr => wr.Role)
+                .WithMany(role => role.WorkerRoles)
+                .HasForeignKey(wr => wr.RoleId);
 
         }
 

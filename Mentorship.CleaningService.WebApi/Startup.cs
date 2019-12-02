@@ -33,10 +33,18 @@ namespace Mentorship.CleaningService.WebApi
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddScoped<IPersonDbContext, CleaningServiceDbContext>();
-            services.AddScoped<IWorkerDbContext, CleaningServiceDbContext>();
             services.AddScoped<IAddressDbContext, CleaningServiceDbContext>();
             services.AddScoped<IClientDbContext, CleaningServiceDbContext>();
+            services.AddScoped<ICompanyDbContext, CleaningServiceDbContext>();
+            services.AddScoped<IContractDbContext, CleaningServiceDbContext>();
+            services.AddScoped<IContractStatusDbContext, CleaningServiceDbContext>();
+            services.AddScoped<IDemandDbContext, CleaningServiceDbContext>();
+            services.AddScoped<IOfferDbContext, CleaningServiceDbContext>();
+            services.AddScoped<IOfferStatusDbContext, CleaningServiceDbContext>();
+            services.AddScoped<IPersonDbContext, CleaningServiceDbContext>();
+            services.AddScoped<IRoleDbContext, CleaningServiceDbContext>();
+            services.AddScoped<IServicePlanDbContext, CleaningServiceDbContext>();
+            services.AddScoped<IWorkerDbContext, CleaningServiceDbContext>();
             services.AddScoped<IRepository<Address>, AddressRepository>(); 
             services.AddScoped<IRepositoryFactory, RepositoryFactory>(); 
             services.AddMvc()

@@ -11,9 +11,10 @@ using System;
 namespace Mentorship.CleaningService.DataAccess.Migrations
 {
     [DbContext(typeof(CleaningServiceDbContext))]
-    partial class CleaningServiceDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191202173344_corrected worker roles")]
+    partial class correctedworkerroles
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

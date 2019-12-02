@@ -20,7 +20,6 @@ namespace Mentorship.CleaningService.Tests
             var serviceCollection = new ServiceCollection();
             serviceCollection.AddScoped<IRepositoryFactory, RepositoryFactory>();
             _serviceProvider = serviceCollection.BuildServiceProvider();
-            // addressController;
         }
 
         [SetUp]
@@ -36,35 +35,13 @@ namespace Mentorship.CleaningService.Tests
         [Test]
         public void GetAddress()
         {
-            //AddressController addressController = new AddressController();
-            // Arrange
-            
-
             var json =_addressController.Get();
             var address = json.Value as Address;
             Assert.NotNull(json);
             Assert.NotNull(address);
             Assert.AreEqual(address.Id, 1);
             Assert.AreEqual(address.City, "Lviv");
-
-            
-            //var controller = new AddressController(mock.Object);
-
-            //var result = controller.Get();
-            //var jsonString =
-            //@"{
-            //    '$id': '1',
-            //    'id': 1,
-            //    'isDeleted': false,
-            //    'streetName': null,
-            //    'buildingNumber': null,
-            //    'apartmentNumber': null,
-            //    'city': 'Lviv',
-            //    'clientAddresses': null
-            //}";
-            //Assert.Equals(GetByIdTest(1), controller.Get());
-            //Assert.Equals(result, jsonString);
-        }
+            }
 
         public Address GetByIdTest(int i)
         {
