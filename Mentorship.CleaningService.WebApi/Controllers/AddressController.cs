@@ -9,18 +9,22 @@ namespace Mentorship.CleaningService.WebApi.Controllers
     [ApiController]
     public class AddressController : Controller
     {
-        private readonly IRepository<IEntity> _addressRepository;
+        private readonly IRepositoryFactory _factory;
 
-        public AddressController(RepositoryFactory addressRepository) //, IServiceProvider provider
+        public AddressController(IRepositoryFactory factory) //, IServiceProvider provider
         {
-            _addressRepository = addressRepository.GetRepository<Address>();//GetRepository<Address>();
-            //_addressRepository = provider.GetService(typeof(IRepository<Address>)) as IRepository<Address>;
+            _factory = factory;
+            //_addressRepository = _factory.GetRepository<Address>();
         }
 
         [HttpGet]
         public JsonResult Get()
         {
-            return Json(_addressRepository.GetById(1));
+            using (var addressRepository = _factory.GetRepository<Address>()) {
+                using (var clientRepository = _factory.GetRepository<Client>()) { 
+                    return Json(addressRepository.GetById(7));
+                }
+            }          
         }
         [HttpGet]
         //public JsonResult GetAll()
@@ -32,7 +36,7 @@ namespace Mentorship.CleaningService.WebApi.Controllers
         {
             if (disposing)
             {
-                _addressRepository?.Dispose();
+                //_addressRepository?.Dispose();
             }
             base.Dispose(disposing);
         }

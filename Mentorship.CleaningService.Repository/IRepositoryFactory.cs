@@ -5,8 +5,8 @@ using Mentorship.CleaningService.Models;
 
 namespace Mentorship.CleaningService.Repository
 {
-    public interface IRepositoryFactory<T> where  T : IEntity
+    public interface IRepositoryFactory
     {
-        IRepository<IEntity> GetRepository<T>() where T : IEntity;
+        IRepository<T> GetRepository<T>() where T : IEntity;
     }
 }

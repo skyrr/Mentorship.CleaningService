@@ -38,7 +38,7 @@ namespace Mentorship.CleaningService.WebApi
             services.AddScoped<IAddressDbContext, CleaningServiceDbContext>();
             services.AddScoped<IClientDbContext, CleaningServiceDbContext>();
             services.AddScoped<IRepository<Address>, AddressRepository>(); 
-            services.AddScoped<IRepositoryFactory<IEntity>, RepositoryFactory>(); 
+            services.AddScoped<IRepositoryFactory, RepositoryFactory>(); 
             services.AddMvc()
                 .AddJsonOptions(opt =>
                 {

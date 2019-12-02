@@ -5,16 +5,16 @@ using Mentorship.CleaningService.Models;
 
 namespace Mentorship.CleaningService.Repository
 {
-    public class RepositoryFactory : IRepositoryFactory<IEntity>
+    public class RepositoryFactory : IRepositoryFactory
     {
-        private readonly IRepositoryFactory<IEntity> _entryRepository;
+        private readonly IServiceProvider _provider;
         public RepositoryFactory(IServiceProvider provider)
         {
-            _entryRepository = provider.GetService(typeof(RepositoryFactory)) as IRepositoryFactory<IEntity>;
+            _provider = provider;
         }
-        public IRepository<IEntity> GetRepository<T>() where T : IEntity
+        public IRepository<T> GetRepository<T>() where T : IEntity
         {
-            return (IRepository<IEntity>)_entryRepository;
+            return _provider.GetService(typeof(IRepository<T>)) as IRepository<T>;
         }
     }
 }
