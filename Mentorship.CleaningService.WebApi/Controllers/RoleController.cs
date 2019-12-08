@@ -7,38 +7,38 @@ namespace Mentorship.CleaningService.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AddressController : Controller
+    public class RoleController : Controller
     {
         private readonly IRepositoryFactory _factory;
 
-        public AddressController(IRepositoryFactory factory)
+        public RoleController(IRepositoryFactory factory)
         {
             _factory = factory;
         }
 
         [HttpGet]
-        public JsonResult Get([FromBody] Address address)
+        public JsonResult Get([FromBody] Role Role)
         {
-            using (var addressRepository = _factory.GetRepository<Address>()) {
-                return Json(addressRepository.GetById(address.Id));
+            using (var RoleRepository = _factory.GetRepository<Role>()) {
+                return Json(RoleRepository.GetById(7));
             }          
         }
 
         [HttpGet]
         public JsonResult GetAll()
         {
-            using (var addressRepository = _factory.GetRepository<Address>())
+            using (var RoleRepository = _factory.GetRepository<Role>())
             {
-                return Json(addressRepository.GetAll());
+                return Json(RoleRepository.GetAll());
             }
         }
 
         [HttpPost]
-        public bool Create([FromBody] Address address)
+        public bool Create([FromBody] Role Role)
         {
-            using (var addressRepository = _factory.GetRepository<Address>())
+            using (var RoleRepository = _factory.GetRepository<Role>())
             {
-                if (addressRepository.Create(address))
+                if (RoleRepository.Create(Role))
                 {
                     return true;
                 }
@@ -47,11 +47,11 @@ namespace Mentorship.CleaningService.WebApi.Controllers
         }
 
         [HttpPost]
-        public bool Update([FromBody] Address address)
+        public bool Update([FromBody] Role Role)
         {
-            using (var addressRepository = _factory.GetRepository<Address>())
+            using (var RoleRepository = _factory.GetRepository<Role>())
             {
-                if (addressRepository.Update(address))
+                if (RoleRepository.Update(Role))
                 {
                     return true;
                 }
@@ -60,11 +60,11 @@ namespace Mentorship.CleaningService.WebApi.Controllers
         }
 
         [HttpPost]
-        public bool Delete([FromBody] Address address)
+        public bool Delete([FromBody] Role Role)
         {
-            using (var addressRepository = _factory.GetRepository<Address>())
+            using (var RoleRepository = _factory.GetRepository<Role>())
             {
-                if (addressRepository.Delete(address))
+                if (RoleRepository.Delete(Role))
                 {
                     return true;
                 }
@@ -77,7 +77,7 @@ namespace Mentorship.CleaningService.WebApi.Controllers
         {
             if (disposing)
             {
-                //_addressRepository?.Dispose();
+                //_RoleRepository?.Dispose();
             }
             base.Dispose(disposing);
         }

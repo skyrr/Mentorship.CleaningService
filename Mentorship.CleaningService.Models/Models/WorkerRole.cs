@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Mentorship.CleaningService.Models
 {
-    public class WorkerRoles : IEntity
+    public class WorkerRole : IEntity
     {
         public int WorkerId { get; set; }
         public int RoleId { get; set; }

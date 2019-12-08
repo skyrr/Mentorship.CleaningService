@@ -7,38 +7,38 @@ namespace Mentorship.CleaningService.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AddressController : Controller
+    public class CompanyController : Controller
     {
         private readonly IRepositoryFactory _factory;
 
-        public AddressController(IRepositoryFactory factory)
+        public CompanyController(IRepositoryFactory factory)
         {
             _factory = factory;
         }
 
         [HttpGet]
-        public JsonResult Get([FromBody] Address address)
+        public JsonResult Get([FromBody] Company Company)
         {
-            using (var addressRepository = _factory.GetRepository<Address>()) {
-                return Json(addressRepository.GetById(address.Id));
+            using (var CompanyRepository = _factory.GetRepository<Company>()) {
+                return Json(CompanyRepository.GetById(7));
             }          
         }
 
         [HttpGet]
         public JsonResult GetAll()
         {
-            using (var addressRepository = _factory.GetRepository<Address>())
+            using (var CompanyRepository = _factory.GetRepository<Company>())
             {
-                return Json(addressRepository.GetAll());
+                return Json(CompanyRepository.GetAll());
             }
         }
 
         [HttpPost]
-        public bool Create([FromBody] Address address)
+        public bool Create([FromBody] Company Company)
         {
-            using (var addressRepository = _factory.GetRepository<Address>())
+            using (var CompanyRepository = _factory.GetRepository<Company>())
             {
-                if (addressRepository.Create(address))
+                if (CompanyRepository.Create(Company))
                 {
                     return true;
                 }
@@ -47,11 +47,11 @@ namespace Mentorship.CleaningService.WebApi.Controllers
         }
 
         [HttpPost]
-        public bool Update([FromBody] Address address)
+        public bool Update([FromBody] Company Company)
         {
-            using (var addressRepository = _factory.GetRepository<Address>())
+            using (var CompanyRepository = _factory.GetRepository<Company>())
             {
-                if (addressRepository.Update(address))
+                if (CompanyRepository.Update(Company))
                 {
                     return true;
                 }
@@ -60,11 +60,11 @@ namespace Mentorship.CleaningService.WebApi.Controllers
         }
 
         [HttpPost]
-        public bool Delete([FromBody] Address address)
+        public bool Delete([FromBody] Company Company)
         {
-            using (var addressRepository = _factory.GetRepository<Address>())
+            using (var CompanyRepository = _factory.GetRepository<Company>())
             {
-                if (addressRepository.Delete(address))
+                if (CompanyRepository.Delete(Company))
                 {
                     return true;
                 }
@@ -77,7 +77,7 @@ namespace Mentorship.CleaningService.WebApi.Controllers
         {
             if (disposing)
             {
-                //_addressRepository?.Dispose();
+                //_CompanyRepository?.Dispose();
             }
             base.Dispose(disposing);
         }

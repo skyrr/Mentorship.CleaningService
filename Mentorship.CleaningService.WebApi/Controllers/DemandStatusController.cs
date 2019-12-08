@@ -7,38 +7,38 @@ namespace Mentorship.CleaningService.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AddressController : Controller
+    public class DemandStatusController : Controller
     {
         private readonly IRepositoryFactory _factory;
 
-        public AddressController(IRepositoryFactory factory)
+        public DemandStatusController(IRepositoryFactory factory)
         {
             _factory = factory;
         }
 
         [HttpGet]
-        public JsonResult Get([FromBody] Address address)
+        public JsonResult Get([FromBody] DemandStatus DemandStatus)
         {
-            using (var addressRepository = _factory.GetRepository<Address>()) {
-                return Json(addressRepository.GetById(address.Id));
+            using (var DemandStatusRepository = _factory.GetRepository<DemandStatus>()) {
+                return Json(DemandStatusRepository.GetById(7));
             }          
         }
 
         [HttpGet]
         public JsonResult GetAll()
         {
-            using (var addressRepository = _factory.GetRepository<Address>())
+            using (var DemandStatusRepository = _factory.GetRepository<DemandStatus>())
             {
-                return Json(addressRepository.GetAll());
+                return Json(DemandStatusRepository.GetAll());
             }
         }
 
         [HttpPost]
-        public bool Create([FromBody] Address address)
+        public bool Create([FromBody] DemandStatus DemandStatus)
         {
-            using (var addressRepository = _factory.GetRepository<Address>())
+            using (var DemandStatusRepository = _factory.GetRepository<DemandStatus>())
             {
-                if (addressRepository.Create(address))
+                if (DemandStatusRepository.Create(DemandStatus))
                 {
                     return true;
                 }
@@ -47,11 +47,11 @@ namespace Mentorship.CleaningService.WebApi.Controllers
         }
 
         [HttpPost]
-        public bool Update([FromBody] Address address)
+        public bool Update([FromBody] DemandStatus DemandStatus)
         {
-            using (var addressRepository = _factory.GetRepository<Address>())
+            using (var DemandStatusRepository = _factory.GetRepository<DemandStatus>())
             {
-                if (addressRepository.Update(address))
+                if (DemandStatusRepository.Update(DemandStatus))
                 {
                     return true;
                 }
@@ -60,11 +60,11 @@ namespace Mentorship.CleaningService.WebApi.Controllers
         }
 
         [HttpPost]
-        public bool Delete([FromBody] Address address)
+        public bool Delete([FromBody] DemandStatus DemandStatus)
         {
-            using (var addressRepository = _factory.GetRepository<Address>())
+            using (var DemandStatusRepository = _factory.GetRepository<DemandStatus>())
             {
-                if (addressRepository.Delete(address))
+                if (DemandStatusRepository.Delete(DemandStatus))
                 {
                     return true;
                 }
@@ -77,7 +77,7 @@ namespace Mentorship.CleaningService.WebApi.Controllers
         {
             if (disposing)
             {
-                //_addressRepository?.Dispose();
+                //_DemandStatusRepository?.Dispose();
             }
             base.Dispose(disposing);
         }

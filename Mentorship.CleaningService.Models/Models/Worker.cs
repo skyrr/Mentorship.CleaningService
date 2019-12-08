@@ -9,6 +9,7 @@ namespace Mentorship.CleaningService.Models
         public int Id { get; set; }
         public bool IsDeleted { get; set; }
         public Person Person { get; set; }
-        public virtual ICollection<WorkerRoles> WorkerRoles { get; set; }
+        public virtual ICollection<Worker> Workers { get; set; }
+        public virtual ICollection<WorkerRole> WorkerRoles { get; set; }
     }
 }
