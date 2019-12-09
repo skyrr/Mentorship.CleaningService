@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Mentorship.CleaningService.WebApi.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
     public class OfferStatusController : Controller
     {
@@ -17,6 +16,7 @@ namespace Mentorship.CleaningService.WebApi.Controllers
         }
 
         [HttpGet]
+        [Route("api/OfferStatus/{id}")]
         public JsonResult Get(int id)
         {
             using (var OfferStatusRepository = _factory.GetRepository<OfferStatus>()) {
@@ -25,6 +25,7 @@ namespace Mentorship.CleaningService.WebApi.Controllers
         }
 
         [HttpGet]
+        [Route("api/OfferStatuses")]
         public JsonResult GetAll()
         {
             using (var OfferStatusRepository = _factory.GetRepository<OfferStatus>())
@@ -34,7 +35,8 @@ namespace Mentorship.CleaningService.WebApi.Controllers
         }
 
         [HttpPost]
-        public bool Create([FromBody] OfferStatus OfferStatus)
+        [Route("api/OfferStatus/create")]
+        public bool Create([FromForm] OfferStatus OfferStatus)
         {
             using (var OfferStatusRepository = _factory.GetRepository<OfferStatus>())
             {
@@ -47,7 +49,8 @@ namespace Mentorship.CleaningService.WebApi.Controllers
         }
 
         [HttpPost]
-        public bool Update([FromBody] OfferStatus OfferStatus)
+        [Route("api/OfferStatus/update")]
+        public bool Update([FromForm] OfferStatus OfferStatus)
         {
             using (var OfferStatusRepository = _factory.GetRepository<OfferStatus>())
             {
@@ -60,7 +63,8 @@ namespace Mentorship.CleaningService.WebApi.Controllers
         }
 
         [HttpPost]
-        public bool Delete([FromBody] OfferStatus OfferStatus)
+        [Route("api/OfferStatus/delete")]
+        public bool Delete([FromForm] OfferStatus OfferStatus)
         {
             using (var OfferStatusRepository = _factory.GetRepository<OfferStatus>())
             {

@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Mentorship.CleaningService.WebApi.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
     public class ClientController : Controller
     {
@@ -17,6 +16,7 @@ namespace Mentorship.CleaningService.WebApi.Controllers
         }
 
         [HttpGet]
+        [Route("api/Client/{id}")]
         public JsonResult Get(int id)
         {
             using (var ClientRepository = _factory.GetRepository<Client>()) {
@@ -25,6 +25,7 @@ namespace Mentorship.CleaningService.WebApi.Controllers
         }
 
         [HttpGet]
+        [Route("api/Clients")]
         public JsonResult GetAll()
         {
             using (var ClientRepository = _factory.GetRepository<Client>())
@@ -34,7 +35,8 @@ namespace Mentorship.CleaningService.WebApi.Controllers
         }
 
         [HttpPost]
-        public bool Create([FromBody] Client Client)
+        [Route("api/Client/create")]
+        public bool Create([FromForm] Client Client)
         {
             using (var ClientRepository = _factory.GetRepository<Client>())
             {
@@ -47,7 +49,8 @@ namespace Mentorship.CleaningService.WebApi.Controllers
         }
 
         [HttpPost]
-        public bool Update([FromBody] Client Client)
+        [Route("api/Client/update")]
+        public bool Update([FromForm] Client Client)
         {
             using (var ClientRepository = _factory.GetRepository<Client>())
             {
@@ -60,7 +63,8 @@ namespace Mentorship.CleaningService.WebApi.Controllers
         }
 
         [HttpPost]
-        public bool Delete([FromBody] Client Client)
+        [Route("api/Client/delete")]
+        public bool Delete([FromForm] Client Client)
         {
             using (var ClientRepository = _factory.GetRepository<Client>())
             {

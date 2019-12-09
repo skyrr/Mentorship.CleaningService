@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Mentorship.CleaningService.WebApi.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
     public class RoleController : Controller
     {
@@ -17,6 +16,7 @@ namespace Mentorship.CleaningService.WebApi.Controllers
         }
 
         [HttpGet]
+        [Route("api/Role/{id}")]
         public JsonResult Get(int id)
         {
             using (var RoleRepository = _factory.GetRepository<Role>()) {
@@ -25,6 +25,7 @@ namespace Mentorship.CleaningService.WebApi.Controllers
         }
 
         [HttpGet]
+        [Route("api/Roles")]
         public JsonResult GetAll()
         {
             using (var RoleRepository = _factory.GetRepository<Role>())
@@ -34,7 +35,8 @@ namespace Mentorship.CleaningService.WebApi.Controllers
         }
 
         [HttpPost]
-        public bool Create([FromBody] Role Role)
+        [Route("api/Role/create")]
+        public bool Create([FromForm] Role Role)
         {
             using (var RoleRepository = _factory.GetRepository<Role>())
             {
@@ -47,7 +49,8 @@ namespace Mentorship.CleaningService.WebApi.Controllers
         }
 
         [HttpPost]
-        public bool Update([FromBody] Role Role)
+        [Route("api/Role/update")]
+        public bool Update([FromForm] Role Role)
         {
             using (var RoleRepository = _factory.GetRepository<Role>())
             {
@@ -60,7 +63,8 @@ namespace Mentorship.CleaningService.WebApi.Controllers
         }
 
         [HttpPost]
-        public bool Delete([FromBody] Role Role)
+        [Route("api/Role/delete")]
+        public bool Delete([FromForm] Role Role)
         {
             using (var RoleRepository = _factory.GetRepository<Role>())
             {

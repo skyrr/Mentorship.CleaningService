@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Mentorship.CleaningService.WebApi.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
     public class DemandController : Controller
     {
@@ -17,6 +16,8 @@ namespace Mentorship.CleaningService.WebApi.Controllers
         }
 
         [HttpGet]
+        [Route("api/Demand/{id}")]
+
         public JsonResult Get(int id)
         {
             using (var DemandRepository = _factory.GetRepository<Demand>()) {
@@ -25,6 +26,7 @@ namespace Mentorship.CleaningService.WebApi.Controllers
         }
 
         [HttpGet]
+        [Route("api/Demands")]
         public JsonResult GetAll()
         {
             using (var DemandRepository = _factory.GetRepository<Demand>())
@@ -34,7 +36,8 @@ namespace Mentorship.CleaningService.WebApi.Controllers
         }
 
         [HttpPost]
-        public bool Create([FromBody] Demand Demand)
+        [Route("api/Demand/create")]
+        public bool Create([FromForm] Demand Demand)
         {
             using (var DemandRepository = _factory.GetRepository<Demand>())
             {
@@ -47,7 +50,8 @@ namespace Mentorship.CleaningService.WebApi.Controllers
         }
 
         [HttpPost]
-        public bool Update([FromBody] Demand Demand)
+        [Route("api/Demand/update")]
+        public bool Update([FromForm] Demand Demand)
         {
             using (var DemandRepository = _factory.GetRepository<Demand>())
             {
@@ -60,7 +64,8 @@ namespace Mentorship.CleaningService.WebApi.Controllers
         }
 
         [HttpPost]
-        public bool Delete([FromBody] Demand Demand)
+        [Route("api/Demand/delete")]
+        public bool Delete([FromForm] Demand Demand)
         {
             using (var DemandRepository = _factory.GetRepository<Demand>())
             {

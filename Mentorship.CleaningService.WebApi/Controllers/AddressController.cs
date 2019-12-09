@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Mentorship.CleaningService.WebApi.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
     public class AddressController : Controller
     {
@@ -17,6 +16,7 @@ namespace Mentorship.CleaningService.WebApi.Controllers
         }
 
         [HttpGet]
+        [Route("api/address/{id}")]
         public JsonResult Get(int id)
         {
             using (var addressRepository = _factory.GetRepository<Address>()) {
@@ -25,6 +25,7 @@ namespace Mentorship.CleaningService.WebApi.Controllers
         }
 
         [HttpGet]
+        [Route("api/addresses")]
         public JsonResult GetAll()
         {
             using (var addressRepository = _factory.GetRepository<Address>())
@@ -34,7 +35,8 @@ namespace Mentorship.CleaningService.WebApi.Controllers
         }
 
         [HttpPost]
-        public bool Create([FromBody] Address address)
+        [Route("api/address/create")]
+        public bool Create([FromForm] Address address)
         {
             using (var addressRepository = _factory.GetRepository<Address>())
             {
@@ -47,7 +49,8 @@ namespace Mentorship.CleaningService.WebApi.Controllers
         }
 
         [HttpPost]
-        public bool Update([FromBody] Address address)
+        [Route("api/address/update")]
+        public bool Update([FromForm] Address address)
         {
             using (var addressRepository = _factory.GetRepository<Address>())
             {
@@ -60,7 +63,8 @@ namespace Mentorship.CleaningService.WebApi.Controllers
         }
 
         [HttpPost]
-        public bool Delete([FromBody] Address address)
+        [Route("api/address/delete")]
+        public bool Delete([FromForm] Address address)
         {
             using (var addressRepository = _factory.GetRepository<Address>())
             {

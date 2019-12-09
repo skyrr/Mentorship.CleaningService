@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Mentorship.CleaningService.WebApi.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
     public class ContractStatusController : Controller
     {
@@ -17,6 +16,8 @@ namespace Mentorship.CleaningService.WebApi.Controllers
         }
 
         [HttpGet]
+        [Route("api/ContractStatus/{id}")]
+
         public JsonResult Get(int id)
         {
             using (var ContractStatusRepository = _factory.GetRepository<ContractStatus>()) {
@@ -25,6 +26,7 @@ namespace Mentorship.CleaningService.WebApi.Controllers
         }
 
         [HttpGet]
+        [Route("api/ContractStatuses")]
         public JsonResult GetAll()
         {
             using (var ContractStatusRepository = _factory.GetRepository<ContractStatus>())
@@ -34,7 +36,8 @@ namespace Mentorship.CleaningService.WebApi.Controllers
         }
 
         [HttpPost]
-        public bool Create([FromBody] ContractStatus ContractStatus)
+        [Route("api/ContractStatus/create")]
+        public bool Create([FromForm] ContractStatus ContractStatus)
         {
             using (var ContractStatusRepository = _factory.GetRepository<ContractStatus>())
             {
@@ -47,7 +50,8 @@ namespace Mentorship.CleaningService.WebApi.Controllers
         }
 
         [HttpPost]
-        public bool Update([FromBody] ContractStatus ContractStatus)
+        [Route("api/ContractStatus/update")]
+        public bool Update([FromForm] ContractStatus ContractStatus)
         {
             using (var ContractStatusRepository = _factory.GetRepository<ContractStatus>())
             {
@@ -60,7 +64,8 @@ namespace Mentorship.CleaningService.WebApi.Controllers
         }
 
         [HttpPost]
-        public bool Delete([FromBody] ContractStatus ContractStatus)
+        [Route("api/ContractStatus/delete")]
+        public bool Delete([FromForm] ContractStatus ContractStatus)
         {
             using (var ContractStatusRepository = _factory.GetRepository<ContractStatus>())
             {

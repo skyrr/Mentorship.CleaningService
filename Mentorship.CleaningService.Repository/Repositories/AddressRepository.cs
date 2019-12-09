@@ -17,17 +17,19 @@ namespace Mentorship.CleaningService.Repository
         }
         public Address GetById(int id)
         {
-            return new Address {Id = 1, City = "Lviv"};// _dbContext.Addresses.FirstOrDefault(c => c.Id.Equals(id) && !c.IsDeleted);}
+            return new Address {Id = 1, City = "Lviv"};
+            //return  _dbContext.Addresses.FirstOrDefault(c => c.Id.Equals(id) && !c.IsDeleted);}
         }
 
         public IQueryable<Address> GetAll()
         {
-            return _dbContext.Addresses.Where(a => !a.IsDeleted); ;
+            return _dbContext.Addresses.Where(a => !a.IsDeleted);
         }
 
         public bool Create(Address entity)
         {
             _dbContext.Entry(entity).State = EntityState.Added;
+            ;
             return true;
         }
 

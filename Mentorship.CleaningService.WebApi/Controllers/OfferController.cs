@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Mentorship.CleaningService.WebApi.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
     public class OfferController : Controller
     {
@@ -17,6 +16,8 @@ namespace Mentorship.CleaningService.WebApi.Controllers
         }
 
         [HttpGet]
+        [Route("api/Offer/{id}")]
+
         public JsonResult Get(int id)
         {
             using (var OfferRepository = _factory.GetRepository<Offer>()) {
@@ -25,6 +26,7 @@ namespace Mentorship.CleaningService.WebApi.Controllers
         }
 
         [HttpGet]
+        [Route("api/Offers")]
         public JsonResult GetAll()
         {
             using (var OfferRepository = _factory.GetRepository<Offer>())
@@ -34,7 +36,8 @@ namespace Mentorship.CleaningService.WebApi.Controllers
         }
 
         [HttpPost]
-        public bool Create([FromBody] Offer Offer)
+        [Route("api/Offer/create")]
+        public bool Create([FromForm] Offer Offer)
         {
             using (var OfferRepository = _factory.GetRepository<Offer>())
             {
@@ -47,7 +50,8 @@ namespace Mentorship.CleaningService.WebApi.Controllers
         }
 
         [HttpPost]
-        public bool Update([FromBody] Offer Offer)
+        [Route("api/Offer/update")]
+        public bool Update([FromForm] Offer Offer)
         {
             using (var OfferRepository = _factory.GetRepository<Offer>())
             {
@@ -60,7 +64,8 @@ namespace Mentorship.CleaningService.WebApi.Controllers
         }
 
         [HttpPost]
-        public bool Delete([FromBody] Offer Offer)
+        [Route("api/Offer/delete")]
+        public bool Delete([FromForm] Offer Offer)
         {
             using (var OfferRepository = _factory.GetRepository<Offer>())
             {

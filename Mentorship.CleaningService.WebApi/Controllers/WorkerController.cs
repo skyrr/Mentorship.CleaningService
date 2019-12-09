@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Mentorship.CleaningService.WebApi.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
     public class WorkerController : Controller
     {
@@ -17,6 +16,7 @@ namespace Mentorship.CleaningService.WebApi.Controllers
         }
 
         [HttpGet]
+        [Route("api/Worker/{id}")]
         public JsonResult Get(int id)
         {
             using (var WorkerRepository = _factory.GetRepository<Worker>()) {
@@ -25,6 +25,7 @@ namespace Mentorship.CleaningService.WebApi.Controllers
         }
 
         [HttpGet]
+        [Route("api/Workers")]
         public JsonResult GetAll()
         {
             using (var WorkerRepository = _factory.GetRepository<Worker>())
@@ -34,7 +35,8 @@ namespace Mentorship.CleaningService.WebApi.Controllers
         }
 
         [HttpPost]
-        public bool Create([FromBody] Worker Worker)
+        [Route("api/Worker/create")]
+        public bool Create([FromForm] Worker Worker)
         {
             using (var WorkerRepository = _factory.GetRepository<Worker>())
             {
@@ -47,7 +49,8 @@ namespace Mentorship.CleaningService.WebApi.Controllers
         }
 
         [HttpPost]
-        public bool Update([FromBody] Worker Worker)
+        [Route("api/Worker/update")]
+        public bool Update([FromForm] Worker Worker)
         {
             using (var WorkerRepository = _factory.GetRepository<Worker>())
             {
@@ -60,7 +63,8 @@ namespace Mentorship.CleaningService.WebApi.Controllers
         }
 
         [HttpPost]
-        public bool Delete([FromBody] Worker Worker)
+        [Route("api/Worker/delete")]
+        public bool Delete([FromForm] Worker Worker)
         {
             using (var WorkerRepository = _factory.GetRepository<Worker>())
             {

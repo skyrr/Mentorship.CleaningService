@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Mentorship.CleaningService.WebApi.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
     public class ServicePlanController : Controller
     {
@@ -17,6 +16,7 @@ namespace Mentorship.CleaningService.WebApi.Controllers
         }
 
         [HttpGet]
+        [Route("api/ServicePlan/{id}")]
         public JsonResult Get(int id)
         {
             using (var ServicePlanRepository = _factory.GetRepository<ServicePlan>()) {
@@ -25,6 +25,7 @@ namespace Mentorship.CleaningService.WebApi.Controllers
         }
 
         [HttpGet]
+        [Route("api/ServicePlans")]
         public JsonResult GetAll()
         {
             using (var ServicePlanRepository = _factory.GetRepository<ServicePlan>())
@@ -34,7 +35,8 @@ namespace Mentorship.CleaningService.WebApi.Controllers
         }
 
         [HttpPost]
-        public bool Create([FromBody] ServicePlan ServicePlan)
+        [Route("api/ServicePlan/create")]
+        public bool Create([FromForm] ServicePlan ServicePlan)
         {
             using (var ServicePlanRepository = _factory.GetRepository<ServicePlan>())
             {
@@ -47,7 +49,8 @@ namespace Mentorship.CleaningService.WebApi.Controllers
         }
 
         [HttpPost]
-        public bool Update([FromBody] ServicePlan ServicePlan)
+        [Route("api/ServicePlan/update")]
+        public bool Update([FromForm] ServicePlan ServicePlan)
         {
             using (var ServicePlanRepository = _factory.GetRepository<ServicePlan>())
             {
@@ -60,7 +63,8 @@ namespace Mentorship.CleaningService.WebApi.Controllers
         }
 
         [HttpPost]
-        public bool Delete([FromBody] ServicePlan ServicePlan)
+        [Route("api/ServicePlan/delete")]
+        public bool Delete([FromForm] ServicePlan ServicePlan)
         {
             using (var ServicePlanRepository = _factory.GetRepository<ServicePlan>())
             {

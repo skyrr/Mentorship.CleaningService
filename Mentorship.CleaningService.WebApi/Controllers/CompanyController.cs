@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Mentorship.CleaningService.WebApi.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
     public class CompanyController : Controller
     {
@@ -17,6 +16,7 @@ namespace Mentorship.CleaningService.WebApi.Controllers
         }
 
         [HttpGet]
+        [Route("api/Company/{id}")]
         public JsonResult Get(int id)
         {
             using (var CompanyRepository = _factory.GetRepository<Company>()) {
@@ -25,6 +25,7 @@ namespace Mentorship.CleaningService.WebApi.Controllers
         }
 
         [HttpGet]
+        [Route("api/Companies")]
         public JsonResult GetAll()
         {
             using (var CompanyRepository = _factory.GetRepository<Company>())
@@ -34,7 +35,8 @@ namespace Mentorship.CleaningService.WebApi.Controllers
         }
 
         [HttpPost]
-        public bool Create([FromBody] Company Company)
+        [Route("api/Company/create")]
+        public bool Create([FromForm] Company Company)
         {
             using (var CompanyRepository = _factory.GetRepository<Company>())
             {
@@ -47,7 +49,8 @@ namespace Mentorship.CleaningService.WebApi.Controllers
         }
 
         [HttpPost]
-        public bool Update([FromBody] Company Company)
+        [Route("api/Company/update")]
+        public bool Update([FromForm] Company Company)
         {
             using (var CompanyRepository = _factory.GetRepository<Company>())
             {
@@ -60,7 +63,8 @@ namespace Mentorship.CleaningService.WebApi.Controllers
         }
 
         [HttpPost]
-        public bool Delete([FromBody] Company Company)
+        [Route("api/Company/delete")]
+        public bool Delete([FromForm] Company Company)
         {
             using (var CompanyRepository = _factory.GetRepository<Company>())
             {

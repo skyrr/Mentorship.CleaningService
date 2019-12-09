@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Mentorship.CleaningService.WebApi.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
     public class PersonController : Controller
     {
@@ -17,6 +16,7 @@ namespace Mentorship.CleaningService.WebApi.Controllers
         }
 
         [HttpGet]
+        [Route("api/Person/{id}")]
         public JsonResult Get(int id)
         {
             using (var PersonRepository = _factory.GetRepository<Person>()) {
@@ -25,6 +25,7 @@ namespace Mentorship.CleaningService.WebApi.Controllers
         }
 
         [HttpGet]
+        [Route("api/Persons")]
         public JsonResult GetAll()
         {
             using (var PersonRepository = _factory.GetRepository<Person>())
@@ -34,7 +35,8 @@ namespace Mentorship.CleaningService.WebApi.Controllers
         }
 
         [HttpPost]
-        public bool Create([FromBody] Person Person)
+        [Route("api/Person/create")]
+        public bool Create([FromForm] Person Person)
         {
             using (var PersonRepository = _factory.GetRepository<Person>())
             {
@@ -47,7 +49,8 @@ namespace Mentorship.CleaningService.WebApi.Controllers
         }
 
         [HttpPost]
-        public bool Update([FromBody] Person Person)
+        [Route("api/Person/update")]
+        public bool Update([FromForm] Person Person)
         {
             using (var PersonRepository = _factory.GetRepository<Person>())
             {
@@ -60,7 +63,8 @@ namespace Mentorship.CleaningService.WebApi.Controllers
         }
 
         [HttpPost]
-        public bool Delete([FromBody] Person Person)
+        [Route("api/Person/delete")]
+        public bool Delete([FromForm] Person Person)
         {
             using (var PersonRepository = _factory.GetRepository<Person>())
             {
