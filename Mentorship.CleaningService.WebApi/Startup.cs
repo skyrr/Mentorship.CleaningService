@@ -34,17 +34,20 @@ namespace Mentorship.CleaningService.WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<IAddressDbContext, CleaningServiceDbContext>();
+            services.AddScoped<IClientAddressDbContext, CleaningServiceDbContext>();
             services.AddScoped<IClientDbContext, CleaningServiceDbContext>();
             services.AddScoped<ICompanyDbContext, CleaningServiceDbContext>();
             services.AddScoped<IContractDbContext, CleaningServiceDbContext>();
             services.AddScoped<IContractStatusDbContext, CleaningServiceDbContext>();
             services.AddScoped<IDemandDbContext, CleaningServiceDbContext>();
+            services.AddScoped<IDemandStatusDbContext, CleaningServiceDbContext>();
             services.AddScoped<IOfferDbContext, CleaningServiceDbContext>();
             services.AddScoped<IOfferStatusDbContext, CleaningServiceDbContext>();
             services.AddScoped<IPersonDbContext, CleaningServiceDbContext>();
             services.AddScoped<IRoleDbContext, CleaningServiceDbContext>();
             services.AddScoped<IServicePlanDbContext, CleaningServiceDbContext>();
             services.AddScoped<IWorkerDbContext, CleaningServiceDbContext>();
+            services.AddScoped<IWorkerRoleDbContext, CleaningServiceDbContext>();
             services.AddScoped<IRepository<Address>, AddressRepository>(); 
             services.AddScoped<IRepositoryFactory, RepositoryFactory>(); 
             services.AddMvc()
