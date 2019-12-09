@@ -23,7 +23,7 @@ namespace Mentorship.CleaningService.Repository
 
         public IQueryable<Company> GetAll()
         {
-            return _dbContext.Companies.Where(a => !a.IsDeleted); ;
+            return _dbContext.Companies.Where(a => !a.IsDeleted);
         }
 
         public bool Create(Company entity)

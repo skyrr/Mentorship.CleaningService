@@ -23,7 +23,7 @@ namespace Mentorship.CleaningService.Repository
 
         public IQueryable<OfferStatus> GetAll()
         {
-            return _dbContext.OfferStatuses.Where(a => !a.IsDeleted); ;
+            return _dbContext.OfferStatuses.Where(a => !a.IsDeleted);
         }
 
         public bool Create(OfferStatus entity)

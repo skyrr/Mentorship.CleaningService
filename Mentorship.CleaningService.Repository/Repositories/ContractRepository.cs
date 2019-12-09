@@ -26,8 +26,8 @@ namespace Mentorship.CleaningService.Repository
             return _dbContext.Contracts
                 .Include(c => c.Address)
                 .Include(c => c.Client)
-                .Include(c => c .Company)
-                .Where(a => !a.IsDeleted); ;
+                .Include(c => c.Company)
+                .Where(a => !a.IsDeleted);
         }
 
         public bool Create(Contract entity)
