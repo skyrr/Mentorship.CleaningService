@@ -4,9 +4,9 @@ using Microsoft.Extensions.Configuration;
 
 namespace Mentorship.CleaningService.DataAccess
 {
-    public class CleaningServiceDbContext : Microsoft.EntityFrameworkCore.DbContext, IClientDbContext, IPersonDbContext, IWorkerDbContext, 
-        IAddressDbContext, ICompanyDbContext, IContractDbContext, IContractStatusDbContext, IDemandDbContext, IDemandStatusDbContext,
-        IOfferDbContext, IOfferStatusDbContext, IRoleDbContext, IServicePlanDbContext
+    public class CleaningServiceDbContext : Microsoft.EntityFrameworkCore.DbContext, IAddressDbContext, IClientAddressDbContext, IClientDbContext,
+        ICompanyDbContext, IContractDbContext, IContractStatusDbContext, IDemandDbContext, IDemandStatusDbContext,
+        IOfferDbContext, IOfferStatusDbContext, IPersonDbContext, IRoleDbContext, IServicePlanDbContext,  IWorkerDbContext, IWorkerRoleDbContext
     {
         private readonly IConfiguration _configuration;
 
@@ -28,6 +28,8 @@ namespace Mentorship.CleaningService.DataAccess
         public DbSet<OfferStatus> OfferStatuses { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<ServicePlan> ServicePlans { get; set; }
+        public DbSet<ClientAddress> ClientAddresses { get; set; }
+        public DbSet<WorkerRole> WorkerRoles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -33,12 +33,15 @@ namespace Mentorship.CleaningService.Repository
         public bool Create(Contract entity)
         {
             _dbContext.Entry(entity).State = EntityState.Added;
+            _dbContext.Entry(entity).Context.SaveChanges();
             return true;
         }
 
         public bool Update(Contract entity)
         {
             _dbContext.Entry(entity).State = EntityState.Modified;
+            _dbContext.Entry(entity).Context.SaveChanges();
+
             return true;
         }
 
@@ -46,6 +49,8 @@ namespace Mentorship.CleaningService.Repository
         {
             entity.IsDeleted = true;
             _dbContext.Entry(entity).State = EntityState.Modified;
+            _dbContext.Entry(entity).Context.SaveChanges();
+
             return true;
         }
 

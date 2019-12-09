@@ -29,13 +29,14 @@ namespace Mentorship.CleaningService.Repository
         public bool Create(Address entity)
         {
             _dbContext.Entry(entity).State = EntityState.Added;
-            ;
+            _dbContext.Entry(entity).Context.SaveChanges();
             return true;
         }
 
         public bool Update(Address entity)
         {
             _dbContext.Entry(entity).State = EntityState.Modified;
+            _dbContext.Entry(entity).Context.SaveChanges();
             return true;
         }
 
@@ -43,6 +44,7 @@ namespace Mentorship.CleaningService.Repository
         {
             entity.IsDeleted = true;
             _dbContext.Entry(entity).State = EntityState.Modified;
+            _dbContext.Entry(entity).Context.SaveChanges();
             return true;
         }
 
