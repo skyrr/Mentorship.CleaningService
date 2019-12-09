@@ -17,7 +17,7 @@ namespace Mentorship.CleaningService.WebApi.Controllers
         }
 
         [HttpGet]
-        public JsonResult Get([FromBody] ServicePlan ServicePlan)
+        public JsonResult Get(int id)
         {
             using (var ServicePlanRepository = _factory.GetRepository<ServicePlan>()) {
                 return Json(ServicePlanRepository.GetById(7));

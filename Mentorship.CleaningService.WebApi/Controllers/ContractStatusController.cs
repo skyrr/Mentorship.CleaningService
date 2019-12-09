@@ -17,7 +17,7 @@ namespace Mentorship.CleaningService.WebApi.Controllers
         }
 
         [HttpGet]
-        public JsonResult Get([FromBody] ContractStatus ContractStatus)
+        public JsonResult Get(int id)
         {
             using (var ContractStatusRepository = _factory.GetRepository<ContractStatus>()) {
                 return Json(ContractStatusRepository.GetById(7));

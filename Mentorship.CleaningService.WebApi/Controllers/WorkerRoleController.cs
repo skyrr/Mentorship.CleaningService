@@ -17,7 +17,7 @@ namespace Mentorship.CleaningService.WebApi.Controllers
         }
 
         [HttpGet]
-        public JsonResult Get([FromBody] WorkerRole WorkerRole)
+        public JsonResult Get(int id)
         {
             using (var WorkerRoleRepository = _factory.GetRepository<WorkerRole>()) {
                 return Json(WorkerRoleRepository.GetById(7));

@@ -17,7 +17,7 @@ namespace Mentorship.CleaningService.WebApi.Controllers
         }
 
         [HttpGet]
-        public JsonResult Get([FromBody] ClientAddress ClientAddress)
+        public JsonResult Get(int id)
         {
             using (var ClientAddressRepository = _factory.GetRepository<ClientAddress>()) {
                 return Json(ClientAddressRepository.GetById(7));
