@@ -56,14 +56,25 @@ namespace Mentorship.CleaningService.Tests
 
             var json = _addressController.GetAll();
             var address = json.Value as List<Address>;
-            foreach (var item in address)
-            {
-                Assert.NotNull(json);
-                Assert.NotNull(address);
-                Assert.AreEqual(item.Id, 1);
-                Assert.AreEqual(item.City, "Lviv");
-            }
+            Assert.NotNull(json);
+            Assert.NotNull(address);
+            Assert.AreEqual(address.Count, 2);
 
+            //var mock1 = new Mock<IRepository<Address>>();
+            //mock1.Setup(repo => repo.GetAll().FirstOrDefault()).Returns(GetFirstOrDefaultTest(1));
+            //var factoryMock1 = new Mock<IRepositoryFactory>();
+            //factoryMock1.Setup(f => f.GetRepository<Address>()).Returns(mock1.Object);
+            //_addressController = new AddressController(factoryMock1.Object);
+
+            //json = _addressController.GetAll();
+            //address = json.Value as List<Address>;
+            //Assert.AreEqual();
+
+        }
+
+        private Address GetFirstOrDefaultTest(int i)
+        {
+            return GetByIdTest(i);
         }
 
         private IQueryable<Address> GetAllTest()
