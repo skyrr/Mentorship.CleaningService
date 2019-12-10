@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Mentorship.CleaningService.Models;
 using Mentorship.CleaningService.Repository;
 using Microsoft.AspNetCore.Mvc;
@@ -20,7 +21,7 @@ namespace Mentorship.CleaningService.WebApi.Controllers
         public JsonResult Get(int id)
         {
             using (var OfferStatusRepository = _factory.GetRepository<OfferStatus>()) {
-                return Json(OfferStatusRepository.GetById(7));
+                return Json(OfferStatusRepository.GetById(id));
             }          
         }
 
@@ -30,7 +31,7 @@ namespace Mentorship.CleaningService.WebApi.Controllers
         {
             using (var OfferStatusRepository = _factory.GetRepository<OfferStatus>())
             {
-                return Json(OfferStatusRepository.GetAll());
+                return Json(OfferStatusRepository.GetAll().ToList());
             }
         }
 

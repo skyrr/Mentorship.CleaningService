@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Mentorship.CleaningService.Models;
 using Mentorship.CleaningService.Repository;
 using Microsoft.AspNetCore.Mvc;
@@ -30,7 +31,7 @@ namespace Mentorship.CleaningService.WebApi.Controllers
         {
             using (var addressRepository = _factory.GetRepository<Address>())
             {
-                return Json(addressRepository.GetAll());
+                return Json(addressRepository.GetAll().ToList());
             }
         }
 
