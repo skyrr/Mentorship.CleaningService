@@ -72,6 +72,18 @@ namespace Mentorship.CleaningService.Tests
 
         }
 
+        [Test]
+        public void Create()
+        {
+            Address address = new Address() { Id = 1, City = "Lviv" };
+            var mock = new Mock<IRepository<Address>>();
+            mock.Setup(repo => repo.Create(address));
+            var factoryMock = new Mock<IRepositoryFactory>();
+            factoryMock.Setup(f => f.GetRepository<Address>()).Returns(mock.Object);
+            _addressController = new AddressController(factoryMock.Object);
+
+        }
+
         private Address GetFirstOrDefaultTest(int i)
         {
             return GetByIdTest(i);
@@ -81,7 +93,7 @@ namespace Mentorship.CleaningService.Tests
         {
             var list = new List<Address>();
             Address a1 = new Address { Id = 1, City = "Lviv" };
-            Address a2 = new Address { Id = 2, City = "Lviv" };
+            Address a2 = new Address { Id = 2, City = "Frankivsk" };
             list.Add(a1);
             list.Add(a2);
             return list.AsQueryable();
@@ -91,6 +103,5 @@ namespace Mentorship.CleaningService.Tests
         {
             return new Address { Id = 1, City = "Lviv" };
         }
-
     }
 }
