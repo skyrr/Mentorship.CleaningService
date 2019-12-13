@@ -81,7 +81,7 @@ namespace Mentorship.CleaningService.Tests
             var factoryMock = new Mock<IRepositoryFactory>();
             factoryMock.Setup(f => f.GetRepository<Address>()).Returns(mock.Object);
             _addressController = new AddressController(factoryMock.Object);
-
+            Assert.Equals(address, factoryMock);
         }
 
         private Address GetFirstOrDefaultTest(int i)
