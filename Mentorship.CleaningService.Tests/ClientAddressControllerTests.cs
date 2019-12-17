@@ -78,7 +78,7 @@ namespace Mentorship.CleaningService.Tests
             ClientAddress clientAddressStub = new ClientAddress { Id =  1};
             var mock = new Mock<IRepository<ClientAddress>>();
             mock.Setup(repo => repo.GetAll()).Returns(memoryStore.AsQueryable());
-            mock.Setup(repo => repo.Create(It.IsAny<ClientAddress>())).Returns((Address address) => {
+            mock.Setup(repo => repo.Create(It.IsAny<ClientAddress>())).Returns((ClientAddress address) => {
                 address.Id = 1;
                 memoryStore.Add(clientAddressStub);
                 return clientAddressStub;
@@ -93,10 +93,10 @@ namespace Mentorship.CleaningService.Tests
             Assert.AreEqual(emptyStore.Count, 0);
             var json = _clientAddressController.Create(clientAddressStub);
             Assert.IsNotNull(json);
-            var result = json.Value as Address;
+            var result = json.Value as ClientAddress;
             Assert.NotNull(result);
             Assert.AreEqual(result.Id, 1);
-            Assert.AreEqual(result.City, clientAddressStub.Id);
+            Assert.AreEqual(result.Address, clientAddressStub.Address);
             var notEmptyJson = _clientAddressController.GetAll();
             Assert.IsNotNull(notEmptyJson);
             var notEmptyStore = notEmptyJson.Value as List<ClientAddress>;

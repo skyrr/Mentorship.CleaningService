@@ -96,7 +96,7 @@ namespace Mentorship.CleaningService.Tests
             var result = json.Value as ContractStatus;
             Assert.NotNull(result);
             Assert.AreEqual(result.Id, 1);
-            Assert.AreEqual(result.StatusName, (contractStatusStub));
+            Assert.AreEqual(result.StatusName, (contractStatusStub.StatusName));
             var notEmptyJson = _contractStatusController.GetAll();
             Assert.IsNotNull(notEmptyJson);
             var notEmptyStore = notEmptyJson.Value as List<ContractStatus>;
