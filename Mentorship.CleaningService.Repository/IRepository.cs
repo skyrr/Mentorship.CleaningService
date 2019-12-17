@@ -10,8 +10,8 @@ namespace Mentorship.CleaningService.Repository
     {
         T GetById(int id);
         IQueryable<T> GetAll();
-        bool Create(T entity);
-        bool Update(T entity);
+        T Create(T entity);
+        T Update(T entity);
         bool Delete(T entity);
     }
 }

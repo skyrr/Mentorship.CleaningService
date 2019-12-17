@@ -37,29 +37,21 @@ namespace Mentorship.CleaningService.WebApi.Controllers
 
         [HttpPost]
         [Route("api/ClientAddress/create")]
-        public bool Create([FromForm] ClientAddress ClientAddress)
+        public JsonResult Create([FromForm] ClientAddress ClientAddress)
         {
             using (var ClientAddressRepository = _factory.GetRepository<ClientAddress>())
             {
-                if (ClientAddressRepository.Create(ClientAddress))
-                {
-                    return true;
-                }
-                else return false;
+                return Json(ClientAddressRepository.Create(ClientAddress));
             }
         }
 
         [HttpPost]
         [Route("api/ClientAddress/update")]
-        public bool Update([FromForm] ClientAddress ClientAddress)
+        public JsonResult Update([FromForm] ClientAddress ClientAddress)
         {
             using (var ClientAddressRepository = _factory.GetRepository<ClientAddress>())
             {
-                if (ClientAddressRepository.Update(ClientAddress))
-                {
-                    return true;
-                }
-                else return false;
+                return Json(ClientAddressRepository.Update(ClientAddress));
             }
         }
 

@@ -37,29 +37,21 @@ namespace Mentorship.CleaningService.WebApi.Controllers
 
         [HttpPost]
         [Route("api/address/create")]
-        public bool Create([FromForm] Address address)
+        public JsonResult Create([FromForm] Address address)
         {
             using (var addressRepository = _factory.GetRepository<Address>())
             {
-                if (addressRepository.Create(address))
-                {
-                    return true;
-                }
-                else return false;
+                return Json(addressRepository.Create(address));
             }
         }
 
         [HttpPost]
         [Route("api/address/update")]
-        public bool Update([FromForm] Address address)
+        public JsonResult Update([FromForm] Address address)
         {
             using (var addressRepository = _factory.GetRepository<Address>())
             {
-                if (addressRepository.Update(address))
-                {
-                    return true;
-                }
-                else return false;
+                return Json(addressRepository.Update(address));
             }
         }
 
@@ -69,11 +61,7 @@ namespace Mentorship.CleaningService.WebApi.Controllers
         {
             using (var addressRepository = _factory.GetRepository<Address>())
             {
-                if (addressRepository.Delete(address))
-                {
-                    return true;
-                }
-                else return false;
+                return addressRepository.Delete(address);
             }
         }
 

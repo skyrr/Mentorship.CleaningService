@@ -38,29 +38,21 @@ namespace Mentorship.CleaningService.WebApi.Controllers
 
         [HttpPost]
         [Route("api/Demand/create")]
-        public bool Create([FromForm] Demand Demand)
+        public JsonResult Create([FromForm] Demand Demand)
         {
             using (var DemandRepository = _factory.GetRepository<Demand>())
             {
-                if (DemandRepository.Create(Demand))
-                {
-                    return true;
-                }
-                else return false;
+                return Json(DemandRepository.Create(Demand));
             }
         }
 
         [HttpPost]
         [Route("api/Demand/update")]
-        public bool Update([FromForm] Demand Demand)
+        public JsonResult Update([FromForm] Demand Demand)
         {
             using (var DemandRepository = _factory.GetRepository<Demand>())
             {
-                if (DemandRepository.Update(Demand))
-                {
-                    return true;
-                }
-                else return false;
+                return Json(DemandRepository.Update(Demand));
             }
         }
 

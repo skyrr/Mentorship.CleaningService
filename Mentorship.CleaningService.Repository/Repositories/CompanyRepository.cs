@@ -26,19 +26,19 @@ namespace Mentorship.CleaningService.Repository
             return _dbContext.Companies.Where(a => !a.IsDeleted);
         }
 
-        public bool Create(Company entity)
+        public Company Create(Company entity)
         {
             _dbContext.Entry(entity).State = EntityState.Added;
             _dbContext.SaveChanges();
-            return true;
+            return entity;
         }
 
-        public bool Update(Company entity)
+        public Company Update(Company entity)
         {
             _dbContext.Entry(entity).State = EntityState.Modified;
             _dbContext.SaveChanges();
 
-            return true;
+            return entity;
         }
 
         public bool Delete(Company entity)

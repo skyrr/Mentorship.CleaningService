@@ -26,19 +26,19 @@ namespace Mentorship.CleaningService.Repository
             return _dbContext.ServicePlans.Where(a => !a.IsDeleted);
         }
 
-        public bool Create(ServicePlan entity)
+        public ServicePlan Create(ServicePlan entity)
         {
             _dbContext.Entry(entity).State = EntityState.Added;
             _dbContext.SaveChanges();
-            return true;
+            return entity;
         }
 
-        public bool Update(ServicePlan entity)
+        public ServicePlan Update(ServicePlan entity)
         {
             _dbContext.Entry(entity).State = EntityState.Modified;
             _dbContext.SaveChanges();
 
-            return true;
+            return entity;
         }
 
         public bool Delete(ServicePlan entity)

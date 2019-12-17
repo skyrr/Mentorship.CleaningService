@@ -30,19 +30,19 @@ namespace Mentorship.CleaningService.Repository
                 .Where(a => !a.IsDeleted);
         }
 
-        public bool Create(Contract entity)
+        public Contract Create(Contract entity)
         {
             _dbContext.Entry(entity).State = EntityState.Added;
             _dbContext.SaveChanges();
-            return true;
+            return entity;
         }
 
-        public bool Update(Contract entity)
+        public Contract Update(Contract entity)
         {
             _dbContext.Entry(entity).State = EntityState.Modified;
             _dbContext.SaveChanges();
 
-            return true;
+            return entity;
         }
 
         public bool Delete(Contract entity)

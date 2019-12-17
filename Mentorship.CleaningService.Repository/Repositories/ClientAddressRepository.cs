@@ -26,19 +26,19 @@ namespace Mentorship.CleaningService.Repository
             return _dbContext.ClientAddresses.Where(a => !a.IsDeleted);
         }
 
-        public bool Create(ClientAddress entity)
+        public ClientAddress Create(ClientAddress entity)
         {
             _dbContext.Entry(entity).State = EntityState.Added;
             _dbContext.SaveChanges();
-            return true;
+            return entity;
         }
 
-        public bool Update(ClientAddress entity)
+        public ClientAddress Update(ClientAddress entity)
         {
             _dbContext.Entry(entity).State = EntityState.Modified;
             _dbContext.SaveChanges();
 
-            return true;
+            return entity;
         }
 
         public bool Delete(ClientAddress entity)

@@ -38,29 +38,21 @@ namespace Mentorship.CleaningService.WebApi.Controllers
 
         [HttpPost]
         [Route("api/Contract/create")]
-        public bool Create([FromForm] Contract Contract)
+        public JsonResult Create([FromForm] Contract Contract)
         {
             using (var ContractRepository = _factory.GetRepository<Contract>())
             {
-                if (ContractRepository.Create(Contract))
-                {
-                    return true;
-                }
-                else return false;
+                return Json(ContractRepository.Create(Contract));
             }
         }
 
         [HttpPost]
         [Route("api/Contract/update")]
-        public bool Update([FromForm] Contract Contract)
+        public JsonResult Update([FromForm] Contract Contract)
         {
             using (var ContractRepository = _factory.GetRepository<Contract>())
             {
-                if (ContractRepository.Update(Contract))
-                {
-                    return true;
-                }
-                else return false;
+                return Json(ContractRepository.Update(Contract));
             }
         }
 

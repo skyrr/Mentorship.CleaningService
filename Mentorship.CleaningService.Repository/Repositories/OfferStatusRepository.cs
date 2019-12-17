@@ -26,19 +26,19 @@ namespace Mentorship.CleaningService.Repository
             return _dbContext.OfferStatuses.Where(a => !a.IsDeleted);
         }
 
-        public bool Create(OfferStatus entity)
+        public OfferStatus Create(OfferStatus entity)
         {
             _dbContext.Entry(entity).State = EntityState.Added;
             _dbContext.SaveChanges();
-            return true;
+            return entity;
         }
 
-        public bool Update(OfferStatus entity)
+        public OfferStatus Update(OfferStatus entity)
         {
             _dbContext.Entry(entity).State = EntityState.Modified;
             _dbContext.SaveChanges();
 
-            return true;
+            return entity;
         }
 
         public bool Delete(OfferStatus entity)
