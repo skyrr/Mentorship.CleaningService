@@ -75,13 +75,46 @@ namespace Mentorship.CleaningService.Tests
         [Test]
         public void Create()
         {
+            var memoryStore = new List<Address>();
+            Address addressStub = new Address { City = "Lviv" };
+            var mock = new Mock<IRepository<Address>>();
+            mock.Setup(repo => repo.GetAll()).Returns(memoryStore.AsQueryable());
+            mock.Setup(repo => repo.Create(It.IsAny<Address>())).Returns((Address address) => {
+                address.Id = 1;
+                memoryStore.Add(address);
+                return address;
+            });
+            var factoryMock = new Mock<IRepositoryFactory>();
+            factoryMock.Setup(f => f.GetRepository<Address>()).Returns(mock.Object);
+            _addressController = new AddressController(factoryMock.Object);
+            var emptyJson = _addressController.GetAll();
+            Assert.IsNotNull(emptyJson);
+            var emptyStore = emptyJson.Value as List<Address>;
+            Assert.IsNotNull(emptyStore);
+            Assert.AreEqual(emptyStore.Count, 0);
+            var json = _addressController.Create(addressStub);
+            Assert.IsNotNull(json);
+            var result = json.Value as Address;
+            Assert.NotNull(result);
+            Assert.AreEqual(result.Id, 1);
+            Assert.AreEqual(result.City, addressStub.City);
+            var notEmptyJson = _addressController.GetAll();
+            Assert.IsNotNull(notEmptyJson);
+            var notEmptyStore = notEmptyJson.Value as List<Address>;
+            Assert.IsNotNull(notEmptyStore);
+            Assert.AreEqual(notEmptyStore.Count, 1);
+        }
+
+        [Test]
+        public void Create2()
+        {
             Address address = new Address() { Id = 1, City = "Lviv" };
             var mock = new Mock<IRepository<Address>>();
             mock.Setup(repo => repo.Create(address));
             var factoryMock = new Mock<IRepositoryFactory>();
             factoryMock.Setup(f => f.GetRepository<Address>()).Returns(mock.Object);
             _addressController = new AddressController(factoryMock.Object);
-            Assert.AreEqual(address, factoryMock);
+            //Assert.AreEqual(address, factoryMock);
         }
 
         private Address GetFirstOrDefaultTest(int i)
