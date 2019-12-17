@@ -12,12 +12,12 @@ using NUnit.Framework;
 namespace Mentorship.CleaningService.Tests
 {
     [TestFixture]
-    class AddressControllerTests
+    class RoleControllerTests
     {
         private readonly IServiceProvider _serviceProvider;
-        private AddressController _addressController;
+        private RoleController _roleController;
         
-        public AddressControllerTests()
+        public RoleControllerTests()
         {
             var serviceCollection = new ServiceCollection();
             serviceCollection.AddScoped<IRepositoryFactory, RepositoryFactory>();
@@ -30,44 +30,43 @@ namespace Mentorship.CleaningService.Tests
         //}
 
         [Test]
-        public void GetAddress()
+        public void GetRole()
         {
-            var mock = new Mock<IRepository<Address>>();
+            var mock = new Mock<IRepository<Role>>();
             mock.Setup(repo => repo.GetById(It.IsAny<int>())).Returns(GetByIdTest(1));
             var factoryMock = new Mock<IRepositoryFactory>();
-            factoryMock.Setup(f => f.GetRepository<Address>()).Returns(mock.Object);
-            _addressController = new AddressController(factoryMock.Object);
+            factoryMock.Setup(f => f.GetRepository<Role>()).Returns(mock.Object);
+            _roleController = new RoleController(factoryMock.Object);
 
-            var json = _addressController.Get(1);
-            var address = json.Value as Address;
+            var json = _roleController.Get(1);
+            var role = json.Value as Role;
             Assert.NotNull(json);
-            Assert.NotNull(address);
-            Assert.AreEqual(address.Id, 1);
-            Assert.AreEqual(address.City, "Lviv");
+            Assert.NotNull(role);
+            Assert.AreEqual(role.Id, 1);
         }
         [Test]
-        public void GetAllAddresses()
+        public void GetAllRolees()
         {
-            var mock = new Mock<IRepository<Address>>();
+            var mock = new Mock<IRepository<Role>>();
             mock.Setup(repo => repo.GetAll()).Returns(GetAllTest());
             var factoryMock = new Mock<IRepositoryFactory>();
-            factoryMock.Setup(f => f.GetRepository<Address>()).Returns(mock.Object);
-            _addressController = new AddressController(factoryMock.Object);
+            factoryMock.Setup(f => f.GetRepository<Role>()).Returns(mock.Object);
+            _roleController = new RoleController(factoryMock.Object);
 
-            var json = _addressController.GetAll();
-            var address = json.Value as List<Address>;
+            var json = _roleController.GetAll();
+            var role = json.Value as List<Role>;
             Assert.NotNull(json);
-            Assert.NotNull(address);
-            Assert.AreEqual(address.Count, 2);
+            Assert.NotNull(role);
+            Assert.AreEqual(role.Count, 2);
 
-            //var mock1 = new Mock<IRepository<Address>>();
+            //var mock1 = new Mock<IRepository<Role>>();
             //mock1.Setup(repo => repo.GetAll().FirstOrDefault()).Returns(GetFirstOrDefaultTest(1));
             //var factoryMock1 = new Mock<IRepositoryFactory>();
-            //factoryMock1.Setup(f => f.GetRepository<Address>()).Returns(mock1.Object);
-            //_addressController = new AddressController(factoryMock1.Object);
+            //factoryMock1.Setup(f => f.GetRepository<Role>()).Returns(mock1.Object);
+            //_roleController = new RoleController(factoryMock1.Object);
 
-            //json = _addressController.GetAll();
-            //address = json.Value as List<Address>;
+            //json = _roleController.GetAll();
+            //role = json.Value as List<Role>;
             //Assert.AreEqual();
 
         }
@@ -75,32 +74,32 @@ namespace Mentorship.CleaningService.Tests
         [Test]
         public void Create()
         {
-            var memoryStore = new List<Address>();
-            Address addressStub = new Address { City = "Lviv" };
-            var mock = new Mock<IRepository<Address>>();
+            var memoryStore = new List<Role>();
+            Role roleStub = new Role { Id = 1 };
+            var mock = new Mock<IRepository<Role>>();
             mock.Setup(repo => repo.GetAll()).Returns(memoryStore.AsQueryable());
-            mock.Setup(repo => repo.Create(It.IsAny<Address>())).Returns((Address address) => {
-                address.Id = 1;
-                memoryStore.Add(address);
-                return address;
+            mock.Setup(repo => repo.Create(It.IsAny<Role>())).Returns((Role role) => {
+                role.Id = 1;
+                memoryStore.Add(role);
+                return role;
             });
             var factoryMock = new Mock<IRepositoryFactory>();
-            factoryMock.Setup(f => f.GetRepository<Address>()).Returns(mock.Object);
-            _addressController = new AddressController(factoryMock.Object);
-            var emptyJson = _addressController.GetAll();
+            factoryMock.Setup(f => f.GetRepository<Role>()).Returns(mock.Object);
+            _roleController = new RoleController(factoryMock.Object);
+            var emptyJson = _roleController.GetAll();
             Assert.IsNotNull(emptyJson);
-            var emptyStore = emptyJson.Value as List<Address>;
+            var emptyStore = emptyJson.Value as List<Role>;
             Assert.IsNotNull(emptyStore);
             Assert.AreEqual(emptyStore.Count, 0);
-            var json = _addressController.Create(addressStub);
+            var json = _roleController.Create(roleStub);
             Assert.IsNotNull(json);
-            var result = json.Value as Address;
+            var result = json.Value as Role;
             Assert.NotNull(result);
             Assert.AreEqual(result.Id, 1);
-            Assert.AreEqual(result.City, addressStub.City);
-            var notEmptyJson = _addressController.GetAll();
+            Assert.AreEqual(result.Roles, roleStub.Roles);
+            var notEmptyJson = _roleController.GetAll();
             Assert.IsNotNull(notEmptyJson);
-            var notEmptyStore = notEmptyJson.Value as List<Address>;
+            var notEmptyStore = notEmptyJson.Value as List<Role>;
             Assert.IsNotNull(notEmptyStore);
             Assert.AreEqual(notEmptyStore.Count, 1);
         }
@@ -108,33 +107,33 @@ namespace Mentorship.CleaningService.Tests
         [Test]
         public void Create2()
         {
-            Address address = new Address() { Id = 1, City = "Lviv" };
-            var mock = new Mock<IRepository<Address>>();
-            mock.Setup(repo => repo.Create(address));
+            Role role = new Role() { Id = 1 };
+            var mock = new Mock<IRepository<Role>>();
+            mock.Setup(repo => repo.Create(role));
             var factoryMock = new Mock<IRepositoryFactory>();
-            factoryMock.Setup(f => f.GetRepository<Address>()).Returns(mock.Object);
-            _addressController = new AddressController(factoryMock.Object);
-            //Assert.AreEqual(address, factoryMock);
+            factoryMock.Setup(f => f.GetRepository<Role>()).Returns(mock.Object);
+            _roleController = new RoleController(factoryMock.Object);
+            //Assert.AreEqual(role, factoryMock);
         }
 
-        private Address GetFirstOrDefaultTest(int i)
+        private Role GetFirstOrDefaultTest(int i)
         {
             return GetByIdTest(i);
         }
 
-        private IQueryable<Address> GetAllTest()
+        private IQueryable<Role> GetAllTest()
         {
-            var list = new List<Address>();
-            Address a1 = new Address { Id = 1, City = "Lviv" };
-            Address a2 = new Address { Id = 2, City = "Frankivsk" };
+            var list = new List<Role>();
+            Role a1 = new Role { Id = 1 };
+            Role a2 = new Role { Id = 2 };
             list.Add(a1);
             list.Add(a2);
             return list.AsQueryable();
         }
 
-        public Address GetByIdTest(int i)
+        public Role GetByIdTest(int i)
         {
-            return new Address { Id = 1, City = "Lviv" };
+            return new Role { Id = 1 };
         }
     }
 }

@@ -12,12 +12,12 @@ using NUnit.Framework;
 namespace Mentorship.CleaningService.Tests
 {
     [TestFixture]
-    class AddressControllerTests
+    class ContractStatusControllerTests
     {
         private readonly IServiceProvider _serviceProvider;
-        private AddressController _addressController;
+        private ContractStatusController _contractStatusController;
         
-        public AddressControllerTests()
+        public ContractStatusControllerTests()
         {
             var serviceCollection = new ServiceCollection();
             serviceCollection.AddScoped<IRepositoryFactory, RepositoryFactory>();
@@ -30,44 +30,43 @@ namespace Mentorship.CleaningService.Tests
         //}
 
         [Test]
-        public void GetAddress()
+        public void GetContractStatus()
         {
-            var mock = new Mock<IRepository<Address>>();
+            var mock = new Mock<IRepository<ContractStatus>>();
             mock.Setup(repo => repo.GetById(It.IsAny<int>())).Returns(GetByIdTest(1));
             var factoryMock = new Mock<IRepositoryFactory>();
-            factoryMock.Setup(f => f.GetRepository<Address>()).Returns(mock.Object);
-            _addressController = new AddressController(factoryMock.Object);
+            factoryMock.Setup(f => f.GetRepository<ContractStatus>()).Returns(mock.Object);
+            _contractStatusController = new ContractStatusController(factoryMock.Object);
 
-            var json = _addressController.Get(1);
-            var address = json.Value as Address;
+            var json = _contractStatusController.Get(1);
+            var contractStatus = json.Value as ContractStatus;
             Assert.NotNull(json);
-            Assert.NotNull(address);
-            Assert.AreEqual(address.Id, 1);
-            Assert.AreEqual(address.City, "Lviv");
+            Assert.NotNull(contractStatus);
+            Assert.AreEqual(contractStatus.Id, 1);
         }
         [Test]
-        public void GetAllAddresses()
+        public void GetAllContractStatuses()
         {
-            var mock = new Mock<IRepository<Address>>();
+            var mock = new Mock<IRepository<ContractStatus>>();
             mock.Setup(repo => repo.GetAll()).Returns(GetAllTest());
             var factoryMock = new Mock<IRepositoryFactory>();
-            factoryMock.Setup(f => f.GetRepository<Address>()).Returns(mock.Object);
-            _addressController = new AddressController(factoryMock.Object);
+            factoryMock.Setup(f => f.GetRepository<ContractStatus>()).Returns(mock.Object);
+            _contractStatusController = new ContractStatusController(factoryMock.Object);
 
-            var json = _addressController.GetAll();
-            var address = json.Value as List<Address>;
+            var json = _contractStatusController.GetAll();
+            var contractStatus = json.Value as List<ContractStatus>;
             Assert.NotNull(json);
-            Assert.NotNull(address);
-            Assert.AreEqual(address.Count, 2);
+            Assert.NotNull(contractStatus);
+            Assert.AreEqual(contractStatus.Count, 2);
 
-            //var mock1 = new Mock<IRepository<Address>>();
+            //var mock1 = new Mock<IRepository<ContractStatus>>();
             //mock1.Setup(repo => repo.GetAll().FirstOrDefault()).Returns(GetFirstOrDefaultTest(1));
             //var factoryMock1 = new Mock<IRepositoryFactory>();
-            //factoryMock1.Setup(f => f.GetRepository<Address>()).Returns(mock1.Object);
-            //_addressController = new AddressController(factoryMock1.Object);
+            //factoryMock1.Setup(f => f.GetRepository<ContractStatus>()).Returns(mock1.Object);
+            //_contractStatusController = new ContractStatusController(factoryMock1.Object);
 
-            //json = _addressController.GetAll();
-            //address = json.Value as List<Address>;
+            //json = _contractStatusController.GetAll();
+            //contractStatus = json.Value as List<ContractStatus>;
             //Assert.AreEqual();
 
         }
@@ -75,32 +74,32 @@ namespace Mentorship.CleaningService.Tests
         [Test]
         public void Create()
         {
-            var memoryStore = new List<Address>();
-            Address addressStub = new Address { City = "Lviv" };
-            var mock = new Mock<IRepository<Address>>();
+            var memoryStore = new List<ContractStatus>();
+            ContractStatus contractStatusStub = new ContractStatus { Id = 1 };
+            var mock = new Mock<IRepository<ContractStatus>>();
             mock.Setup(repo => repo.GetAll()).Returns(memoryStore.AsQueryable());
-            mock.Setup(repo => repo.Create(It.IsAny<Address>())).Returns((Address address) => {
-                address.Id = 1;
-                memoryStore.Add(address);
-                return address;
+            mock.Setup(repo => repo.Create(It.IsAny<ContractStatus>())).Returns((ContractStatus contractStatus) => {
+                contractStatus.Id = 1;
+                memoryStore.Add(contractStatus);
+                return contractStatus;
             });
             var factoryMock = new Mock<IRepositoryFactory>();
-            factoryMock.Setup(f => f.GetRepository<Address>()).Returns(mock.Object);
-            _addressController = new AddressController(factoryMock.Object);
-            var emptyJson = _addressController.GetAll();
+            factoryMock.Setup(f => f.GetRepository<ContractStatus>()).Returns(mock.Object);
+            _contractStatusController = new ContractStatusController(factoryMock.Object);
+            var emptyJson = _contractStatusController.GetAll();
             Assert.IsNotNull(emptyJson);
-            var emptyStore = emptyJson.Value as List<Address>;
+            var emptyStore = emptyJson.Value as List<ContractStatus>;
             Assert.IsNotNull(emptyStore);
             Assert.AreEqual(emptyStore.Count, 0);
-            var json = _addressController.Create(addressStub);
+            var json = _contractStatusController.Create(contractStatusStub);
             Assert.IsNotNull(json);
-            var result = json.Value as Address;
+            var result = json.Value as ContractStatus;
             Assert.NotNull(result);
             Assert.AreEqual(result.Id, 1);
-            Assert.AreEqual(result.City, addressStub.City);
-            var notEmptyJson = _addressController.GetAll();
+            Assert.AreEqual(result.StatusName, (contractStatusStub));
+            var notEmptyJson = _contractStatusController.GetAll();
             Assert.IsNotNull(notEmptyJson);
-            var notEmptyStore = notEmptyJson.Value as List<Address>;
+            var notEmptyStore = notEmptyJson.Value as List<ContractStatus>;
             Assert.IsNotNull(notEmptyStore);
             Assert.AreEqual(notEmptyStore.Count, 1);
         }
@@ -108,33 +107,33 @@ namespace Mentorship.CleaningService.Tests
         [Test]
         public void Create2()
         {
-            Address address = new Address() { Id = 1, City = "Lviv" };
-            var mock = new Mock<IRepository<Address>>();
-            mock.Setup(repo => repo.Create(address));
+            ContractStatus contractStatus = new ContractStatus() { Id = 1 };
+            var mock = new Mock<IRepository<ContractStatus>>();
+            mock.Setup(repo => repo.Create(contractStatus));
             var factoryMock = new Mock<IRepositoryFactory>();
-            factoryMock.Setup(f => f.GetRepository<Address>()).Returns(mock.Object);
-            _addressController = new AddressController(factoryMock.Object);
-            //Assert.AreEqual(address, factoryMock);
+            factoryMock.Setup(f => f.GetRepository<ContractStatus>()).Returns(mock.Object);
+            _contractStatusController = new ContractStatusController(factoryMock.Object);
+            //Assert.AreEqual(contractStatus, factoryMock);
         }
 
-        private Address GetFirstOrDefaultTest(int i)
+        private ContractStatus GetFirstOrDefaultTest(int i)
         {
             return GetByIdTest(i);
         }
 
-        private IQueryable<Address> GetAllTest()
+        private IQueryable<ContractStatus> GetAllTest()
         {
-            var list = new List<Address>();
-            Address a1 = new Address { Id = 1, City = "Lviv" };
-            Address a2 = new Address { Id = 2, City = "Frankivsk" };
+            var list = new List<ContractStatus>();
+            ContractStatus a1 = new ContractStatus { Id = 1 };
+            ContractStatus a2 = new ContractStatus { Id = 2 };
             list.Add(a1);
             list.Add(a2);
             return list.AsQueryable();
         }
 
-        public Address GetByIdTest(int i)
+        public ContractStatus GetByIdTest(int i)
         {
-            return new Address { Id = 1, City = "Lviv" };
+            return new ContractStatus { Id = 1 };
         }
     }
 }

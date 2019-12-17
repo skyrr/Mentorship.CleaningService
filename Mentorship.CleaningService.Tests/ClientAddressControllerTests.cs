@@ -12,12 +12,12 @@ using NUnit.Framework;
 namespace Mentorship.CleaningService.Tests
 {
     [TestFixture]
-    class AddressControllerTests
+    class ClientAddressControllerTests
     {
         private readonly IServiceProvider _serviceProvider;
-        private AddressController _addressController;
+        private ClientAddressController _clientAddressController;
         
-        public AddressControllerTests()
+        public ClientAddressControllerTests()
         {
             var serviceCollection = new ServiceCollection();
             serviceCollection.AddScoped<IRepositoryFactory, RepositoryFactory>();
@@ -30,32 +30,31 @@ namespace Mentorship.CleaningService.Tests
         //}
 
         [Test]
-        public void GetAddress()
+        public void GetById()
         {
-            var mock = new Mock<IRepository<Address>>();
+            var mock = new Mock<IRepository<ClientAddress>>();
             mock.Setup(repo => repo.GetById(It.IsAny<int>())).Returns(GetByIdTest(1));
             var factoryMock = new Mock<IRepositoryFactory>();
-            factoryMock.Setup(f => f.GetRepository<Address>()).Returns(mock.Object);
-            _addressController = new AddressController(factoryMock.Object);
+            factoryMock.Setup(f => f.GetRepository<ClientAddress>()).Returns(mock.Object);
+            _clientAddressController = new ClientAddressController(factoryMock.Object);
 
-            var json = _addressController.Get(1);
-            var address = json.Value as Address;
+            var json = _clientAddressController.Get(1);
+            var clientAddress = json.Value as ClientAddress;
             Assert.NotNull(json);
-            Assert.NotNull(address);
-            Assert.AreEqual(address.Id, 1);
-            Assert.AreEqual(address.City, "Lviv");
+            Assert.NotNull(clientAddress);
+            Assert.AreEqual(clientAddress.Id, 1);
         }
         [Test]
         public void GetAllAddresses()
         {
-            var mock = new Mock<IRepository<Address>>();
+            var mock = new Mock<IRepository<ClientAddress>>();
             mock.Setup(repo => repo.GetAll()).Returns(GetAllTest());
             var factoryMock = new Mock<IRepositoryFactory>();
-            factoryMock.Setup(f => f.GetRepository<Address>()).Returns(mock.Object);
-            _addressController = new AddressController(factoryMock.Object);
+            factoryMock.Setup(f => f.GetRepository<ClientAddress>()).Returns(mock.Object);
+            _clientAddressController = new ClientAddressController(factoryMock.Object);
 
-            var json = _addressController.GetAll();
-            var address = json.Value as List<Address>;
+            var json = _clientAddressController.GetAll();
+            var address = json.Value as List<ClientAddress>;
             Assert.NotNull(json);
             Assert.NotNull(address);
             Assert.AreEqual(address.Count, 2);
@@ -64,9 +63,9 @@ namespace Mentorship.CleaningService.Tests
             //mock1.Setup(repo => repo.GetAll().FirstOrDefault()).Returns(GetFirstOrDefaultTest(1));
             //var factoryMock1 = new Mock<IRepositoryFactory>();
             //factoryMock1.Setup(f => f.GetRepository<Address>()).Returns(mock1.Object);
-            //_addressController = new AddressController(factoryMock1.Object);
+            //_clientAddressController = new AddressController(factoryMock1.Object);
 
-            //json = _addressController.GetAll();
+            //json = _clientAddressController.GetAll();
             //address = json.Value as List<Address>;
             //Assert.AreEqual();
 
@@ -75,32 +74,32 @@ namespace Mentorship.CleaningService.Tests
         [Test]
         public void Create()
         {
-            var memoryStore = new List<Address>();
-            Address addressStub = new Address { City = "Lviv" };
-            var mock = new Mock<IRepository<Address>>();
+            var memoryStore = new List<ClientAddress>();
+            ClientAddress clientAddressStub = new ClientAddress { Id =  1};
+            var mock = new Mock<IRepository<ClientAddress>>();
             mock.Setup(repo => repo.GetAll()).Returns(memoryStore.AsQueryable());
-            mock.Setup(repo => repo.Create(It.IsAny<Address>())).Returns((Address address) => {
+            mock.Setup(repo => repo.Create(It.IsAny<ClientAddress>())).Returns((Address address) => {
                 address.Id = 1;
-                memoryStore.Add(address);
-                return address;
+                memoryStore.Add(clientAddressStub);
+                return clientAddressStub;
             });
             var factoryMock = new Mock<IRepositoryFactory>();
-            factoryMock.Setup(f => f.GetRepository<Address>()).Returns(mock.Object);
-            _addressController = new AddressController(factoryMock.Object);
-            var emptyJson = _addressController.GetAll();
+            factoryMock.Setup(f => f.GetRepository<ClientAddress>()).Returns(mock.Object);
+            _clientAddressController = new ClientAddressController(factoryMock.Object);
+            var emptyJson = _clientAddressController.GetAll();
             Assert.IsNotNull(emptyJson);
-            var emptyStore = emptyJson.Value as List<Address>;
+            var emptyStore = emptyJson.Value as List<ClientAddress>;
             Assert.IsNotNull(emptyStore);
             Assert.AreEqual(emptyStore.Count, 0);
-            var json = _addressController.Create(addressStub);
+            var json = _clientAddressController.Create(clientAddressStub);
             Assert.IsNotNull(json);
             var result = json.Value as Address;
             Assert.NotNull(result);
             Assert.AreEqual(result.Id, 1);
-            Assert.AreEqual(result.City, addressStub.City);
-            var notEmptyJson = _addressController.GetAll();
+            Assert.AreEqual(result.City, clientAddressStub.Id);
+            var notEmptyJson = _clientAddressController.GetAll();
             Assert.IsNotNull(notEmptyJson);
-            var notEmptyStore = notEmptyJson.Value as List<Address>;
+            var notEmptyStore = notEmptyJson.Value as List<ClientAddress>;
             Assert.IsNotNull(notEmptyStore);
             Assert.AreEqual(notEmptyStore.Count, 1);
         }
@@ -108,33 +107,33 @@ namespace Mentorship.CleaningService.Tests
         [Test]
         public void Create2()
         {
-            Address address = new Address() { Id = 1, City = "Lviv" };
-            var mock = new Mock<IRepository<Address>>();
-            mock.Setup(repo => repo.Create(address));
+            ClientAddress clientAddress = new ClientAddress() { Id = 1};
+            var mock = new Mock<IRepository<ClientAddress>>();
+            mock.Setup(repo => repo.Create(clientAddress));
             var factoryMock = new Mock<IRepositoryFactory>();
-            factoryMock.Setup(f => f.GetRepository<Address>()).Returns(mock.Object);
-            _addressController = new AddressController(factoryMock.Object);
+            factoryMock.Setup(f => f.GetRepository<ClientAddress>()).Returns(mock.Object);
+            _clientAddressController = new ClientAddressController(factoryMock.Object);
             //Assert.AreEqual(address, factoryMock);
         }
 
-        private Address GetFirstOrDefaultTest(int i)
+        private ClientAddress GetFirstOrDefaultTest(int i)
         {
             return GetByIdTest(i);
         }
 
-        private IQueryable<Address> GetAllTest()
+        private IQueryable<ClientAddress> GetAllTest()
         {
-            var list = new List<Address>();
-            Address a1 = new Address { Id = 1, City = "Lviv" };
-            Address a2 = new Address { Id = 2, City = "Frankivsk" };
+            var list = new List<ClientAddress>();
+            ClientAddress a1 = new ClientAddress { Id = 1};
+            ClientAddress a2 = new ClientAddress { Id = 2};
             list.Add(a1);
             list.Add(a2);
             return list.AsQueryable();
         }
 
-        public Address GetByIdTest(int i)
+        public ClientAddress GetByIdTest(int i)
         {
-            return new Address { Id = 1, City = "Lviv" };
+            return new ClientAddress { Id = 1};
         }
     }
 }
