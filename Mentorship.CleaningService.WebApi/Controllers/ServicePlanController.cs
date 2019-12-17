@@ -37,35 +37,31 @@ namespace Mentorship.CleaningService.WebApi.Controllers
 
         [HttpPost]
         [Route("api/ServicePlan/create")]
-        public JsonResult Create([FromForm] ServicePlan ServicePlan)
+        public JsonResult Create([FromForm] ServicePlan servicePlan)
         {
             using (var ServicePlanRepository = _factory.GetRepository<ServicePlan>())
             {
-                return Json(ServicePlanRepository.Create(ServicePlan));
+                return Json(ServicePlanRepository.Create(servicePlan));
             }
         }
 
         [HttpPost]
         [Route("api/ServicePlan/update")]
-        public JsonResult Update([FromForm] ServicePlan ServicePlan)
+        public JsonResult Update([FromForm] ServicePlan servicePlan)
         {
             using (var ServicePlanRepository = _factory.GetRepository<ServicePlan>())
             {
-                return Json(ServicePlanRepository.Update(ServicePlan));
+                return Json(ServicePlanRepository.Update(servicePlan));
             }
         }
 
         [HttpPost]
         [Route("api/ServicePlan/delete")]
-        public bool Delete([FromForm] ServicePlan ServicePlan)
+        public bool Delete([FromForm] ServicePlan servicePlan)
         {
             using (var ServicePlanRepository = _factory.GetRepository<ServicePlan>())
             {
-                if (ServicePlanRepository.Delete(ServicePlan))
-                {
-                    return true;
-                }
-                else return false;
+                return ServicePlanRepository.Delete(servicePlan);
             }
         }
 

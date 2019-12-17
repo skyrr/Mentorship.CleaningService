@@ -37,35 +37,31 @@ namespace Mentorship.CleaningService.WebApi.Controllers
 
         [HttpPost]
         [Route("api/Role/create")]
-        public JsonResult Create([FromForm] Role Role)
+        public JsonResult Create([FromForm] Role role)
         {
             using (var RoleRepository = _factory.GetRepository<Role>())
             {
-                return Json(RoleRepository.Create(Role));
+                return Json(RoleRepository.Create(role));
             }
         }
 
         [HttpPost]
         [Route("api/Role/update")]
-        public JsonResult Update([FromForm] Role Role)
+        public JsonResult Update([FromForm] Role role)
         {
             using (var RoleRepository = _factory.GetRepository<Role>())
             {
-                return Json(RoleRepository.Update(Role));
+                return Json(RoleRepository.Update(role));
             }
         }
 
         [HttpPost]
         [Route("api/Role/delete")]
-        public bool Delete([FromForm] Role Role)
+        public bool Delete([FromForm] Role role)
         {
             using (var RoleRepository = _factory.GetRepository<Role>())
             {
-                if (RoleRepository.Delete(Role))
-                {
-                    return true;
-                }
-                else return false;
+                return RoleRepository.Delete(role);
             }
         }
 
