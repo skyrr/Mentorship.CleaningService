@@ -7,11 +7,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mentorship.CleaningService.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mentorship.CleaningService.WebApi", "Mentorship.CleaningService.WebApi\Mentorship.CleaningService.WebApi.csproj", "{6D013C56-DC94-4195-A489-C6CBBCF78187}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mentorship.CleaningService.Models", "Mentorship.CleaningService.Models\Mentorship.CleaningService.Models.csproj", "{CE2A85EB-3D79-48E3-B27C-0BEE99E2C3E3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mentorship.CleaningService.Models", "Mentorship.CleaningService.Models\Mentorship.CleaningService.Models.csproj", "{CE2A85EB-3D79-48E3-B27C-0BEE99E2C3E3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mentorship.CleaningService.DataAccess", "Mentorship.CleaningService.DataAccess\Mentorship.CleaningService.DataAccess.csproj", "{B9BCC6F5-BCEE-43A5-B681-0E473F928C5E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mentorship.CleaningService.DataAccess", "Mentorship.CleaningService.DataAccess\Mentorship.CleaningService.DataAccess.csproj", "{B9BCC6F5-BCEE-43A5-B681-0E473F928C5E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mentorship.CleaningService.Repository", "Mentorship.CleaningService.Repository\Mentorship.CleaningService.Repository.csproj", "{3463DC0F-5846-455E-ABA2-CEE4617731AD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mentorship.CleaningService.Repository", "Mentorship.CleaningService.Repository\Mentorship.CleaningService.Repository.csproj", "{3463DC0F-5846-455E-ABA2-CEE4617731AD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mentorship.CleaningService.TokenService", "Mentorship.CleaningService.TokenService\Mentorship.CleaningService.TokenService.csproj", "{AFE77E4A-426B-4E31-B663-5A2A2F110A63}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{3463DC0F-5846-455E-ABA2-CEE4617731AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3463DC0F-5846-455E-ABA2-CEE4617731AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3463DC0F-5846-455E-ABA2-CEE4617731AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AFE77E4A-426B-4E31-B663-5A2A2F110A63}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AFE77E4A-426B-4E31-B663-5A2A2F110A63}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AFE77E4A-426B-4E31-B663-5A2A2F110A63}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AFE77E4A-426B-4E31-B663-5A2A2F110A63}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
