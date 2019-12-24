@@ -1,16 +1,17 @@
 ﻿using Mentorship.CleaningService.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+//using Microsoft.AspNetCore.Identity.EntityFrameworkCore; IdentityDbContext
 
 namespace Mentorship.CleaningService.DataAccess
 {
-    public class CleaningServiceDbContext : Microsoft.EntityFrameworkCore.DbContext, IAddressDbContext, IClientAddressDbContext, IClientDbContext,
+    public class CleaningServiceDbContext : Microsoft.EntityFrameworkCore.DbContext,  IAddressDbContext, IClientAddressDbContext, IClientDbContext,
         ICompanyDbContext, IContractDbContext, IContractStatusDbContext, IDemandDbContext, IDemandStatusDbContext,
         IOfferDbContext, IOfferStatusDbContext, IPersonDbContext, IRoleDbContext, IServicePlanDbContext,  IWorkerDbContext, IWorkerRoleDbContext
     {
         private readonly IConfiguration _configuration;
 
-        public CleaningServiceDbContext(DbContextOptions options, IConfiguration configuration) : base(options)
+        public CleaningServiceDbContext(DbContextOptions<CleaningServiceDbContext> options, IConfiguration configuration) : base(options)
         {
             _configuration = configuration;
         }
