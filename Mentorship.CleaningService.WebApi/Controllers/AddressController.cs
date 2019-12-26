@@ -37,7 +37,7 @@ namespace Mentorship.CleaningService.WebApi.Controllers
 
         [HttpPost]
         [Route("api/address/create")]
-        public JsonResult Create([FromForm] Address address)
+        public JsonResult Create(Address address)
         {
             using (var addressRepository = _factory.GetRepository<Address>())
             {

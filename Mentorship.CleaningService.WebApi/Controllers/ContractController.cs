@@ -38,7 +38,7 @@ namespace Mentorship.CleaningService.WebApi.Controllers
 
         [HttpPost]
         [Route("api/Contract/create")]
-        public JsonResult Create([FromForm] Contract contract)
+        public JsonResult Create( Contract contract)
         {
             using (var ContractRepository = _factory.GetRepository<Contract>())
             {
@@ -48,7 +48,7 @@ namespace Mentorship.CleaningService.WebApi.Controllers
 
         [HttpPost]
         [Route("api/Contract/update")]
-        public JsonResult Update([FromForm] Contract contract)
+        public JsonResult Update( Contract contract)
         {
             using (var ContractRepository = _factory.GetRepository<Contract>())
             {
@@ -58,7 +58,7 @@ namespace Mentorship.CleaningService.WebApi.Controllers
 
         [HttpPost]
         [Route("api/Contract/delete")]
-        public bool Delete([FromForm] Contract contract)
+        public bool Delete( Contract contract)
         {
             using (var ContractRepository = _factory.GetRepository<Contract>())
             {
