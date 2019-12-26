@@ -69,7 +69,6 @@ namespace Mentorship.CleaningService.WebApi
             services.AddDbContext<CleaningServiceDbContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
 
             var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
-            var connectionString = "Data Source=.;Initial Catalog=CleaningDb;Integrated Security=True;Pooling=False;uid=delivery; Password=123456Qaz.;";
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<CleaningServiceDbContext>()
@@ -78,72 +77,16 @@ namespace Mentorship.CleaningService.WebApi
             services.AddIdentityServer()
                 .AddOperationalStore(options =>
                     options.ConfigureDbContext = builder =>
-                        builder.UseSqlServer(connectionString, sqlOptions => sqlOptions.MigrationsAssembly(migrationsAssembly)))
+                        builder.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"], sqlOptions => sqlOptions.MigrationsAssembly(migrationsAssembly)))
                 .AddConfigurationStore(options =>
                     options.ConfigureDbContext = builder =>
-                        builder.UseSqlServer(connectionString, sqlOptions => sqlOptions.MigrationsAssembly(migrationsAssembly)))
+                        builder.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"], sqlOptions => sqlOptions.MigrationsAssembly(migrationsAssembly)))
                 .AddAspNetIdentity<ApplicationUser>()
                 .AddInMemoryClients(WebApi.Configuration.Clients.Get())
                 .AddInMemoryIdentityResources(WebApi.Configuration.Resources.GetIdentityResources())
                 .AddInMemoryApiResources(WebApi.Configuration.Resources.GetApiResources())
                 .AddTestUsers(Users.Get())
                 .AddDeveloperSigningCredential();
-
-            //services.AddTransient<IEmailSender, AuthMessageSender>();
-            //services.AddTransient<ISmsSender, AuthMessageSender>();
-
-            //services.AddIdentityServer()
-            //    .AddDeveloperSigningCredential()
-            //    .AddInMemoryIdentityResources(Config.GetIdentityResources())
-            //    .AddInMemoryApiResources(Config.GetApiResources())
-            //    .AddInMemoryClients(Config.GetClients())
-            //    .AddAspNetIdentity<ApplicationUser>();
-
-            //services.AddIdentityServer()
-            //    //Configures EF implementation of IPersistedGrantStore with IdentityServer.    
-            //    .AddDeveloperSigningCredential()
-            //    .AddOperationalStore(builder =>
-            //    builder.UseSqlServer(Configuration.GetConnectionString("TokenService"),
-            //    options =>
-            //    options.MigrationsAssembly(migrationAssembly)))
-            //    //Configures EF implementation of IPersistedGrantStore with IdentityServer.   
-            //    .AddConfigurationStore(options =>
-            //        options.ConfigureDbContext = builder =>
-            //            builder.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]))
-            //    .AddAspNetIdentity<ApplicationUser>()
-            //    .AddDeveloperSigningCredential();
-
-            //services.AddIdentityServer()
-            //    //Configures EF implementation of IPersistedGrantStore with IdentityServer.    
-            //    .AddOperationalStore(options =>
-            //        options.ConfigureDbContext = builder =>
-            //            builder.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]))
-            //    //Configures EF implementation of IPersistedGrantStore with IdentityServer.   
-            //    .AddConfigurationStore(options =>
-            //        options.ConfigureDbContext = builder =>
-            //            builder.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]))
-            //    .AddAspNetIdentity<ApplicationUser>()
-            //    .AddDeveloperSigningCredential();
-
-            // builder => builder.UseSqlServer(Configuration.GetConnectionString("TokenService"),
-            // options =>
-            // options.MigrationsAssembly(migrationAssembly)))
-
-
-            /*
-             services.AddEntityFramework()
-                .AddSqlServer()
-                .AddDbContext<YourUserStoreDbContextHere>(options =>
-                    options.UseSqlServer(Configuration["Data:DefaultConnection:ConnectionString"]));
-
-                services.AddIdentity<YourUserClassHere, YourRoleClassHereIfAny>()
-                    .AddEntityFrameworkStores<YourUserStoreDbContextHere>()
-                    .AddDefaultTokenProviders();
-
-                services.AddIdentityServer()
-                    // Other config here
-                    .AddAspNetIdentity<YourUserClassHere>();
-             */
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -162,10 +105,9 @@ namespace Mentorship.CleaningService.WebApi
             app.UseStaticFiles();
             app.UseMvc();
 
-            app.UseIdentity();
-
             // Adds IdentityServer
-            // app.UseIdentityServer();
+            app.UseIdentityServer();
+            app.UseAuthentication();
         }
     }
 }
