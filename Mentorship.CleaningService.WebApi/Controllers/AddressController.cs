@@ -37,7 +37,7 @@ namespace Mentorship.CleaningService.WebApi.Controllers
 
         [HttpPost]
         [Route("api/address/create")]
-        public JsonResult Create([FromForm] Address address)
+        public JsonResult Create(Address address)
         {
             using (var addressRepository = _factory.GetRepository<Address>())
             {
@@ -47,7 +47,7 @@ namespace Mentorship.CleaningService.WebApi.Controllers
 
         [HttpPost]
         [Route("api/address/update")]
-        public JsonResult Update([FromForm] Address address)
+        public JsonResult Update(Address address)
         {
             using (var addressRepository = _factory.GetRepository<Address>())
             {
@@ -57,7 +57,7 @@ namespace Mentorship.CleaningService.WebApi.Controllers
 
         [HttpPost]
         [Route("api/address/delete")]
-        public bool Delete([FromForm] Address address)
+        public bool Delete(Address address)
         {
             using (var addressRepository = _factory.GetRepository<Address>())
             {

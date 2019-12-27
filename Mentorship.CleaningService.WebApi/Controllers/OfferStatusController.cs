@@ -37,7 +37,7 @@ namespace Mentorship.CleaningService.WebApi.Controllers
 
         [HttpPost]
         [Route("api/OfferStatus/create")]
-        public JsonResult Create([FromForm] OfferStatus offerStatus)
+        public JsonResult Create( OfferStatus offerStatus)
         {
             using (var OfferStatusRepository = _factory.GetRepository<OfferStatus>())
             {
@@ -47,7 +47,7 @@ namespace Mentorship.CleaningService.WebApi.Controllers
 
         [HttpPost]
         [Route("api/OfferStatus/update")]
-        public JsonResult Update([FromForm] OfferStatus offerStatus)
+        public JsonResult Update( OfferStatus offerStatus)
         {
             using (var OfferStatusRepository = _factory.GetRepository<OfferStatus>())
             {
@@ -57,7 +57,7 @@ namespace Mentorship.CleaningService.WebApi.Controllers
 
         [HttpPost]
         [Route("api/OfferStatus/delete")]
-        public bool Delete([FromForm] OfferStatus offerStatus)
+        public bool Delete( OfferStatus offerStatus)
         {
             using (var OfferStatusRepository = _factory.GetRepository<OfferStatus>())
             {
