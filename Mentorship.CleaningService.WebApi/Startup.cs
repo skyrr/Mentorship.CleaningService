@@ -82,7 +82,7 @@ namespace Mentorship.CleaningService.WebApi
                     options.ConfigureDbContext = builder =>
                         builder.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"], sqlOptions => sqlOptions.MigrationsAssembly(migrationsAssembly)))
                 .AddAspNetIdentity<ApplicationUser>()
-                .AddInMemoryClients(WebApi.Configuration.Clients.Get())
+                .AddInMemoryClients(Clients.Get())
                 .AddInMemoryIdentityResources(WebApi.Configuration.Resources.GetIdentityResources())
                 .AddInMemoryApiResources(WebApi.Configuration.Resources.GetApiResources())
                 .AddTestUsers(Users.Get())
@@ -101,13 +101,18 @@ namespace Mentorship.CleaningService.WebApi
                 app.UseMvc();
             }
 
-            app.UseDefaultFiles();
-            app.UseStaticFiles();
-            app.UseMvc();
-
-            // Adds IdentityServer
             app.UseIdentityServer();
+            app.UseStaticFiles();
+            app.UseMvcWithDefaultRoute();
             app.UseAuthentication();
+
+            //app.UseDefaultFiles();
+            //app.UseStaticFiles();
+            //app.UseMvc();
+
+            //// Adds IdentityServer
+            //app.UseIdentityServer();
+            //app.UseAuthentication();
         }
     }
 }

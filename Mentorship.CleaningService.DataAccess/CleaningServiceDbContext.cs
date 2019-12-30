@@ -1,4 +1,5 @@
 ﻿using Mentorship.CleaningService.Models;
+using Mentorship.CleaningService.Models.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 //using Microsoft.AspNetCore.Identity.EntityFrameworkCore; IdentityDbContext
@@ -7,7 +8,8 @@ namespace Mentorship.CleaningService.DataAccess
 {
     public class CleaningServiceDbContext : Microsoft.EntityFrameworkCore.DbContext,  IAddressDbContext, IClientAddressDbContext, IClientDbContext,
         ICompanyDbContext, IContractDbContext, IContractStatusDbContext, IDemandDbContext, IDemandStatusDbContext,
-        IOfferDbContext, IOfferStatusDbContext, IPersonDbContext, IRoleDbContext, IServicePlanDbContext,  IWorkerDbContext, IWorkerRoleDbContext
+        IOfferDbContext, IOfferStatusDbContext, IPersonDbContext, IRoleDbContext, IServicePlanDbContext,  IWorkerDbContext, IWorkerRoleDbContext,
+        IApplicationUserDbContext
     {
         private readonly IConfiguration _configuration;
 
@@ -31,6 +33,7 @@ namespace Mentorship.CleaningService.DataAccess
         public DbSet<ServicePlan> ServicePlans { get; set; }
         public DbSet<ClientAddress> ClientAddresses { get; set; }
         public DbSet<WorkerRole> WorkerRoles { get; set; }
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
