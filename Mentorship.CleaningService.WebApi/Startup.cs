@@ -70,6 +70,18 @@ namespace Mentorship.CleaningService.WebApi
 
             var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
 
+            services.AddMvcCore()
+            .AddAuthorization()
+            .AddJsonFormatters();
+
+            services.AddAuthentication("Bearer")
+                .AddIdentityServerAuthentication(options =>
+                {
+                    options.Authority = "http://localhost:5000";
+                    options.RequireHttpsMetadata = false;
+
+                    options.ApiName = "api1";
+                });
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<CleaningServiceDbContext>()
                 .AddDefaultTokenProviders();
@@ -101,10 +113,11 @@ namespace Mentorship.CleaningService.WebApi
                 app.UseMvc();
             }
 
-            app.UseIdentityServer();
+            //app.UseIdentityServer();
             app.UseStaticFiles();
             app.UseMvcWithDefaultRoute();
             app.UseAuthentication();
+
 
             //app.UseDefaultFiles();
             //app.UseStaticFiles();

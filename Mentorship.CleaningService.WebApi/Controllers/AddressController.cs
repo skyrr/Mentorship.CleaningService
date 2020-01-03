@@ -2,11 +2,13 @@
 using System.Linq;
 using Mentorship.CleaningService.Models;
 using Mentorship.CleaningService.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Mentorship.CleaningService.WebApi.Controllers
 {
     [ApiController]
+    [Authorize]
     public class AddressController : Controller
     {
         private readonly IRepositoryFactory _factory;
