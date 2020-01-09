@@ -27,7 +27,7 @@ namespace Mentorship.CleaningService.WebClient.Controllers
 
             var client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-            var content = await client.GetStringAsync("http://localhost:5001/addresses");
+            var content = await client.GetStringAsync("http://localhost:5001/api/addresses");
 
             var model = JsonConvert.DeserializeObject<List<AddressViewModel>>(content);
             
