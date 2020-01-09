@@ -39,25 +39,32 @@ namespace Mentorship.CleaningService.AuthServer
 
             var migrationAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
 
-            services.AddDbContext<CleaningServiceDbContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
+            //services.AddDbContext<CleaningServiceDbContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
 
-            services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<CleaningServiceDbContext>()
-                .AddDefaultTokenProviders();
+            //services.AddIdentity<ApplicationUser, IdentityRole>()
+            //    .AddEntityFrameworkStores<CleaningServiceDbContext>()
+            //    .AddDefaultTokenProviders();
 
+            //services.AddIdentityServer()
+            //    .AddOperationalStore(options =>
+            //        options.ConfigureDbContext = builder =>
+            //            builder.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"], sqlOptions => sqlOptions.MigrationsAssembly(migrationAssembly)))
+            //    .AddConfigurationStore(options =>
+            //        options.ConfigureDbContext = builder =>
+            //            builder.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"], sqlOptions => sqlOptions.MigrationsAssembly(migrationAssembly)))
+            //    .AddAspNetIdentity<ApplicationUser>()
+            //    .AddInMemoryClients(Config.GetClients())
+            //    .AddInMemoryIdentityResources(Config.GetIdentityResources())
+            //    .AddInMemoryApiResources(Config.GetApiResources())
+            //    .AddTestUsers(Config.Get())
+            //    .AddDeveloperSigningCredential();
             services.AddIdentityServer()
-                .AddOperationalStore(options =>
-                    options.ConfigureDbContext = builder =>
-                        builder.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"], sqlOptions => sqlOptions.MigrationsAssembly(migrationAssembly)))
-                .AddConfigurationStore(options =>
-                    options.ConfigureDbContext = builder =>
-                        builder.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"], sqlOptions => sqlOptions.MigrationsAssembly(migrationAssembly)))
-                .AddAspNetIdentity<ApplicationUser>()
-                .AddInMemoryClients(Config.GetClients())
-                .AddInMemoryIdentityResources(Config.GetIdentityResources())
-                .AddInMemoryApiResources(Config.GetApiResources())
-                .AddTestUsers(Config.Get())
-                .AddDeveloperSigningCredential();
+            .AddDeveloperSigningCredential(filename: "tempkey.rsa")
+            .AddInMemoryApiResources(Config.GetApiResources())
+            .AddInMemoryIdentityResources(Config.GetIdentityResources())
+            .AddInMemoryClients(Config.GetClients())
+            .AddTestUsers(Config.GetUsers());
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -69,6 +76,8 @@ namespace Mentorship.CleaningService.AuthServer
             }
 
             app.UseIdentityServer();
+            app.UseStaticFiles();
+            app.UseMvcWithDefaultRoute();
         }
     }
 }

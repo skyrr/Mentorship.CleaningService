@@ -20,6 +20,11 @@ using System.Security.Claims;
 using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Mappers;
 using static Mentorship.CleaningService.WebApi.Configuration;
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using IdentityServer4.AccessTokenValidation;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace Mentorship.CleaningService.WebApi
 {
@@ -66,39 +71,64 @@ namespace Mentorship.CleaningService.WebApi
                     opt.SerializerSettings.PreserveReferencesHandling = PreserveReferencesHandling.Objects;
                     opt.SerializerSettings.Formatting = Formatting.Indented;
                 });
-            services.AddDbContext<CleaningServiceDbContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
-
-            var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
+            services.AddDbContext<CleaningServiceDbContext>(options => 
+                options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
 
             services.AddMvcCore()
-            .AddAuthorization()
+            .AddAuthorization(
+                //options =>
+                //    {
+                //        options.AddPolicy("FacultyOnly", policy => policy.RequireClaim("FacultyNumber"));
+                //    }
+            )
             .AddJsonFormatters();
+            //services.AddAuthentication(
+            // IdentityServerAuthenticationDefaults.AuthenticationScheme)
+            //      .AddIdentityServerAuthentication(options =>
+            //      {
+            //          options.Authority = "http://localhost:5000"; // Auth Server  
+            //          options.RequireHttpsMetadata = false; // only for development  
+            //          options.ApiName = "fiver_auth_api"; // API Resource Id  
+            //      });
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(options =>
+            {
+                // base-address of your identityserver
+                options.Authority = "http://localhost:5000";
 
-            services.AddAuthentication("Bearer")
-                .AddIdentityServerAuthentication(options =>
-                {
-                    options.Authority = "http://localhost:5000";
-                    options.RequireHttpsMetadata = false;
+                // name of the API resource
+                options.RequireHttpsMetadata = false; // only for development  
+                options.Audience = "fiver_auth_api"; // API Resource Id  
+            });
+            //services.AddAuthentication("Bearer")
+            //    .AddIdentityServerAuthentication(options =>
+            //    {
+            //        options.Authority = "http://localhost:5000";
+            //        options.RequireHttpsMetadata = false;
 
-                    options.ApiName = "api1";
-                });
+            //        options.ApiName = "api1";
+            //    })
+            //    .AddCookie()
+            //    .AddOpenIdConnect();
+
+
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<CleaningServiceDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddIdentityServer()
-                .AddOperationalStore(options =>
-                    options.ConfigureDbContext = builder =>
-                        builder.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"], sqlOptions => sqlOptions.MigrationsAssembly(migrationsAssembly)))
-                .AddConfigurationStore(options =>
-                    options.ConfigureDbContext = builder =>
-                        builder.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"], sqlOptions => sqlOptions.MigrationsAssembly(migrationsAssembly)))
-                .AddAspNetIdentity<ApplicationUser>()
-                .AddInMemoryClients(Clients.Get())
-                .AddInMemoryIdentityResources(WebApi.Configuration.Resources.GetIdentityResources())
-                .AddInMemoryApiResources(WebApi.Configuration.Resources.GetApiResources())
-                .AddTestUsers(Users.Get())
-                .AddDeveloperSigningCredential();
+            //services.AddIdentityServer()
+            //    .AddOperationalStore(options =>
+            //        options.ConfigureDbContext = builder =>
+            //            builder.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"], sqlOptions => sqlOptions.MigrationsAssembly(migrationsAssembly)))
+            //    .AddConfigurationStore(options =>
+            //        options.ConfigureDbContext = builder =>
+            //            builder.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"], sqlOptions => sqlOptions.MigrationsAssembly(migrationsAssembly)))
+            //    .AddAspNetIdentity<ApplicationUser>()
+            //    .AddInMemoryClients(Clients.Get())
+            //    .AddInMemoryIdentityResources(WebApi.Configuration.Resources.GetIdentityResources())
+            //    .AddInMemoryApiResources(WebApi.Configuration.Resources.GetApiResources())
+            //    .AddTestUsers(Users.Get())
+            //    .AddDeveloperSigningCredential();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -114,10 +144,26 @@ namespace Mentorship.CleaningService.WebApi
             }
 
             //app.UseIdentityServer();
+            //app.UseIdentity();
             app.UseStaticFiles();
             app.UseMvcWithDefaultRoute();
             app.UseAuthentication();
 
+            //JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+            //app.UseCookieAuthentication(new CookieAuthenticationOptions
+            //{
+            //    AuthenticationScheme = "cookie"
+            //});
+            //app.UseOpenIdConnectAuthentication(new OpenIdConnectOptions
+            //{
+            //    ClientId = "testWebClient"
+            //});
+            //app.UseOpenIdConnectAuthentication(new OpenIdConnectOptions
+            //{
+            //    ClientId = "testWebClient",
+            //    SignInScheme = "cookie",
+            //    Authority = "http://localhost Jump :5000/"
+            //});
 
             //app.UseDefaultFiles();
             //app.UseStaticFiles();

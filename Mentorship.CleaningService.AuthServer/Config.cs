@@ -1,4 +1,5 @@
 ﻿using IdentityModel;
+using IdentityServer4;
 using IdentityServer4.Models;
 using IdentityServer4.Test;
 using System;
@@ -30,13 +31,39 @@ namespace Mentorship.CleaningService.AuthServer
                     AllowedScopes = { "api1" }
                 },
                 new Client {
-                ClientId = "oauthClient",
-                ClientName = "Example Client Credentials Client Application",
-                AllowedGrantTypes = GrantTypes.ClientCredentials,
-                ClientSecrets = new List<Secret> {
-                    new Secret("superSecretPassword".Sha256())},
-                AllowedScopes = new List<string> {"customAPI.read"}
-            }
+                    ClientId = "oauthClient",
+                    ClientName = "Example Client Credentials Client Application",
+                    AllowedGrantTypes = GrantTypes.ClientCredentials,
+                    ClientSecrets = new List<Secret> {
+                        new Secret("superSecretPassword".Sha256())},
+                    AllowedScopes = new List<string> {"customAPI.read"}
+                },
+                new Client
+                {
+                    ClientId = "testWebClient",
+                    ClientName = "testWebClient"
+                },
+                new Client
+             {
+                 ClientId = "fiver_auth_client",
+                 ClientName = "Fiver.Security.AuthServer.Client",
+                 ClientSecrets = { new Secret("secret".Sha256()) },
+
+                 AllowedGrantTypes = GrantTypes.HybridAndClientCredentials,
+                 AllowOfflineAccess = true,
+                 RequireConsent = false,
+
+                 RedirectUris = { "http://localhost:5002/signin-oidc" },
+                 PostLogoutRedirectUris =
+                   { "http://localhost:5002/signout-callback-oidc" },
+
+                 AllowedScopes =
+                 {
+                     IdentityServerConstants.StandardScopes.OpenId,
+                     IdentityServerConstants.StandardScopes.Profile,
+                     "fiver_auth_api"
+                 },
+             }
             };
         }
 
@@ -56,7 +83,8 @@ namespace Mentorship.CleaningService.AuthServer
                         new Scope("customAPI.read"),
                         new Scope("customAPI.write")
                     }
-                }
+                },
+                new ApiResource("fiver_auth_api", "Fiver.Security.AuthServer.Api")
             };
         }
         public static IEnumerable<IdentityResource> GetIdentityResources()
@@ -81,6 +109,23 @@ namespace Mentorship.CleaningService.AuthServer
                     Claims = new List<Claim> {
                         new Claim(JwtClaimTypes.Email, "scott@scottbrady91.com"),
                         new Claim(JwtClaimTypes.Role, "admin")
+                    }
+                }
+            };
+        }
+        public static List<TestUser> GetUsers()
+        {
+            return new List<TestUser>
+            {
+                new TestUser
+                {
+                    SubjectId = "1",
+                    Username = "james",
+                    Password = "password",
+                    Claims = new List<Claim>
+                    {
+                        new Claim("name", "James Bond"),
+                        new Claim("website", "https://james.com")
                     }
                 }
             };

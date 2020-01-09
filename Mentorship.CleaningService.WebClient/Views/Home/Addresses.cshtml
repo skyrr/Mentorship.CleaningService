@@ -1,0 +1,22 @@
+﻿@using Mentorship.CleaningService.Models
+@model List<AddressViewModel>
+
+<table>
+    <thead>
+        <tr>
+            <th>StreetName</th>
+            <th>ApartmentNumber</th>
+            <th>Summary</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.StreetName</td>
+                <td>@item.ApartmentNumber</td>
+                <td>@item.BuildingNumber</td>
+            </tr>
+        }
+    </tbody>
+</table>
