@@ -10,7 +10,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Microsoft.Extensions.Configuration;
-using Mentorship.CleaningService.Models.Models;
 using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
 using IdentityServer4.Models;
@@ -63,7 +62,9 @@ namespace Mentorship.CleaningService.WebApi
             services.AddScoped<IServicePlanDbContext, CleaningServiceDbContext>();
             services.AddScoped<IWorkerDbContext, CleaningServiceDbContext>();
             services.AddScoped<IWorkerRoleDbContext, CleaningServiceDbContext>();
-            services.AddScoped<IRepository<Address>, AddressRepository>(); 
+            services.AddScoped<IRepository<Address>, AddressRepository>();
+            services.AddScoped<IRepository<Person>, PersonRepository>();
+            services.AddScoped<ApplicationUserRepository, ApplicationUserRepository>();
             services.AddScoped<IRepositoryFactory, RepositoryFactory>(); 
             services.AddMvc()
                 .AddJsonOptions(opt =>
@@ -72,6 +73,8 @@ namespace Mentorship.CleaningService.WebApi
                     opt.SerializerSettings.Formatting = Formatting.Indented;
                 });
             services.AddDbContext<CleaningServiceDbContext>(options => 
+                options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
+            services.AddDbContext<ApplicationUserDbContext>(options =>
                 options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
 
             services.AddMvcCore()
@@ -145,7 +148,7 @@ namespace Mentorship.CleaningService.WebApi
 
             //app.UseIdentityServer();
             //app.UseIdentity();
-            app.UseStaticFiles();
+            //app.UseStaticFiles();
             app.UseMvcWithDefaultRoute();
             app.UseAuthentication();
 

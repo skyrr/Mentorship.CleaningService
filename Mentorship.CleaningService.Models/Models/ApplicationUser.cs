@@ -3,12 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Mentorship.CleaningService.Models.Models
+namespace Mentorship.CleaningService.Models
 {
-    public class ApplicationUser : IdentityUser, IEntity
+    public class ApplicationUser : IdentityUser
     {
-        public string Email { get; set; }
-        public bool IsDeleted { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        int IEntity.Id { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public bool IsDeleted { get; set; }
     }
 }
