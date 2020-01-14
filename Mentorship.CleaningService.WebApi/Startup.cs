@@ -81,6 +81,7 @@ namespace Mentorship.CleaningService.WebApi
             services.AddScoped<IRepository<Address>, AddressRepository>();
             services.AddScoped<IRepository<Person>, PersonRepository>();
             services.AddScoped<ApplicationUserRepository, ApplicationUserRepository>();
+            services.AddScoped<UserManager<IdentityUser>, UserManager<IdentityUser>>(); 
             services.AddScoped<IRepositoryFactory, RepositoryFactory>(); 
             services.AddMvc()
                 .AddJsonOptions(opt =>
@@ -96,7 +97,7 @@ namespace Mentorship.CleaningService.WebApi
                 optionsBuilders => optionsBuilders.MigrationsAssembly("Mentorship.CleaningService.DataAccess")));
 
 
-            services.AddIdentity<ApplicationUser, IdentityRole>()
+            services.AddIdentity<IdentityUser, IdentityRole>()
                 .AddEntityFrameworkStores<IdentityDbContext>()
                 .AddDefaultTokenProviders();
 

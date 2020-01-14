@@ -3,6 +3,7 @@ using System.Linq;
 using Mentorship.CleaningService.Models;
 using Mentorship.CleaningService.Repository;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Mentorship.CleaningService.WebApi.Controllers
@@ -11,19 +12,29 @@ namespace Mentorship.CleaningService.WebApi.Controllers
     
     public class AccountController : Controller
     {
-        private readonly ApplicationUserRepository _applicationUserRepository;
+        //private readonly ApplicationUserRepository _applicationUserRepository;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public AccountController(ApplicationUserRepository applicationUserRepository)
+        public AccountController(UserManager<IdentityUser> userManager)//ApplicationUserRepository applicationUserRepository
         {
-            _applicationUserRepository = applicationUserRepository;
+            //_applicationUserRepository = applicationUserRepository;
+            _userManager = userManager;
         }
 
         [HttpPost]
         [Route("api/account/register")]
-        public JsonResult Get(ApplicationUser applicationUser)
+        public async System.Threading.Tasks.Task<IdentityResult> CreateAsync(ApplicationUser applicationUser)
         {
-            applicationUser.PasswordHash = applicationUser.PasswordHash;
-            return Json(_applicationUserRepository.Create(applicationUser));
+            //applicationUser.PasswordHash = applicationUser.PasswordHash;
+            //return Json(_applicationUserRepository.Create(applicationUser));
+            IdentityUser user = new IdentityUser()
+            {
+                Email = applicationUser.Email,
+                UserName = applicationUser.UserName
+            };
+
+            var result = await _userManager.CreateAsync(user, applicationUser.PasswordHash);
+            return result;
         }
 
         //[HttpGet]
