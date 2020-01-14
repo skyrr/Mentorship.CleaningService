@@ -44,26 +44,25 @@ namespace Mentorship.CleaningService.AuthServer
                     ClientName = "testWebClient"
                 },
                 new Client
-             {
-                 ClientId = "fiver_auth_client",
-                 ClientName = "Fiver.Security.AuthServer.Client",
-                 ClientSecrets = { new Secret("secret".Sha256()) },
+                {
+                    ClientId = "CleaningServiceMVC",
+                    ClientName = "CleaningServiceMVC",
+                    AllowedGrantTypes = GrantTypes.Implicit,
+                    RedirectUris = { "http://localhost:5002/signin-oidc" },
+                    PostLogoutRedirectUris = { "http://localhost:5002/signout-callback-oidc" },
+                    AllowedScopes =
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        IdentityServerConstants.StandardScopes.Email,
 
-                 AllowedGrantTypes = GrantTypes.HybridAndClientCredentials,
-                 AllowOfflineAccess = true,
-                 RequireConsent = false,
+                    },
+                    //ClientSecrets = { new Secret("secret".Sha256()) }, AllowedGrantTypes = GrantTypes.HybridAndClientCredentials,
+                    AllowOfflineAccess = true,
+                    RequireConsent = false,
 
-                 RedirectUris = { "http://localhost:5002/signin-oidc" },
-                 PostLogoutRedirectUris =
-                   { "http://localhost:5002/signout-callback-oidc" },
 
-                 AllowedScopes =
-                 {
-                     IdentityServerConstants.StandardScopes.OpenId,
-                     IdentityServerConstants.StandardScopes.Profile,
-                     "fiver_auth_api"
-                 },
-             }
+                }
             };
         }
 
@@ -94,8 +93,8 @@ namespace Mentorship.CleaningService.AuthServer
                 new IdentityResources.Profile(),
                 new IdentityResources.Email(),
                 new IdentityResource {
-                    Name = "role",
-                    UserClaims = new List<string> {"role"}
+                    Name = "Role",
+                    UserClaims = new List<string> {"Role"}
                 }
             };
         }

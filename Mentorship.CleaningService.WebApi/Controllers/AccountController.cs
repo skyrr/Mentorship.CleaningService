@@ -12,7 +12,8 @@ namespace Mentorship.CleaningService.WebApi.Controllers
     
     public class AccountController : Controller
     {
-        //private readonly ApplicationUserRepository _applicationUserRepository;
+        // private readonly ApplicationUserRepository _applicationUserRepository;
+
         private readonly UserManager<IdentityUser> _userManager;
 
         public AccountController(UserManager<IdentityUser> userManager)//ApplicationUserRepository applicationUserRepository
@@ -30,7 +31,7 @@ namespace Mentorship.CleaningService.WebApi.Controllers
             IdentityUser user = new IdentityUser()
             {
                 Email = applicationUser.Email,
-                UserName = applicationUser.UserName
+                UserName = applicationUser.Email
             };
 
             var result = await _userManager.CreateAsync(user, applicationUser.PasswordHash);

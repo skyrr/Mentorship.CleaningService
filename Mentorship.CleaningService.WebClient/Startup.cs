@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -40,7 +42,9 @@ namespace Mentorship.CleaningService.WebClient
                 options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
 
             services.AddMvc();
-            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+            services.AddIdentity<IdentityUser, IdentityRole>()
+                .AddEntityFrameworkStores<IdentityDbContext>();
+            //JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
             services.AddAuthentication(options =>
             {
                 options.DefaultScheme =
@@ -55,7 +59,7 @@ namespace Mentorship.CleaningService.WebClient
                   CookieAuthenticationDefaults.AuthenticationScheme;
                options.Authority = "http://localhost:5000"; // Auth Server  
                options.RequireHttpsMetadata = false; // only for development   
-               options.ClientId = "fiver_auth_client"; // client setup in Auth Server  
+               options.ClientId = "CleaningServiceMVC"; // client setup in Auth Server  
                options.ClientSecret = "secret";
                options.ResponseType = "code id_token"; // means Hybrid flow  
                options.Scope.Add("fiver_auth_api");

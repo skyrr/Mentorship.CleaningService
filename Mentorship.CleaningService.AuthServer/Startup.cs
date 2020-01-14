@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using IdentityServer4.Quickstart.UI;
 using Mentorship.CleaningService.DataAccess;
 using Mentorship.CleaningService.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -41,29 +43,29 @@ namespace Mentorship.CleaningService.AuthServer
 
             services.AddDbContext<CleaningServiceDbContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
 
-            services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<CleaningServiceDbContext>()
+            services.AddIdentity<IdentityUser, IdentityRole>()
+                .AddEntityFrameworkStores<IdentityDbContext>()
                 .AddDefaultTokenProviders();
 
-            //services.AddIdentityServer()
-            //    .AddOperationalStore(options =>
-            //        options.ConfigureDbContext = builder =>
-            //            builder.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"], sqlOptions => sqlOptions.MigrationsAssembly(migrationAssembly)))
-            //    .AddConfigurationStore(options =>
-            //        options.ConfigureDbContext = builder =>
-            //            builder.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"], sqlOptions => sqlOptions.MigrationsAssembly(migrationAssembly)))
-            //    .AddAspNetIdentity<ApplicationUser>()
-            //    .AddInMemoryClients(Config.GetClients())
-            //    .AddInMemoryIdentityResources(Config.GetIdentityResources())
-            //    .AddInMemoryApiResources(Config.GetApiResources())
-            //    .AddTestUsers(Config.Get())
-            //    .AddDeveloperSigningCredential();
             services.AddIdentityServer()
-            .AddDeveloperSigningCredential(filename: "tempkey.rsa")
-            .AddInMemoryApiResources(Config.GetApiResources())
-            .AddInMemoryIdentityResources(Config.GetIdentityResources())
-            .AddInMemoryClients(Config.GetClients())
-            .AddTestUsers(Config.GetUsers());
+                .AddOperationalStore(options =>
+                    options.ConfigureDbContext = builder =>
+                        builder.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"], sqlOptions => sqlOptions.MigrationsAssembly(migrationAssembly)))
+                .AddConfigurationStore(options =>
+                    options.ConfigureDbContext = builder =>
+                        builder.UseSqlServer(Configuration["ConnectionStrings:IdentityConnection"], sqlOptions => sqlOptions.MigrationsAssembly(migrationAssembly)))
+                .AddAspNetIdentity<IdentityUser>()
+                .AddInMemoryClients(Config.GetClients())
+                .AddInMemoryIdentityResources(Config.GetIdentityResources())
+                .AddInMemoryApiResources(Config.GetApiResources())
+                .AddTestUsers(TestUsers.Users)
+                .AddDeveloperSigningCredential();
+            //services.AddIdentityServer()
+            //.AddDeveloperSigningCredential(filename: "tempkey.rsa")
+            //.AddInMemoryApiResources(Config.GetApiResources())
+            //.AddInMemoryIdentityResources(Config.GetIdentityResources())
+            //.AddInMemoryClients(Config.GetClients())
+            //.AddTestUsers(TestUsers.Users);
 
         }
 
