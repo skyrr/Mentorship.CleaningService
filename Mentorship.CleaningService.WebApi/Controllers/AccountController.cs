@@ -22,6 +22,7 @@ namespace Mentorship.CleaningService.WebApi.Controllers
         [Route("api/account/register")]
         public JsonResult Get(ApplicationUser applicationUser)
         {
+            applicationUser.PasswordHash = applicationUser.PasswordHash;
             return Json(_applicationUserRepository.Create(applicationUser));
         }
 

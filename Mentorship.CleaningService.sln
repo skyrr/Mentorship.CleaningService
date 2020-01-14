@@ -13,11 +13,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mentorship.CleaningService.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mentorship.CleaningService.Repository", "Mentorship.CleaningService.Repository\Mentorship.CleaningService.Repository.csproj", "{3463DC0F-5846-455E-ABA2-CEE4617731AD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mentorship.CleaningService.AuthServer", "Mentorship.CleaningService.AuthServer\Mentorship.CleaningService.AuthServer.csproj", "{8DE96E23-49EE-4E39-B743-788D34D96192}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mentorship.CleaningService.AuthServer", "Mentorship.CleaningService.AuthServer\Mentorship.CleaningService.AuthServer.csproj", "{8DE96E23-49EE-4E39-B743-788D34D96192}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mentorship.CleaningService.ClientConsole", "Mentorship.CleaningService.ClientConsole\Mentorship.CleaningService.ClientConsole.csproj", "{20160798-B857-4CB4-A79E-A14250353FD7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mentorship.CleaningService.WebClient", "Mentorship.CleaningService.WebClient\Mentorship.CleaningService.WebClient.csproj", "{86B7222D-81D0-4E7E-928E-88AF89F66D9F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mentorship.CleaningService.WebClient", "Mentorship.CleaningService.WebClient\Mentorship.CleaningService.WebClient.csproj", "{86B7222D-81D0-4E7E-928E-88AF89F66D9F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

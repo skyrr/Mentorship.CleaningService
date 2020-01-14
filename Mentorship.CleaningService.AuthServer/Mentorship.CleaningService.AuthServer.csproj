@@ -21,12 +21,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <!--<ProjectReference Include="..\Mentorship.CleaningService.ClientConsole\Mentorship.CleaningService.ClientConsole.csproj" />-->
     <ProjectReference Include="..\Mentorship.CleaningService.DataAccess\Mentorship.CleaningService.DataAccess.csproj" />
     <ProjectReference Include="..\Mentorship.CleaningService.Models\Mentorship.CleaningService.Models.csproj" />
     <ProjectReference Include="..\Mentorship.CleaningService.Repository\Mentorship.CleaningService.Repository.csproj" />
     <ProjectReference Include="..\Mentorship.CleaningService.Tests\Mentorship.CleaningService.Tests.csproj" />
     <ProjectReference Include="..\Mentorship.CleaningService.WebApi\Mentorship.CleaningService.WebApi.csproj" />
+    <ProjectReference Include="..\Mentorship.CleaningService.WebClient\Mentorship.CleaningService.WebClient.csproj" />
   </ItemGroup>
 
 </Project>

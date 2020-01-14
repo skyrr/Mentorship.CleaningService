@@ -24,6 +24,7 @@ using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using IdentityServer4.AccessTokenValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace Mentorship.CleaningService.WebApi
 {
@@ -89,8 +90,15 @@ namespace Mentorship.CleaningService.WebApi
                 });
             services.AddDbContext<CleaningServiceDbContext>(options => 
                 options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
-            services.AddDbContext<ApplicationUserDbContext>(options =>
-                options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
+
+            services.AddDbContext<IdentityDbContext>(options =>
+                options.UseSqlServer(Configuration["ConnectionStrings:IdentityConnection"],
+                optionsBuilders => optionsBuilders.MigrationsAssembly("Mentorship.CleaningService.DataAccess")));
+
+
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<IdentityDbContext>()
+                .AddDefaultTokenProviders();
 
             services.AddMvcCore()
             .AddAuthorization(
@@ -130,9 +138,6 @@ namespace Mentorship.CleaningService.WebApi
             //    .AddOpenIdConnect();
 
 
-            services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<CleaningServiceDbContext>()
-                .AddDefaultTokenProviders();
 
             //services.AddIdentityServer()
             //    .AddOperationalStore(options =>
