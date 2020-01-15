@@ -21,7 +21,7 @@ namespace Mentorship.CleaningService.ClientConsole
             }
 
             // request the token from the Auth server
-            var tokenClient = new TokenClient(discoveryClient.TokenEndpoint, "client", "secret");
+var tokenClient = new TokenClient(discoveryClient.TokenEndpoint, "VOVA@VOVA.COM", "fasdfsdafASD123..");
             var tokenResponse = await tokenClient.RequestClientCredentialsAsync("api1");
 
             if (tokenResponse.IsError)

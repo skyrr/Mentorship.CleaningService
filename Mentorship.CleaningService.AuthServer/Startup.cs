@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using IdentityServer4.Quickstart.UI;
+using IdentityServer4.Stores;
 using Mentorship.CleaningService.DataAccess;
 using Mentorship.CleaningService.Models;
 using Microsoft.AspNetCore.Builder;
@@ -41,25 +42,27 @@ namespace Mentorship.CleaningService.AuthServer
 
             var migrationAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
 
-            services.AddDbContext<CleaningServiceDbContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
+            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:IdentityConnection"]));
 
             services.AddIdentity<IdentityUser, IdentityRole>()
-                .AddEntityFrameworkStores<IdentityDbContext>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
             services.AddIdentityServer()
                 .AddOperationalStore(options =>
                     options.ConfigureDbContext = builder =>
-                        builder.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"], sqlOptions => sqlOptions.MigrationsAssembly(migrationAssembly)))
+                        builder.UseSqlServer(Configuration["ConnectionStrings:IdentityConnection"], sqlOptions => sqlOptions.MigrationsAssembly(migrationAssembly)))
                 .AddConfigurationStore(options =>
                     options.ConfigureDbContext = builder =>
                         builder.UseSqlServer(Configuration["ConnectionStrings:IdentityConnection"], sqlOptions => sqlOptions.MigrationsAssembly(migrationAssembly)))
                 .AddAspNetIdentity<IdentityUser>()
+                .AddInMemoryApiResources(Config.GetApiResources())
                 .AddInMemoryClients(Config.GetClients())
                 .AddInMemoryIdentityResources(Config.GetIdentityResources())
-                .AddInMemoryApiResources(Config.GetApiResources())
-                .AddTestUsers(TestUsers.Users)
-                .AddDeveloperSigningCredential();
+                
+                .AddDeveloperSigningCredential()
+                .AddInMemoryCaching();
+
             //services.AddIdentityServer()
             //.AddDeveloperSigningCredential(filename: "tempkey.rsa")
             //.AddInMemoryApiResources(Config.GetApiResources())

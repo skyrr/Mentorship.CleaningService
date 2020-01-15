@@ -80,7 +80,7 @@ namespace Mentorship.CleaningService.WebApi
             services.AddScoped<IRepository<WorkerRole>, WorkerRoleRepository>();
             services.AddScoped<IRepository<Address>, AddressRepository>();
             services.AddScoped<IRepository<Person>, PersonRepository>();
-            services.AddScoped<ApplicationUserRepository, ApplicationUserRepository>();
+            services.AddScoped<ApplicationUserRepository>();
             services.AddScoped<UserManager<IdentityUser>, UserManager<IdentityUser>>(); 
             services.AddScoped<IRepositoryFactory, RepositoryFactory>(); 
             services.AddMvc()
@@ -92,9 +92,9 @@ namespace Mentorship.CleaningService.WebApi
             services.AddDbContext<CleaningServiceDbContext>(options => 
                 options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
 
-            services.AddDbContext<IdentityDbContext>(options =>
-                options.UseSqlServer(Configuration["ConnectionStrings:IdentityConnection"],
-                optionsBuilders => optionsBuilders.MigrationsAssembly("Mentorship.CleaningService.DataAccess")));
+            //services.AddDbContext<IdentityDbContext>(options =>
+            //    options.UseSqlServer(Configuration["ConnectionStrings:IdentityConnection"],
+            //    optionsBuilders => optionsBuilders.MigrationsAssembly("Mentorship.CleaningService.DataAccess")));
 
 
             services.AddIdentity<IdentityUser, IdentityRole>()

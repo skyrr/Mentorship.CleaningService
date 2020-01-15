@@ -1,18 +1,18 @@
 ﻿using System;
 using Mentorship.CleaningService.DataAccess.Interfaces;
 using Mentorship.CleaningService.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
 namespace Mentorship.CleaningService.DataAccess
 {
-    public class ApplicationUserDbContext : Microsoft.EntityFrameworkCore.DbContext
+    public class ApplicationDbContext : IdentityDbContext<IdentityUser>
     {
-        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
-
         private readonly IConfiguration _configuration;
 
-        public ApplicationUserDbContext(DbContextOptions<ApplicationUserDbContext> options, IConfiguration configuration) : base(options)
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IConfiguration configuration) : base(options)
         {
             _configuration = configuration;
         }
@@ -20,7 +20,7 @@ namespace Mentorship.CleaningService.DataAccess
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer(_configuration["ConnectionStrings:DefaultConnection"]);
+                optionsBuilder.UseSqlServer(_configuration["ConnectionStrings:IdentityConnection"]);
             }
         }
     }

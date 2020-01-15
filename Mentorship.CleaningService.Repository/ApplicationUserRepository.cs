@@ -4,44 +4,44 @@ using System.Linq;
 using System.Text;
 using Mentorship.CleaningService.DataAccess;
 using Mentorship.CleaningService.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace Mentorship.CleaningService.Repository
 {
     public class ApplicationUserRepository
     {
-        private readonly ApplicationUserDbContext _dbContext;
-        public ApplicationUserRepository(ApplicationUserDbContext dbContext)
+        private readonly ApplicationDbContext _dbContext;
+        public ApplicationUserRepository(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
         }
-        public ApplicationUser GetById(int id)
+        public IdentityUser GetById(string id)
         {
-            return  _dbContext.ApplicationUsers.FirstOrDefault(c => c.Id.Equals(id) && !c.IsDeleted);
+            return  _dbContext.Users.FirstOrDefault(c => c.Id.Equals(id));
         }
 
-        public IQueryable<ApplicationUser> GetAll()
+        public IQueryable<IdentityUser> GetAll()
         {
-            return _dbContext.ApplicationUsers.Where(a => !a.IsDeleted);
+            return _dbContext.Users;
         }
 
-        public ApplicationUser Create(ApplicationUser entity)
+        public IdentityUser Create(IdentityUser entity)
         {
             _dbContext.Entry(entity).State = EntityState.Added;
             _dbContext.SaveChanges();
             return entity;
         }
 
-        public ApplicationUser Update(ApplicationUser entity)
+        public IdentityUser Update(IdentityUser entity)
         {
             _dbContext.Entry(entity).State = EntityState.Modified;
             _dbContext.SaveChanges();
             return entity;
         }
 
-        public bool Delete(ApplicationUser entity)
+        public bool Delete(IdentityUser entity)
         {
-            entity.IsDeleted = true;
             _dbContext.Entry(entity).State = EntityState.Modified;
             _dbContext.SaveChanges();
             return true;
