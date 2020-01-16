@@ -24,7 +24,6 @@
     <ProjectReference Include="..\Mentorship.CleaningService.Repository\Mentorship.CleaningService.Repository.csproj" />
     <ProjectReference Include="..\Mentorship.CleaningService.Tests\Mentorship.CleaningService.Tests.csproj" />
     <ProjectReference Include="..\Mentorship.CleaningService.WebApi\Mentorship.CleaningService.WebApi.csproj" />
-    <ProjectReference Include="..\Mentorship.CleaningService.WebClient\Mentorship.CleaningService.WebClient.csproj" />
   </ItemGroup>
 
 </Project>
