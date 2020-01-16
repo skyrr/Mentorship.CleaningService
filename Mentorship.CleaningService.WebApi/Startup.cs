@@ -80,6 +80,7 @@ namespace Mentorship.CleaningService.WebApi
             services.AddScoped<IRepository<Address>, AddressRepository>();
             services.AddScoped<IRepository<Person>, PersonRepository>();
             services.AddScoped<ApplicationUserRepository>();
+            services.AddScoped<ApplicationDbContext>();
             services.AddScoped<UserManager<IdentityUser>>(); 
             services.AddScoped<IRepositoryFactory, RepositoryFactory>(); 
             services.AddMvc()
@@ -90,19 +91,25 @@ namespace Mentorship.CleaningService.WebApi
                 });
             services.AddDbContext<CleaningServiceDbContext>(options => 
                 options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(Configuration["ConnectionStrings:IdentityConnection"]));
+
+            services.AddIdentity<IdentityUser, IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
 
             //services.AddDbContext<IdentityDbContext>(options =>
             //    options.UseSqlServer(Configuration["ConnectionStrings:IdentityConnection"],
             //    optionsBuilders => optionsBuilders.MigrationsAssembly("Mentorship.CleaningService.DataAccess")));
-            
-            services.AddMvcCore()
+
+            //services.AddMvcCore()
             //.AddAuthorization(
             //options =>
             //    {
             //        options.AddPolicy("FacultyOnly", policy => policy.RequireClaim("FacultyNumber"));
             //    }
             //)
-            .AddJsonFormatters();
+            //.AddJsonFormatters();
             services.AddAuthentication(
              IdentityServerAuthenticationDefaults.AuthenticationScheme)
                   .AddIdentityServerAuthentication(options =>
@@ -122,7 +129,7 @@ namespace Mentorship.CleaningService.WebApi
             }
             else
             {
-                //app.UseMvc();
+                app.UseMvc();
             }
 
             app.UseStaticFiles();
