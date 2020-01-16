@@ -13,41 +13,46 @@ namespace Mentorship.CleaningService.ClientConsole
         private static async Task MainAsync()
         {
             // discover endpoints from the metadata by calling Auth server hosted on 5000 port
-            var discoveryClient = await DiscoveryClient.GetAsync("http://localhost:5000");
-            if (discoveryClient.IsError)
+            try
             {
-                Console.WriteLine(discoveryClient.Error);
-                return;
+                // discover endpoints from metadata
+                var disco = DiscoveryClient.GetAsync("http://localhost:5000").Result;
+
+                // request token
+                var tokenClient = new TokenClient(disco.TokenEndpoint, "fiver_auth_client_ro", "secret");
+                var tokenResponse = tokenClient.RequestResourceOwnerPasswordAsync("james", "password", "fiver_auth_api").Result;
+
+                if (tokenResponse.IsError)
+                {
+                    Console.WriteLine(tokenResponse.Error);
+                    return;
+                }
+                Console.WriteLine (tokenResponse.AccessToken);
+                //Console.WriteLine(tokenResponse.Json);
+
+                // call api
+                var client = new HttpClient();
+                client.SetBearerToken(tokenResponse.AccessToken);
+
+                var response = client.GetAsync("http://localhost:5001/api/address/1").Result;
+                if (!response.IsSuccessStatusCode)
+                {
+                    Console.WriteLine(response.StatusCode);
+                }
+                else
+                {
+                    var content = response.Content.ReadAsStringAsync().Result;
+                    Console.WriteLine(JArray.Parse(content));
+                }
             }
-
-            // request the token from the Auth server
-var tokenClient = new TokenClient(discoveryClient.TokenEndpoint, "VOVA@VOVA.COM", "fasdfsdafASD123..");
-            var tokenResponse = await tokenClient.RequestClientCredentialsAsync("api1");
-
-            if (tokenResponse.IsError)
+            catch (Exception ex)
             {
-                Console.WriteLine(tokenResponse.Error);
-                return;
+                Console.WriteLine(ex.Message);
             }
-
-            // call api
-            var client = new HttpClient();
-            client.SetBearerToken(tokenResponse.AccessToken);
-
-            var response = await client.GetAsync("http://localhost:5000/api/address/1");
-            if (!response.IsSuccessStatusCode)
+            finally
             {
-                Console.WriteLine("custom response: " + response.StatusCode);
+                Console.ReadLine();
             }
-            else
-            {
-                var content = await response.Content.ReadAsStringAsync();
-                Console.WriteLine(JArray.Parse(content));
-            }
-
-            Console.WriteLine(tokenResponse.Json);
-            Console.Read();
-
         }
     }
 }

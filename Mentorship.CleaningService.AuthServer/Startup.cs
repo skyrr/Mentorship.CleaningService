@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using IdentityServer4.Quickstart.UI;
 using IdentityServer4.Stores;
 using Mentorship.CleaningService.DataAccess;
 using Mentorship.CleaningService.Models;
@@ -49,27 +48,19 @@ namespace Mentorship.CleaningService.AuthServer
                 .AddDefaultTokenProviders();
 
             services.AddIdentityServer()
-                .AddOperationalStore(options =>
-                    options.ConfigureDbContext = builder =>
-                        builder.UseSqlServer(Configuration["ConnectionStrings:IdentityConnection"], sqlOptions => sqlOptions.MigrationsAssembly(migrationAssembly)))
-                .AddConfigurationStore(options =>
-                    options.ConfigureDbContext = builder =>
-                        builder.UseSqlServer(Configuration["ConnectionStrings:IdentityConnection"], sqlOptions => sqlOptions.MigrationsAssembly(migrationAssembly)))
+                //.AddOperationalStore(options =>
+                //    options.ConfigureDbContext = builder =>
+                //        builder.UseSqlServer(Configuration["ConnectionStrings:IdentityConnection"], sqlOptions => sqlOptions.MigrationsAssembly(migrationAssembly)))
+                //.AddConfigurationStore(options =>
+                //    options.ConfigureDbContext = builder =>
+                //        builder.UseSqlServer(Configuration["ConnectionStrings:IdentityConnection"], sqlOptions => sqlOptions.MigrationsAssembly(migrationAssembly)))
                 .AddAspNetIdentity<IdentityUser>()
                 .AddInMemoryApiResources(Config.GetApiResources())
                 .AddInMemoryClients(Config.GetClients())
                 .AddInMemoryIdentityResources(Config.GetIdentityResources())
-                
                 .AddDeveloperSigningCredential()
-                .AddInMemoryCaching();
-
-            //services.AddIdentityServer()
-            //.AddDeveloperSigningCredential(filename: "tempkey.rsa")
-            //.AddInMemoryApiResources(Config.GetApiResources())
-            //.AddInMemoryIdentityResources(Config.GetIdentityResources())
-            //.AddInMemoryClients(Config.GetClients())
-            //.AddTestUsers(TestUsers.Users);
-
+                .AddInMemoryCaching()
+                .AddTestUsers(Config.GetUsers());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

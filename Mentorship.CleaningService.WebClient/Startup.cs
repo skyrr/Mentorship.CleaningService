@@ -38,40 +38,44 @@ namespace Mentorship.CleaningService.WebClient
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddDbContext<CleaningServiceDbContext>(options =>
-            //    options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
-            services.AddMvc();
-            //services.AddIdentity<IdentityUser, IdentityRole>()
-            //    .AddEntityFrameworkStores<IdentityDbContext>();
-            //JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
             services.AddAuthentication(options =>
             {
-                options.DefaultScheme = "cookie";
-                options.DefaultChallengeScheme = "oidc";
+                options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
             })
-                .AddCookie("cookie")
-                .AddOpenIdConnect("oidc", options =>
-                {
-                    options.Authority = "https://localhost:5000/";
-                    options.ClientId = "CleaningServiceMVC";
-                    options.SignInScheme = "CleaningServiceMVC";
-                });
-           //.AddCookie()
-           //.AddOpenIdConnect(options =>
-           //{
-           //    options.SignInScheme =
-           //       CookieAuthenticationDefaults.AuthenticationScheme;
-           //    options.Authority = "http://localhost:5000"; // Auth Server  
-           //    options.RequireHttpsMetadata = false; // only for development   
-           //    options.ClientId = "CleaningServiceMVC"; // client setup in Auth Server  
-           //    options.ClientSecret = "secret";
-           //    options.ResponseType = "code id_token"; // means Hybrid flow  
-           //    options.Scope.Add("fiver_auth_api");
-           //    options.Scope.Add("offline_access");
-           //    options.GetClaimsFromUserInfoEndpoint = true;
-           //    options.SaveTokens = true;
-           //});
+            .AddCookie()
+            .AddOpenIdConnect(options =>
+            {
+                options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme; // cookie middle setup above
+                options.Authority = "http://localhost:5000"; // Auth Server
+                options.RequireHttpsMetadata = false; // only for development 
+                options.ClientId = "fiver_auth_client"; // client setup in Auth Server
+                options.ClientSecret = "secret";
+                options.ResponseType = "code id_token"; // means Hybrid flow (id + access token)
+                options.Scope.Add("fiver_auth_api");
+                options.Scope.Add("offline_access");
+                options.GetClaimsFromUserInfoEndpoint = true;
+                options.SaveTokens = true;
+            });
+
+            services.AddMvc();
+            //.AddCookie()
+            //.AddOpenIdConnect(options =>
+            //{
+            //    options.SignInScheme =
+            //       CookieAuthenticationDefaults.AuthenticationScheme;
+            //    options.Authority = "http://localhost:5000"; // Auth Server  
+            //    options.RequireHttpsMetadata = false; // only for development   
+            //    options.ClientId = "CleaningServiceMVC"; // client setup in Auth Server  
+            //    options.ClientSecret = "secret";
+            //    options.ResponseType = "code id_token"; // means Hybrid flow  
+            //    options.Scope.Add("fiver_auth_api");
+            //    options.Scope.Add("offline_access");
+            //    options.GetClaimsFromUserInfoEndpoint = true;
+            //    options.SaveTokens = true;
+            //});
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -83,26 +87,8 @@ namespace Mentorship.CleaningService.WebClient
             }
 
             app.UseStaticFiles();
-
-            //app.UseCookieAuthentication(new Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationOptions
-            //{
-            //    AuthenticationScheme = "Cookies"
-            //});
-
-            //app.UseOpenIdConnectAuthentication(new OpenIdConnectOptions
-            //{
-            //    AuthenticationScheme = "oidc",
-            //    SignInScheme = "Cookies",
-
-            //    Authority = "http://localhost:5000",
-            //    RequireHttpsMetadata = false,
-
-            //    ClientId = "RouxAcademyMVC",
-            //    SaveTokens = true
-            //});
             app.UseAuthentication();
             app.UseMvcWithDefaultRoute();
-            app.UseMvc();
         }
     }
 }
