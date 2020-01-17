@@ -20,7 +20,7 @@ namespace Mentorship.CleaningService.ClientConsole
 
                 // request token
                 var tokenClient = new TokenClient(disco.TokenEndpoint, "fiver_auth_client_ro", "secret");
-                var tokenResponse = tokenClient.RequestResourceOwnerPasswordAsync("james", "password", "fiver_auth_api").Result;
+                var tokenResponse = tokenClient.RequestResourceOwnerPasswordAsync("vova4@vova.com", "fasdfsdafASD123..", "fiver_auth_api").Result;
 
                 if (tokenResponse.IsError)
                 {
@@ -34,7 +34,7 @@ namespace Mentorship.CleaningService.ClientConsole
                 var client = new HttpClient();
                 client.SetBearerToken(tokenResponse.AccessToken);
 
-                var response = client.GetAsync("http://localhost:5001/api/address/1").Result;
+                var response = client.GetAsync("http://localhost:5001/api/address/1015").Result;
                 if (!response.IsSuccessStatusCode)
                 {
                     Console.WriteLine(response.StatusCode);
@@ -42,7 +42,8 @@ namespace Mentorship.CleaningService.ClientConsole
                 else
                 {
                     var content = response.Content.ReadAsStringAsync().Result;
-                    Console.WriteLine(JArray.Parse(content));
+                    //Console.WriteLine(JArray.Parse(content));
+                    Console.WriteLine(content);
                 }
             }
             catch (Exception ex)
