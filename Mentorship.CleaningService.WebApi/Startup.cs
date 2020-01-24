@@ -114,10 +114,30 @@ namespace Mentorship.CleaningService.WebApi
              IdentityServerAuthenticationDefaults.AuthenticationScheme)
                   .AddIdentityServerAuthentication(options =>
                   {
-                      options.Authority = "https://localhost:44350/"; // Auth Server  
+                      options.Authority = "https://localhost:44350"; // Auth Server  
                       options.RequireHttpsMetadata = false; // only for development  
                       options.ApiName = "fiver_auth_api"; // API Resource Id  
                   });
+            services.AddAuthentication(options =>
+            {
+                options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
+            })
+            .AddCookie()
+            .AddOpenIdConnect(options =>
+            {
+                options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme; // cookie middle setup above
+                            options.Authority = "https://localhost:44350"; // Auth Server
+                            options.RequireHttpsMetadata = false; // only for development 
+                            options.ClientId = "fiver_auth_client"; // client setup in Auth Server
+                            options.ClientSecret = "secret";
+                options.ResponseType = "code id_token"; // means Hybrid flow (id + access token)
+                            options.Scope.Add("fiver_auth_api");
+                options.Scope.Add("offline_access");
+                options.GetClaimsFromUserInfoEndpoint = true;
+                options.SaveTokens = true;
+            });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

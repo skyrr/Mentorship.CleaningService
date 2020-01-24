@@ -1,4 +1,5 @@
 ﻿using Fiver.Security.AuthServer.Client.Models.Home;
+using IdentityModel.Client;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
@@ -21,17 +22,27 @@ namespace Fiver.Security.AuthServer.Client.Controllers
             return View();
         }
 
-        public async Task<IActionResult> Movies()
+        public JsonResult Movies()
         {
-            var accessToken = await HttpContext.GetTokenAsync("access_token");
+            //var accessToken = await HttpContext.GetTokenAsync("access_token");
+            var disco = DiscoveryClient.GetAsync("https://localhost:44350/").Result;
 
+            // request token
+            var tokenClient = new TokenClient(disco.TokenEndpoint, "fiver_auth_client_ro", "secret");
+            var tokenResponse = tokenClient.RequestResourceOwnerPasswordAsync("vova4@vova.com", "fasdfsdafASD123..", "fiver_auth_api").Result;
+
+            //Console.WriteLine(tokenResponse.Json);
+
+            // call api
             var client = new HttpClient();
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-            var content = await client.GetStringAsync("http://localhost:5001/api/address/1015");
+            client.SetBearerToken(tokenResponse.AccessToken);
 
-            var model = JsonConvert.DeserializeObject<List<MovieViewModel>>(content);
+            var response = client.GetAsync("http://localhost:5001/api/address/1015").Result;
+            var content = response.Content.ReadAsStringAsync().Result;
+
+            //var model = JsonConvert.DeserializeObject<List<MovieViewModel>>(content);
             
-            return View(model);
+            return Json(content); ;
         }
 
         public IActionResult Claims()
