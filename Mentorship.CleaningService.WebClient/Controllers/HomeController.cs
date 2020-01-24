@@ -27,7 +27,7 @@ namespace Fiver.Security.AuthServer.Client.Controllers
 
             var client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-            var content = await client.GetStringAsync("http://localhost:5001/movies");
+            var content = await client.GetStringAsync("http://localhost:5001/api/address/1015");
 
             var model = JsonConvert.DeserializeObject<List<MovieViewModel>>(content);
             

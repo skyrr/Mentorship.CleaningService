@@ -18,49 +18,29 @@ namespace Mentorship.CleaningService.AuthServer
             // client credentials, list of clients
             return new List<Client>
             {
-                //new Client
-                //{
-                //    ClientId = "client",
-                //    AllowedGrantTypes = GrantTypes.ClientCredentials,
- 
-                //    // Client secrets
-                //    ClientSecrets =
-                //    {
-                //        new Secret("secret".Sha256())
-                //    },
-                //    AllowedScopes = { "api1" }
-                //},
-                //new Client {
-                //    ClientId = "oauthClient",
-                //    ClientName = "Example Client Credentials Client Application",
-                //    AllowedGrantTypes = GrantTypes.ClientCredentials,
-                //    ClientSecrets = new List<Secret> {
-                //        new Secret("superSecretPassword".Sha256())},
-                //    AllowedScopes = new List<string> {"customAPI.read"}
-                //},
-                //new Client
-                //{
-                //    ClientId = "testWebClient",
-                //    ClientName = "testWebClient"
-                //},
-                //new Client
-                //{
-                //    ClientId = "CleaningServiceMVC",
-                //    ClientName = "CleaningServiceMVC",
-                //    AllowedGrantTypes = GrantTypes.Implicit,
-                //    RedirectUris = { "http://localhost:5002/signin-oidc" },
-                //    PostLogoutRedirectUris = { "http://localhost:5002/signout-callback-oidc" },
-                //    AllowedScopes =
-                //    {
-                //        IdentityServerConstants.StandardScopes.OpenId,
-                //        IdentityServerConstants.StandardScopes.Profile,
-                //        IdentityServerConstants.StandardScopes.Email,
-
-                //    },
-                //    //ClientSecrets = { new Secret("secret".Sha256()) }, AllowedGrantTypes = GrantTypes.HybridAndClientCredentials,
-                //    AllowOfflineAccess = true,
-                //    RequireConsent = false,
-                //},
+                new Client {
+                    ClientId = "oauthClient",
+                    ClientName = "Example Client Credentials Client Application",
+                    AllowedGrantTypes = GrantTypes.ClientCredentials,
+                    ClientSecrets = new List<Secret> {
+                        new Secret("superSecretPassword".Sha256())},
+                    AllowedScopes = new List<string> {"customAPI.read"}
+                },
+                new Client {
+                    ClientId = "openIdConnectClient",
+                    ClientName = "Example Implicit Client Application",
+                    AllowedGrantTypes = GrantTypes.Implicit,
+                    AllowedScopes = new List<string>
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        IdentityServerConstants.StandardScopes.Email,
+                        "role",
+                        "customAPI.write"
+                    },
+                    RedirectUris = new List<string> {"https://localhost:44330/signin-oidc"},
+                    PostLogoutRedirectUris = new List<string> {"https://localhost:44330"}
+                },
                 new Client
                 {
                     ClientId = "fiver_auth_client",
@@ -103,19 +83,18 @@ namespace Mentorship.CleaningService.AuthServer
         {
             return new List<ApiResource>
             {
-                //new ApiResource("api1", "My API"),
-                //new ApiResource {
-                //    Name = "customAPI",
-                //    DisplayName = "Custom API",
-                //    Description = "Custom API Access",
-                //    UserClaims = new List<string> {"Role"},
-                //    ApiSecrets = new List<Secret> {new Secret("scopeSecret".Sha256())},
-                //    Scopes = new List<Scope> {
-                //        new Scope("customAPI.read"),
-                //        new Scope("customAPI.write")
-                //    }
-                //},
-                new ApiResource("fiver_auth_api", "Fiver.Security.AuthServer.Api")
+                new ApiResource("fiver_auth_api", "Fiver.Security.AuthServer.Api"),
+                new ApiResource {
+                    Name = "customAPI",
+                    DisplayName = "Custom API",
+                    Description = "Custom API Access",
+                    UserClaims = new List<string> {"role"},
+                    ApiSecrets = new List<Secret> {new Secret("scopeSecret".Sha256())},
+                    Scopes = new List<Scope> {
+                        new Scope("customAPI.read"),
+                        new Scope("customAPI.write")
+                    }
+                }
             };
         }
         public static IEnumerable<IdentityResource> GetIdentityResources()
@@ -125,8 +104,8 @@ namespace Mentorship.CleaningService.AuthServer
                 new IdentityResources.Profile(),
                 new IdentityResources.Email(),
                 new IdentityResource {
-                    Name = "Role",
-                    UserClaims = new List<string> {"Role"}
+                    Name = "role",
+                    UserClaims = new List<string> {"role"}
                 }
             };
         }

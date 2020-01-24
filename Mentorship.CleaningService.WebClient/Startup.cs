@@ -42,40 +42,18 @@ namespace Mentorship.CleaningService.WebClient
 
             services.AddAuthentication(options =>
             {
-                options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
+                options.DefaultScheme = "cookie";
+                options.DefaultChallengeScheme = "oidc";
             })
-            .AddCookie()
-            .AddOpenIdConnect(options =>
-            {
-                options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme; // cookie middle setup above
-                options.Authority = "http://localhost:5000"; // Auth Server
-                options.RequireHttpsMetadata = false; // only for development 
-                options.ClientId = "fiver_auth_client"; // client setup in Auth Server
-                options.ClientSecret = "secret";
-                options.ResponseType = "code id_token"; // means Hybrid flow (id + access token)
-                options.Scope.Add("fiver_auth_api");
-                options.Scope.Add("offline_access");
-                options.GetClaimsFromUserInfoEndpoint = true;
-                options.SaveTokens = true;
-            });
+                .AddCookie("cookie")
+                .AddOpenIdConnect("oidc", options =>
+                {
+                    options.Authority = "https://localhost:44350/";
+                    options.ClientId = "openIdConnectClient";
+                    options.SignInScheme = "cookie";
+                });
 
             services.AddMvc();
-            //.AddCookie()
-            //.AddOpenIdConnect(options =>
-            //{
-            //    options.SignInScheme =
-            //       CookieAuthenticationDefaults.AuthenticationScheme;
-            //    options.Authority = "http://localhost:5000"; // Auth Server  
-            //    options.RequireHttpsMetadata = false; // only for development   
-            //    options.ClientId = "CleaningServiceMVC"; // client setup in Auth Server  
-            //    options.ClientSecret = "secret";
-            //    options.ResponseType = "code id_token"; // means Hybrid flow  
-            //    options.Scope.Add("fiver_auth_api");
-            //    options.Scope.Add("offline_access");
-            //    options.GetClaimsFromUserInfoEndpoint = true;
-            //    options.SaveTokens = true;
-            //});
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
