@@ -51,8 +51,8 @@ namespace Mentorship.CleaningService.AuthServer
                     AllowOfflineAccess = true,
                     RequireConsent = false,
 
-                    RedirectUris = { "http://localhost:5002/signin-oidc" },
-                    PostLogoutRedirectUris = { "http://localhost:5002/signout-callback-oidc" },
+                    RedirectUris = { "https://localhost:44330/signin-oidc" },
+                    PostLogoutRedirectUris = { "https://localhost:44330/signout-callback-oidc" },
 
                     AllowedScopes =
                     {

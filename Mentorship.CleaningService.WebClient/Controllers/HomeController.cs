@@ -22,27 +22,37 @@ namespace Fiver.Security.AuthServer.Client.Controllers
             return View();
         }
 
-        public JsonResult Movies()
+        public async Task<JsonResult> MoviesAsync()
         {
             //var accessToken = await HttpContext.GetTokenAsync("access_token");
-            var disco = DiscoveryClient.GetAsync("https://localhost:44350/").Result;
+            var accessToken = await HttpContext.GetTokenAsync("access_token");
 
-            // request token
-            var tokenClient = new TokenClient(disco.TokenEndpoint, "fiver_auth_client_ro", "secret");
-            var tokenResponse = tokenClient.RequestResourceOwnerPasswordAsync("vova4@vova.com", "fasdfsdafASD123..", "fiver_auth_api").Result;
-
-            //Console.WriteLine(tokenResponse.Json);
-
-            // call api
             var client = new HttpClient();
-            client.SetBearerToken(tokenResponse.AccessToken);
-
-            var response = client.GetAsync("http://localhost:5001/api/address/1015").Result;
-            var content = response.Content.ReadAsStringAsync().Result;
-
-            //var model = JsonConvert.DeserializeObject<List<MovieViewModel>>(content);
-            
+            client.DefaultRequestHeaders.Authorization = new
+                AuthenticationHeaderValue("Bearer", accessToken);
+            var content = await client.GetStringAsync("http://localhost:5001/api/address/1015");
             return Json(content); ;
+            //var model = JsonConvert.DeserializeObject<List<MovieViewModel>>(content);
+
+
+            //var disco = DiscoveryClient.GetAsync("https://localhost:44350/").Result;
+
+            //// request token
+            //var tokenClient = new TokenClient(disco.TokenEndpoint, "fiver_auth_client_ro", "secret");
+            //var tokenResponse = tokenClient.RequestResourceOwnerPasswordAsync("vova4@vova.com", "fasdfsdafASD123..", "fiver_auth_api").Result;
+
+            ////Console.WriteLine(tokenResponse.Json);
+
+            //// call api
+            //var client = new HttpClient();
+            //client.SetBearerToken(tokenResponse.AccessToken);
+
+            //var response = client.GetAsync("http://localhost:5001/api/address/1015").Result;
+            //var content = response.Content.ReadAsStringAsync().Result;
+
+            ////var model = JsonConvert.DeserializeObject<List<MovieViewModel>>(content);
+            
+            //return Json(content); ;
         }
 
         public IActionResult Claims()

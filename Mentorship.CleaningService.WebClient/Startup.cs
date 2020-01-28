@@ -42,16 +42,26 @@ namespace Mentorship.CleaningService.WebClient
 
             services.AddAuthentication(options =>
             {
-                options.DefaultScheme = "cookie";
-                options.DefaultChallengeScheme = "oidc";
+                options.DefaultScheme =
+                    CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme =
+                    OpenIdConnectDefaults.AuthenticationScheme;
             })
-                .AddCookie("cookie")
-                .AddOpenIdConnect("oidc", options =>
-                {
-                    options.Authority = "https://localhost:44350/";
-                    options.ClientId = "openIdConnectClient";
-                    options.SignInScheme = "cookie";
-                });
+            .AddCookie()
+            .AddOpenIdConnect(options =>
+            {
+                options.SignInScheme =
+                    CookieAuthenticationDefaults.AuthenticationScheme;
+                options.Authority = "https://localhost:44350"; // Auth Server  
+                options.RequireHttpsMetadata = false; // only for development   
+                options.ClientId = "fiver_auth_client"; // client setup in Auth Server  
+                options.ClientSecret = "secret";
+                options.ResponseType = "code id_token"; // means Hybrid flow  
+                options.Scope.Add("fiver_auth_api");
+                options.Scope.Add("offline_access");
+                options.GetClaimsFromUserInfoEndpoint = true;
+                options.SaveTokens = true;
+            });
 
             services.AddMvc();
         }
