@@ -1,4 +1,4 @@
-@model LoginViewModel
+﻿@model LoginViewModel
 
 <div class="login-page">
     <div class="page-header">
@@ -63,8 +63,7 @@
                             {
                                 <li>
                                     <a class="btn btn-default"
-                                       asp-controller="External"
-                                       asp-action="Challenge"
+                                       asp-action="ExternalLogin"
                                        asp-route-provider="@provider.AuthenticationScheme"
                                        asp-route-returnUrl="@Model.ReturnUrl">
                                         @provider.DisplayName

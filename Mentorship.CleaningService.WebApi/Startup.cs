@@ -110,14 +110,15 @@ namespace Mentorship.CleaningService.WebApi
             //    }
             //)
             //.AddJsonFormatters();
-            services.AddAuthentication(
-             IdentityServerAuthenticationDefaults.AuthenticationScheme)
-                  .AddIdentityServerAuthentication(options =>
-                  {
-                      options.Authority = "https://localhost:44350"; // Auth Server  
-                      options.RequireHttpsMetadata = false; // only for development  
-                      options.ApiName = "fiver_auth_api"; // API Resource Id  
-                  });
+            //----------------------------------------
+            //services.AddAuthentication(
+            // IdentityServerAuthenticationDefaults.AuthenticationScheme)
+            //      .AddIdentityServerAuthentication(options =>
+            //      {
+            //          options.Authority = "https://localhost:44350"; // Auth Server  
+            //          options.RequireHttpsMetadata = false; // only for development  
+            //          options.ApiName = "fiver_auth_api"; // API Resource Id  
+            //      });
             services.AddAuthentication(options =>
             {
                 options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
@@ -127,16 +128,24 @@ namespace Mentorship.CleaningService.WebApi
             .AddOpenIdConnect(options =>
             {
                 options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme; // cookie middle setup above
-                            options.Authority = "https://localhost:44350"; // Auth Server
-                            options.RequireHttpsMetadata = false; // only for development 
-                            options.ClientId = "fiver_auth_client"; // client setup in Auth Server
-                            options.ClientSecret = "secret";
+                options.Authority = "https://localhost:44350"; // Auth Server
+                options.RequireHttpsMetadata = false; // only for development 
+                options.ClientId = "fiver_auth_client"; // client setup in Auth Server
+                options.ClientSecret = "secret";
                 options.ResponseType = "code id_token"; // means Hybrid flow (id + access token)
-                            options.Scope.Add("fiver_auth_api");
+                options.Scope.Add("fiver_auth_api");
                 options.Scope.Add("offline_access");
                 options.GetClaimsFromUserInfoEndpoint = true;
                 options.SaveTokens = true;
             });
+            services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
+            .AddIdentityServerAuthentication(options =>
+            {
+                options.Authority = "http://localhost:5000"; // Auth Server
+                            options.RequireHttpsMetadata = false;
+                options.ApiName = "fiver_auth_api"; // API Resource Id
+                        });
+
 
         }
 

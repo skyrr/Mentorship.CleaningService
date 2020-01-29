@@ -16,11 +16,12 @@ namespace Mentorship.CleaningService.ClientConsole
             try
             {
                 // discover endpoints from metadata
-                var disco = DiscoveryClient.GetAsync("https://localhost:44350/").Result;
+                var disco = DiscoveryClient.GetAsync("http://localhost:5000").Result;
 
                 // request token
                 var tokenClient = new TokenClient(disco.TokenEndpoint, "fiver_auth_client_ro", "secret");
-                var tokenResponse = tokenClient.RequestResourceOwnerPasswordAsync("vova4@vova.com", "fasdfsdafASD123..", "fiver_auth_api").Result;
+                //var tokenResponse = tokenClient.RequestResourceOwnerPasswordAsync("vova4@vova.com", "fasdfsdafASD123..", "fiver_auth_api").Result;
+                var tokenResponse = tokenClient.RequestResourceOwnerPasswordAsync("james", "password", "fiver_auth_api").Result;
 
                 if (tokenResponse.IsError)
                 {

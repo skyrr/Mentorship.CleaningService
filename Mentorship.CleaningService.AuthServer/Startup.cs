@@ -48,19 +48,19 @@ namespace Mentorship.CleaningService.AuthServer
                 .AddDefaultTokenProviders();
 
             services.AddIdentityServer()
-                .AddOperationalStore(options =>
-                    options.ConfigureDbContext = builder =>
-                        builder.UseSqlServer(Configuration["ConnectionStrings:IdentityConnection"], sqlOptions => sqlOptions.MigrationsAssembly(migrationAssembly)))
-                .AddConfigurationStore(options =>
-                    options.ConfigureDbContext = builder =>
-                        builder.UseSqlServer(Configuration["ConnectionStrings:IdentityConnection"], sqlOptions => sqlOptions.MigrationsAssembly(migrationAssembly)))
+                //.AddOperationalStore(options =>
+                //    options.ConfigureDbContext = builder =>
+                //        builder.UseSqlServer(Configuration["ConnectionStrings:IdentityConnection"], sqlOptions => sqlOptions.MigrationsAssembly(migrationAssembly)))
+                //.AddConfigurationStore(options =>
+                //    options.ConfigureDbContext = builder =>
+                //        builder.UseSqlServer(Configuration["ConnectionStrings:IdentityConnection"], sqlOptions => sqlOptions.MigrationsAssembly(migrationAssembly)))
                 .AddAspNetIdentity<IdentityUser>()
                 .AddInMemoryApiResources(Config.GetApiResources())
                 .AddInMemoryClients(Config.GetClients())
                 .AddInMemoryIdentityResources(Config.GetIdentityResources())
                 .AddDeveloperSigningCredential()
                 .AddInMemoryCaching()
-                //.AddTestUsers(Config.GetUsers())
+                .AddTestUsers(Config.GetUsers())
                 ;
         }
 

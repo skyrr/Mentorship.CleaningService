@@ -38,8 +38,8 @@ namespace Mentorship.CleaningService.AuthServer
                         "role",
                         "customAPI.write"
                     },
-                    RedirectUris = new List<string> {"https://localhost:44330/signin-oidc"},
-                    PostLogoutRedirectUris = new List<string> {"https://localhost:44330"}
+                    RedirectUris = new List<string> {"http://localhost:5002/signin-oidc"},
+                    PostLogoutRedirectUris = new List<string> { "http://localhost:5002/signout-callback-oidc" }
                 },
                 new Client
                 {
@@ -51,8 +51,8 @@ namespace Mentorship.CleaningService.AuthServer
                     AllowOfflineAccess = true,
                     RequireConsent = false,
 
-                    RedirectUris = { "https://localhost:44330/signin-oidc" },
-                    PostLogoutRedirectUris = { "https://localhost:44330/signout-callback-oidc" },
+                    RedirectUris = { "http://localhost:5002/signin-oidc" },
+                    PostLogoutRedirectUris = { "http://localhost:5002/signout-callback-oidc" },
 
                     AllowedScopes =
                     {
@@ -132,10 +132,9 @@ namespace Mentorship.CleaningService.AuthServer
                     SubjectId = "1",
                     Username = "james",
                     Password = "password",
-                    Claims = new List<Claim>
-                    {
-                        new Claim("name", "James Bond"),
-                        new Claim("website", "https://james.com")
+                    Claims = new List<Claim> {
+                        new Claim(JwtClaimTypes.Email, "james@scottbrady91.com"),
+                        new Claim(JwtClaimTypes.Role, "admin")
                     }
                 }
             };
