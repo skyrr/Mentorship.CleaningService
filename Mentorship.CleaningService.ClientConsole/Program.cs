@@ -20,8 +20,8 @@ namespace Mentorship.CleaningService.ClientConsole
 
                 // request token
                 var tokenClient = new TokenClient(disco.TokenEndpoint, "fiver_auth_client_ro", "secret");
-                //var tokenResponse = tokenClient.RequestResourceOwnerPasswordAsync("vova4@vova.com", "fasdfsdafASD123..", "fiver_auth_api").Result;
-                var tokenResponse = tokenClient.RequestResourceOwnerPasswordAsync("james", "password", "fiver_auth_api").Result;
+                var tokenResponse = tokenClient.RequestResourceOwnerPasswordAsync("vova4@vova.com", "fasdfsdafASD123..", "fiver_auth_api").Result;
+                //var tokenResponse = tokenClient.RequestResourceOwnerPasswordAsync("james", "password", "fiver_auth_api").Result;
 
                 if (tokenResponse.IsError)
                 {
