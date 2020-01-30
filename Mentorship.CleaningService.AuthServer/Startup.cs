@@ -43,6 +43,8 @@ namespace Mentorship.CleaningService.AuthServer
 
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:IdentityConnection"]));
 
+            services.AddScoped<ApplicationDbContext>();
+
             services.AddIdentity<IdentityUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();

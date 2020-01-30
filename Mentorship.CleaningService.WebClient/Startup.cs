@@ -39,6 +39,7 @@ namespace Mentorship.CleaningService.WebClient
         public void ConfigureServices(IServiceCollection services)
         {
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:IdentityConnection"]));
 
             services.AddAuthentication(options =>
             {

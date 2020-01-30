@@ -18,6 +18,7 @@ using Microsoft.AspNetCore.Authentication;
 using IdentityServer4.Events;
 using IdentityServer4.Extensions;
 using IdentityServer4.Models;
+using Mentorship.CleaningService.DataAccess;
 
 namespace IdentityServer4.Quickstart.UI
 {
@@ -33,6 +34,7 @@ namespace IdentityServer4.Quickstart.UI
         private readonly IIdentityServerInteractionService _interaction;
         private readonly IEventService _events;
         private readonly AccountService _account;
+        private readonly ApplicationDbContext _dbContext;
 
         public AccountController(
             IIdentityServerInteractionService interaction,
@@ -40,13 +42,15 @@ namespace IdentityServer4.Quickstart.UI
             IHttpContextAccessor httpContextAccessor,
             IAuthenticationSchemeProvider schemeProvider,
             IEventService events,
-            TestUserStore users = null)
+            ApplicationDbContext dbContext
+            )
         {
             // if the TestUserStore is not in DI, then we'll just use the global users collection
-            _users = users ?? new TestUserStore(TestUsers.Users);
             _interaction = interaction;
             _events = events;
             _account = new AccountService(interaction, httpContextAccessor, schemeProvider, clientStore);
+            _dbContext = dbContext;
+            _users = new TestUserStore(TestUsers.Users);
         }
 
         /// <summary>
@@ -97,8 +101,34 @@ namespace IdentityServer4.Quickstart.UI
 
             if (ModelState.IsValid)
             {
+                var user = _dbContext.Users.FirstOrDefault(u => u.UserName.Equals(model.Username));
+                if(user != null)
+                { 
+                    await _events.RaiseAsync(new UserLoginSuccessEvent(user.UserName, user.Id, user.UserName));
+
+                    // only set explicit expiration here if user chooses "remember me". 
+                    // otherwise we rely upon expiration configured in cookie middleware.
+                    AuthenticationProperties props = null;
+                    if (AccountOptions.AllowRememberLogin && model.RememberLogin)
+                    {
+                        props = new AuthenticationProperties
+                        {
+                            IsPersistent = true,
+                            ExpiresUtc = DateTimeOffset.UtcNow.Add(AccountOptions.RememberMeLoginDuration)
+                        };
+                    };
+                    // issue authentication cookie with subject ID and username
+                    await HttpContext.SignInAsync(user.Id, user.UserName, props);
+
+                    // make sure the returnUrl is still valid, and if so redirect back to authorize endpoint or a local page
+                    if (_interaction.IsValidReturnUrl(model.ReturnUrl) || Url.IsLocalUrl(model.ReturnUrl))
+                    {
+                        return Redirect(model.ReturnUrl);
+                    }
+                }
+                return Redirect("~/");
                 // validate username/password against in-memory store
-                if (_users.ValidateCredentials(model.Username, model.Password))
+                /*if (_users.ValidateCredentials(model.Username, model.Password))
                 {
                     var user = _users.FindByUsername(model.Username);
                     await _events.RaiseAsync(new UserLoginSuccessEvent(user.Username, user.SubjectId, user.Username));
@@ -124,7 +154,7 @@ namespace IdentityServer4.Quickstart.UI
                     }
 
                     return Redirect("~/");
-                }
+                }*/
 
                 await _events.RaiseAsync(new UserLoginFailureEvent(model.Username, "invalid credentials"));
 
