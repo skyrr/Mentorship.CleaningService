@@ -16,7 +16,7 @@ namespace Mentorship.CleaningService.ClientConsole
             try
             {
                 // discover endpoints from metadata
-                var disco = DiscoveryClient.GetAsync("http://localhost:5000").Result;
+                var disco = DiscoveryClient.GetAsync("https://localhost:44350").Result;
 
                 // request token
                 var tokenClient = new TokenClient(disco.TokenEndpoint, "fiver_auth_client_ro", "secret");

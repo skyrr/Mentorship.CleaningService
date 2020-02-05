@@ -38,8 +38,8 @@ namespace Mentorship.CleaningService.AuthServer
                         "role",
                         "customAPI.write"
                     },
-                    RedirectUris = new List<string> {"http://localhost:5002/signin-oidc"},
-                    PostLogoutRedirectUris = new List<string> { "http://localhost:5002/signout-callback-oidc" }
+                    RedirectUris = new List<string> {"https://localhost:44330/signin-oidc"},
+                    PostLogoutRedirectUris = new List<string> { "https://localhost:44330/signout-callback-oidc" }
                 },
                 new Client
                 {
@@ -51,8 +51,8 @@ namespace Mentorship.CleaningService.AuthServer
                     AllowOfflineAccess = true,
                     RequireConsent = false,
 
-                    RedirectUris = { "http://localhost:5002/signin-oidc" },
-                    PostLogoutRedirectUris = { "http://localhost:5002/signout-callback-oidc" },
+                    RedirectUris = { "https://localhost:44330/signin-oidc" },
+                    PostLogoutRedirectUris = { "https://localhost:44330/signout-callback-oidc" },
 
                     AllowedScopes =
                     {

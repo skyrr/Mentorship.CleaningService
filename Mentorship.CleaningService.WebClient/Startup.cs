@@ -53,7 +53,7 @@ namespace Mentorship.CleaningService.WebClient
             {
                 options.SignInScheme =
                     CookieAuthenticationDefaults.AuthenticationScheme;
-                options.Authority = "http://localhost:5000"; // Auth Server  
+                options.Authority = "https://localhost:44350/"; // Auth Server  
                 options.RequireHttpsMetadata = false; // only for development   
                 options.ClientId = "fiver_auth_client"; // client setup in Auth Server  
                 options.ClientSecret = "secret";

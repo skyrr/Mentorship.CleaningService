@@ -141,7 +141,7 @@ namespace Mentorship.CleaningService.WebApi
             services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
             .AddIdentityServerAuthentication(options =>
             {
-                options.Authority = "http://localhost:5000"; // Auth Server
+                options.Authority = "https://localhost:44350"; // Auth Server
                             options.RequireHttpsMetadata = false;
                 options.ApiName = "fiver_auth_api"; // API Resource Id
                         });
