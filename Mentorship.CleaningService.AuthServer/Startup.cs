@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using IdentityServer4.Stores;
+using Mentorship.CleaningService.AuthServer.UserService;
 using Mentorship.CleaningService.DataAccess;
 using Mentorship.CleaningService.Models;
 using Microsoft.AspNetCore.Builder;
@@ -44,6 +45,9 @@ namespace Mentorship.CleaningService.AuthServer
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:IdentityConnection"]));
 
             services.AddScoped<ApplicationDbContext>();
+            services.AddScoped<IUserRepository, UserRepository>(); 
+            services.AddScoped<ResourceOwnerPasswordValidator>();
+            services.AddScoped<UserManager<IdentityUser>>();
 
             services.AddIdentity<IdentityUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()

@@ -19,6 +19,8 @@ using IdentityServer4.Events;
 using IdentityServer4.Extensions;
 using IdentityServer4.Models;
 using Mentorship.CleaningService.DataAccess;
+using Mentorship.CleaningService.AuthServer.UserService;
+using Microsoft.AspNetCore.Identity;
 
 namespace IdentityServer4.Quickstart.UI
 {
@@ -37,6 +39,9 @@ namespace IdentityServer4.Quickstart.UI
         private readonly ApplicationDbContext _dbContext;
         private readonly IClientStore _clientStore;
         private readonly IAuthenticationSchemeProvider _schemeProvider;
+        private readonly IUserRepository _userRepository;
+        private readonly ResourceOwnerPasswordValidator _resourceOwnerPasswordValidator;
+        private readonly UserManager<IdentityUser> _userManager;
 
         public AccountController(
             IIdentityServerInteractionService interaction,
@@ -44,7 +49,10 @@ namespace IdentityServer4.Quickstart.UI
             IHttpContextAccessor httpContextAccessor,
             IAuthenticationSchemeProvider schemeProvider,
             IEventService events,
+            IUserRepository userRepository,
             ApplicationDbContext dbContext,
+            ResourceOwnerPasswordValidator resourceOwnerPasswordValidator,
+            UserManager<IdentityUser> userManager,
             TestUserStore users = null
             )
         {
@@ -57,7 +65,10 @@ namespace IdentityServer4.Quickstart.UI
             //_account = new AccountService(interaction, httpContextAccessor, schemeProvider, clientStore);
             _dbContext = dbContext;
             _schemeProvider = schemeProvider;
-            _users = new TestUserStore(TestUsers.Users);
+            _resourceOwnerPasswordValidator = resourceOwnerPasswordValidator;
+            _userRepository = userRepository;
+            _userManager = userManager;
+            //_users = new TestUserStore(TestUsers.Users);
         }
 
         /// <summary>
@@ -116,8 +127,38 @@ namespace IdentityServer4.Quickstart.UI
 
             if (ModelState.IsValid)
             {
-                var user = _dbContext.Users.FirstOrDefault(u => u.UserName.Equals(model.Username));
-                if(user != null)
+                var user = await _userManager.FindByNameAsync(model.Username);
+                if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
+                {
+                    await _events.RaiseAsync(new UserLoginSuccessEvent(user.UserName, user.Id, user.UserName));
+
+                    // only set explicit expiration here if user chooses "remember me". 
+                    // otherwise we rely upon expiration configured in cookie middleware.
+                    AuthenticationProperties props = null;
+                    if (AccountOptions.AllowRememberLogin && model.RememberLogin)
+                    {
+                        props = new AuthenticationProperties
+                        {
+                            IsPersistent = true,
+                            ExpiresUtc = DateTimeOffset.UtcNow.Add(AccountOptions.RememberMeLoginDuration)
+                        };
+                    };
+
+                    // issue authentication cookie with subject ID and username
+                    await HttpContext.SignInAsync(user.Id, user.UserName, props);
+
+                    // make sure the returnUrl is still valid, and if so redirect back to authorize endpoint or a local page
+                    if (_interaction.IsValidReturnUrl(model.ReturnUrl) || Url.IsLocalUrl(model.ReturnUrl))
+                    {
+                        return Redirect(model.ReturnUrl);
+                    }
+
+                    return Redirect("~/");
+
+                }
+                //var user = _dbContext.Users.FirstOrDefault(u => u.UserName.Equals(model.Username));
+                //var user1 = _userRepository.FindAsync(model.Username);
+                /*if(user != null)
                 { 
                     await _events.RaiseAsync(new UserLoginSuccessEvent(user.UserName, user.Id, user.UserName));
 
@@ -141,57 +182,60 @@ namespace IdentityServer4.Quickstart.UI
                         return Redirect(model.ReturnUrl);
                     }
                 }
-                return Redirect("~/");
+                return Redirect("~/");*/
                 // validate username/password against in-memory store
-                /*// validate username/password against in-memory store
-                if (_users.ValidateCredentials(model.Username, model.Password))
-                {
-                    var user = _users.FindByUsername(model.Username);
-                    await _events.RaiseAsync(new UserLoginSuccessEvent(user.Username, user.SubjectId, user.Username));
+                // validate username/password against in-memory store
+                //var u1 = user1.ToList();
+                //////////////////////////////////////////////////////////////
+                //var userList = _dbContext.Users.FirstOrDefault(u => u.UserName.Equals(model.Username));
+                //if (_users.ValidateCredentials(model.Username, model.Password))
+                //{
+                //    var user = _users.FindByUsername(model.Username);
+                //    await _events.RaiseAsync(new UserLoginSuccessEvent(user.Username, user.SubjectId, user.Username));
 
-                    // only set explicit expiration here if user chooses "remember me". 
-                    // otherwise we rely upon expiration configured in cookie middleware.
-                    AuthenticationProperties props = null;
-                    if (AccountOptions.AllowRememberLogin && model.RememberLogin)
-                    {
-                        props = new AuthenticationProperties
-                        {
-                            IsPersistent = true,
-                            ExpiresUtc = DateTimeOffset.UtcNow.Add(AccountOptions.RememberMeLoginDuration)
-                        };
-                    };
+                //    // only set explicit expiration here if user chooses "remember me". 
+                //    // otherwise we rely upon expiration configured in cookie middleware.
+                //    AuthenticationProperties props = null;
+                //    if (AccountOptions.AllowRememberLogin && model.RememberLogin)
+                //    {
+                //        props = new AuthenticationProperties
+                //        {
+                //            IsPersistent = true,
+                //            ExpiresUtc = DateTimeOffset.UtcNow.Add(AccountOptions.RememberMeLoginDuration)
+                //        };
+                //    };
 
-                    // issue authentication cookie with subject ID and username
-                    await HttpContext.SignInAsync(user.SubjectId, user.Username, props);
+                //    // issue authentication cookie with subject ID and username
+                //    await HttpContext.SignInAsync(user.SubjectId, user.Username, props);
 
-                    if (context != null)
-                    {
-                        if (await _clientStore.IsPkceClientAsync(context.ClientId))
-                        {
-                            // if the client is PKCE then we assume it's native, so this change in how to
-                            // return the response is for better UX for the end user.
-                            return View("Redirect", new RedirectViewModel { RedirectUrl = model.ReturnUrl });
-                        }
+                //    if (context != null)
+                //    {
+                //        if (await _clientStore.IsPkceClientAsync(context.ClientId))
+                //        {
+                //            // if the client is PKCE then we assume it's native, so this change in how to
+                //            // return the response is for better UX for the end user.
+                //            return View("Redirect", new RedirectViewModel { RedirectUrl = model.ReturnUrl });
+                //        }
 
-                        // we can trust model.ReturnUrl since GetAuthorizationContextAsync returned non-null
-                        return Redirect(model.ReturnUrl);
-                    }
+                //        // we can trust model.ReturnUrl since GetAuthorizationContextAsync returned non-null
+                //        return Redirect(model.ReturnUrl);
+                //    }
 
-                    // request for a local page
-                    if (Url.IsLocalUrl(model.ReturnUrl))
-                    {
-                        return Redirect(model.ReturnUrl);
-                    }
-                    else if (string.IsNullOrEmpty(model.ReturnUrl))
-                    {
-                        return Redirect("~/");
-                    }
-                    else
-                    {
-                        // user might have clicked on a malicious link - should be logged
-                        throw new Exception("invalid return URL");
-                    }
-                }*/
+                //    // request for a local page
+                //    if (Url.IsLocalUrl(model.ReturnUrl))
+                //    {
+                //        return Redirect(model.ReturnUrl);
+                //    }
+                //    else if (string.IsNullOrEmpty(model.ReturnUrl))
+                //    {
+                //        return Redirect("~/");
+                //    }
+                //    else
+                //    {
+                //        // user might have clicked on a malicious link - should be logged
+                //        throw new Exception("invalid return URL");
+                //    }
+                //}//*/
 
                 await _events.RaiseAsync(new UserLoginFailureEvent(model.Username, "invalid credentials"));
                 ModelState.AddModelError("", AccountOptions.InvalidCredentialsErrorMessage);
