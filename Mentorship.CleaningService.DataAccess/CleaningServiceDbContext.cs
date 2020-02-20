@@ -85,6 +85,8 @@ namespace Mentorship.CleaningService.DataAccess
                 .WithMany(role => role.WorkerRoles)
                 .HasForeignKey(wr => wr.RoleId);
 
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<ClientsDemand>().MapToStoredProcedures();
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

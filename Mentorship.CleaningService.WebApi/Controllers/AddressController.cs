@@ -8,8 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace Mentorship.CleaningService.WebApi.Controllers
 {
     [ApiController]
-    [Authorize(AuthenticationSchemes = "Bearer")]
-    [Authorize]
+    //[Authorize(AuthenticationSchemes = "Bearer")]
+    //[Authorize]
     public class AddressController : Controller
     {
         private readonly IRepositoryFactory _factory;
