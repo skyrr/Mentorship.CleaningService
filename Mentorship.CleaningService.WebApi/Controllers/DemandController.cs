@@ -42,6 +42,8 @@ namespace Mentorship.CleaningService.WebApi.Controllers
         {
             using (var DemandRepository = _factory.GetRepository<Demand>())
             {
+                demand.Client = _factory.GetRepository<Client>().GetById(demand.Client.Id);
+                demand.DemandStatus = _factory.GetRepository<DemandStatus>().GetById(demand.DemandStatus.Id);
                 return Json(DemandRepository.Create(demand));
             }
         }

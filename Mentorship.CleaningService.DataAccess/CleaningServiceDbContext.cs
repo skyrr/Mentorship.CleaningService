@@ -7,7 +7,7 @@ namespace Mentorship.CleaningService.DataAccess
 {
     public class CleaningServiceDbContext : Microsoft.EntityFrameworkCore.DbContext,  IAddressDbContext, IClientAddressDbContext, IClientDbContext,
         ICompanyDbContext, IContractDbContext, IContractStatusDbContext, IDemandDbContext, IDemandStatusDbContext,
-        IOfferDbContext, IOfferStatusDbContext, IPersonDbContext, IRoleDbContext, IServicePlanDbContext,  IWorkerDbContext, IWorkerRoleDbContext
+        IOfferDbContext, IOfferStatusDbContext, IPersonDbContext, IRoleDbContext, IServicePlanDbContext,  IWorkerDbContext, IWorkerRoleDbContext, IClientsDemandDbContext
     {
         private readonly IConfiguration _configuration;
 
@@ -31,6 +31,7 @@ namespace Mentorship.CleaningService.DataAccess
         public DbSet<ServicePlan> ServicePlans { get; set; }
         public DbSet<ClientAddress> ClientAddresses { get; set; }
         public DbSet<WorkerRole> WorkerRoles { get; set; }
+        public DbSet<ClientsDemand> ClientsDemands { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -84,9 +85,6 @@ namespace Mentorship.CleaningService.DataAccess
                 .HasOne(wr => wr.Role)
                 .WithMany(role => role.WorkerRoles)
                 .HasForeignKey(wr => wr.RoleId);
-
-            base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<ClientsDemand>().MapToStoredProcedures();
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

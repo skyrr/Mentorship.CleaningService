@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Mentorship.CleaningService.Models;
 
 namespace Mentorship.CleaningService.BusinessLogic
 {
     public interface IClientsDemandService
     {
+        ClientsDemand CreateClientsDemand();
+        ClientsDemand GetClientsDemandById(int id);
     }
 }

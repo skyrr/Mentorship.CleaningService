@@ -8,6 +8,7 @@
   <ItemGroup>
     <PackageReference Include="IdentityServer4" Version="2.5.4" />
     <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="2.7.0" />
+    <PackageReference Include="IdentityServer4.AspNetIdentity" Version="2.5.4" />
     <PackageReference Include="IdentityServer4.EntityFramework" Version="2.5.4" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.2.8" />
     <PackageReference Include="Microsoft.AspNetCore.App" Version="2.2.8" />
@@ -22,8 +23,6 @@
     <ProjectReference Include="..\Mentorship.CleaningService.DataAccess\Mentorship.CleaningService.DataAccess.csproj" />
     <ProjectReference Include="..\Mentorship.CleaningService.Models\Mentorship.CleaningService.Models.csproj" />
     <ProjectReference Include="..\Mentorship.CleaningService.Repository\Mentorship.CleaningService.Repository.csproj" />
-    <ProjectReference Include="..\Mentorship.CleaningService.Tests\Mentorship.CleaningService.Tests.csproj" />
-    <ProjectReference Include="..\Mentorship.CleaningService.WebApi\Mentorship.CleaningService.WebApi.csproj" />
   </ItemGroup>
 
 </Project>

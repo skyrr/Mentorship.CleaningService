@@ -24,6 +24,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using IdentityServer4.AccessTokenValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Mentorship.CleaningService.BusinessLogic;
 
 namespace Mentorship.CleaningService.WebApi
 {
@@ -62,6 +63,7 @@ namespace Mentorship.CleaningService.WebApi
             services.AddScoped<IServicePlanDbContext, CleaningServiceDbContext>();
             services.AddScoped<IWorkerDbContext, CleaningServiceDbContext>();
             services.AddScoped<IWorkerRoleDbContext, CleaningServiceDbContext>();
+            services.AddScoped<IClientsDemandDbContext, CleaningServiceDbContext>();
             services.AddScoped<IRepository<Address>, AddressRepository>();
             services.AddScoped<IRepository<ClientAddress>, ClientAddressRepository>();
             services.AddScoped<IRepository<Models.Client>, ClientRepository>();
@@ -79,10 +81,12 @@ namespace Mentorship.CleaningService.WebApi
             services.AddScoped<IRepository<WorkerRole>, WorkerRoleRepository>();
             services.AddScoped<IRepository<Address>, AddressRepository>();
             services.AddScoped<IRepository<Person>, PersonRepository>();
+            services.AddScoped<IRepository<ClientsDemand>, ClientsDemandRepository>();
             services.AddScoped<ApplicationUserRepository>();
             services.AddScoped<ApplicationDbContext>();
             services.AddScoped<UserManager<IdentityUser>>(); 
-            services.AddScoped<IRepositoryFactory, RepositoryFactory>(); 
+            services.AddScoped<IRepositoryFactory, RepositoryFactory>();
+            services.AddScoped<IClientsDemandService, ClientsDemandService>();
             services.AddMvc()
                 .AddJsonOptions(opt =>
                 {
