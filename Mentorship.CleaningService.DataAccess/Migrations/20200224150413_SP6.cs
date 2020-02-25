@@ -1,29 +1,28 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Mentorship.CleaningService.DataAccess.Migrations
 {
-    public partial class sps_ClientsDemand : Migration
+    public partial class SP6 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            var sp = @"CREATE PROCEDURE [dbo].[sps_ClientsDemand] 
+            var sp = @"ALTER PROCEDURE [dbo].[sps_ClientsDemand] 
 	            @ClientId int NULL
             AS
             BEGIN
 	            SET NOCOUNT ON;
 	            IF @ClientId IS NULL 
 				 
-					SELECT top(@NumToReturn) 0 AS 'Id', dbo.Clients.Id AS ClientId, dbo.Demands.DemandStatusId AS DemandStatusId
+					SELECT Top(20) dbo.Clients.Id As Id, dbo.Clients.Id AS ClientId, dbo.Demands.DemandStatusId AS DemandStatusId
 					FROM dbo.Clients
 					INNER JOIN dbo.Demands 
 					ON dbo.Clients.Id = dbo.Demands.ClientId
 				ELSE
-					SELECT dbo.Clients.Id AS ClientId, dbo.Demands.DemandStatusId AS DemandStatusId
+					SELECT Top(20) dbo.Clients.Id As Id, dbo.Clients.Id AS ClientId, dbo.Demands.DemandStatusId AS DemandStatusId
 					FROM dbo.Clients
 					INNER JOIN dbo.Demands 
 					ON dbo.Clients.Id = dbo.Demands.ClientId AND dbo.Clients.Id = @ClientId
-            END
+            END            
             ";
             migrationBuilder.Sql(sp);
         }
@@ -31,6 +30,7 @@ namespace Mentorship.CleaningService.DataAccess.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.Sql("DROP PROCEDURE [dbo].[sps_ClientsDemand]");
+
         }
     }
 }

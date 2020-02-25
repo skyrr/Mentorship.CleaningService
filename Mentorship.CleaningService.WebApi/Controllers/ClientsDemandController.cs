@@ -28,6 +28,12 @@ namespace Mentorship.CleaningService.WebApi.Controllers
             return Json(_service.GetClientsDemandById(id));
                       
         }
-        
+        [HttpGet]
+        [Route("api/clientsDemands")]
+        public JsonResult GetAll()
+        {
+            return Json(_service.GetAll());
+        }
+
     }
 }

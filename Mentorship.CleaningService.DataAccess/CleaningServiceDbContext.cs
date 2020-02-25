@@ -1,6 +1,9 @@
-﻿using Mentorship.CleaningService.Models;
+﻿using JetBrains.Annotations;
+using Mentorship.CleaningService.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
+using System.IO;
 //using Microsoft.AspNetCore.Identity.EntityFrameworkCore; IdentityDbContext
 
 namespace Mentorship.CleaningService.DataAccess
@@ -11,9 +14,9 @@ namespace Mentorship.CleaningService.DataAccess
     {
         private readonly IConfiguration _configuration;
 
-        public CleaningServiceDbContext(DbContextOptions<CleaningServiceDbContext> options, IConfiguration configuration) : base(options)
+        public CleaningServiceDbContext(DbContextOptions<CleaningServiceDbContext> options) : base(options)
         {
-            _configuration = configuration;
+            //_configuration = configuration;
         }
 
         public DbSet<Company> Companies { get; set; }
@@ -93,6 +96,16 @@ namespace Mentorship.CleaningService.DataAccess
             {
                 optionsBuilder.UseSqlServer(_configuration["ConnectionStrings:DefaultConnection"]);
             }
+        }
+    }
+    //required when local database deleted
+    public class CleaningServiceDbContextFactory : IDesignTimeDbContextFactory<CleaningServiceDbContext>
+    {
+        public CleaningServiceDbContext CreateDbContext(string[] args)
+        {
+            var builder = new DbContextOptionsBuilder<CleaningServiceDbContext>();
+            builder.UseSqlServer("Server=localhost;Database=DbName;Trusted_Connection=True;MultipleActiveResultSets=true");
+            return new CleaningServiceDbContext(builder.Options);
         }
     }
 }

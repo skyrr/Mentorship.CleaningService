@@ -32,13 +32,13 @@ namespace IdentityServer4.Quickstart.UI
     [SecurityHeaders]
     public class AccountController : Controller
     {
-        private readonly TestUserStore _users;
+        //private readonly TestUserStore _users;
         private readonly IIdentityServerInteractionService _interaction;
         private readonly IEventService _events;
-        private readonly ApplicationDbContext _dbContext;
+        //private readonly ApplicationDbContext _dbContext;
         private readonly IClientStore _clientStore;
         private readonly IAuthenticationSchemeProvider _schemeProvider;
-        private readonly IUserRepository _userRepository;
+        //private readonly IUserRepository _userRepository;
         private readonly UserManager<IdentityUser> _userManager;
 
         public AccountController(

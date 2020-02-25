@@ -84,6 +84,7 @@ namespace Mentorship.CleaningService.WebApi
             services.AddScoped<IRepository<ClientsDemand>, ClientsDemandRepository>();
             services.AddScoped<ApplicationUserRepository>();
             services.AddScoped<ApplicationDbContext>();
+            services.AddScoped<CleaningServiceDbContext>();
             services.AddScoped<UserManager<IdentityUser>>(); 
             services.AddScoped<IRepositoryFactory, RepositoryFactory>();
             services.AddScoped<IClientsDemandService, ClientsDemandService>();

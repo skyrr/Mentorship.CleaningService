@@ -1,4 +1,5 @@
 ﻿using Mentorship.CleaningService.Models;
+using System.Linq;
 
 namespace Mentorship.CleaningService.BusinessLogic
 {
@@ -6,5 +7,7 @@ namespace Mentorship.CleaningService.BusinessLogic
     {
         ClientsDemand CreateClientsDemand();
         ClientsDemand GetClientsDemandById(int id);
+        IQueryable<ClientsDemand> GetAll();
+
     }
 }
