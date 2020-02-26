@@ -7,7 +7,7 @@ namespace Mentorship.CleaningService.Models
     {
         public int Id { get; set; }
         public int ClientId { get; set; }
-        public int DemandStatusId { get; set; }
+        public string DemandStatusName { get; set; }
         public bool IsDeleted { get; set; }
     }
 }
