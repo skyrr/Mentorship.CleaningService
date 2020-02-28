@@ -88,10 +88,7 @@ namespace Mentorship.CleaningService.WebApi
             services.AddScoped<CleaningServiceDbContext>();
             services.AddScoped<UserManager<IdentityUser>>(); 
             services.AddScoped<IRepositoryFactory, RepositoryFactory>();
-            //services.AddScoped<IMapper>();
-            //services.AddScoped<IClientsDemandService, ClientsDemandService>();
             services.AddScoped<ClientsDemandService>();
-            //services.AddScoped<IMapper>();
             services.AddMvc()
                 .AddJsonOptions(opt =>
                 {
@@ -116,27 +113,6 @@ namespace Mentorship.CleaningService.WebApi
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            //services.AddDbContext<IdentityDbContext>(options =>
-            //    options.UseSqlServer(Configuration["ConnectionStrings:IdentityConnection"],
-            //    optionsBuilders => optionsBuilders.MigrationsAssembly("Mentorship.CleaningService.DataAccess")));
-
-            //services.AddMvcCore()
-            //.AddAuthorization(
-            //options =>
-            //    {
-            //        options.AddPolicy("FacultyOnly", policy => policy.RequireClaim("FacultyNumber"));
-            //    }
-            //)
-            //.AddJsonFormatters();
-            //----------------------------------------
-            //services.AddAuthentication(
-            // IdentityServerAuthenticationDefaults.AuthenticationScheme)
-            //      .AddIdentityServerAuthentication(options =>
-            //      {
-            //          options.Authority = "https://localhost:44350"; // Auth Server  
-            //          options.RequireHttpsMetadata = false; // only for development  
-            //          options.ApiName = "fiver_auth_api"; // API Resource Id  
-            //      });
             services.AddAuthentication(options =>
             {
                 options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
