@@ -9,8 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Mentorship.CleaningService.DTO\Mentorship.CleaningService.DTO.csproj" />
-    <ProjectReference Include="..\Mentorship.CleaningService.Repository\Mentorship.CleaningService.Repository.csproj" />
+    <ProjectReference Include="..\Mentorship.CleaningService.Models\Mentorship.CleaningService.Models.csproj" />
   </ItemGroup>
 
 </Project>

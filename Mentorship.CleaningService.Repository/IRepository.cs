@@ -13,5 +13,6 @@ namespace Mentorship.CleaningService.Repository
         T Create(T entity);
         T Update(T entity);
         bool Delete(T entity);
+        
     }
 }

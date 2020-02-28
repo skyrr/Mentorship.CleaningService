@@ -13,9 +13,9 @@ namespace Mentorship.CleaningService.WebApi.Controllers
     //[Authorize]
     public class ClientsDemandController : Controller
     {
-        private readonly IClientsDemandService _service;
+        private readonly ClientsDemandService _service;
 
-        public ClientsDemandController(IClientsDemandService service)
+        public ClientsDemandController(ClientsDemandService service)
         {
             _service = service;
         }

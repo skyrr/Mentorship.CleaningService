@@ -25,6 +25,7 @@ using IdentityServer4.AccessTokenValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Mentorship.CleaningService.BusinessLogic;
+using AutoMapper;
 
 namespace Mentorship.CleaningService.WebApi
 {
@@ -87,13 +88,25 @@ namespace Mentorship.CleaningService.WebApi
             services.AddScoped<CleaningServiceDbContext>();
             services.AddScoped<UserManager<IdentityUser>>(); 
             services.AddScoped<IRepositoryFactory, RepositoryFactory>();
-            services.AddScoped<IClientsDemandService, ClientsDemandService>();
+            //services.AddScoped<IMapper>();
+            //services.AddScoped<IClientsDemandService, ClientsDemandService>();
+            services.AddScoped<ClientsDemandService>();
+            //services.AddScoped<IMapper>();
             services.AddMvc()
                 .AddJsonOptions(opt =>
                 {
                     opt.SerializerSettings.PreserveReferencesHandling = PreserveReferencesHandling.Objects;
                     opt.SerializerSettings.Formatting = Formatting.Indented;
                 });
+            services.AddAutoMapper(typeof(Startup));
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new Mentorship.CleaningService.DTO.MappingProfile());
+            });
+
+            IMapper mapper = mappingConfig.CreateMapper();
+            services.AddSingleton(mapper);
+
             services.AddDbContext<CleaningServiceDbContext>(options => 
                 options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
             services.AddDbContext<ApplicationDbContext>(options =>

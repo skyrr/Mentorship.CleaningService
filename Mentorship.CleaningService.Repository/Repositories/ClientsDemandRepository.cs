@@ -5,20 +5,34 @@ using System.Text;
 using Mentorship.CleaningService.DataAccess;
 using Mentorship.CleaningService.Models;
 using Microsoft.EntityFrameworkCore;
+using AutoMapper;
+using Mentorship.CleaningService.DTO;
 
 namespace Mentorship.CleaningService.Repository
 {
     public class ClientsDemandRepository : IRepository<ClientsDemand>
     {
         private readonly IClientsDemandDbContext _dbContext;
-        public ClientsDemandRepository(IClientsDemandDbContext dbContext)
+        private readonly IMapper _mapper;
+        public ClientsDemandRepository(IClientsDemandDbContext dbContext, IMapper mapper)
         {
             _dbContext = dbContext;
+            _mapper = mapper;
         }
         public ClientsDemand GetById(int id)
         {
-            return  _dbContext.ClientsDemands.FromSql($"sps_ClientsDemand {id}").FirstOrDefault(c => c.Id.Equals(id) && !c.IsDeleted);
+            //return  _dbContext.ClientsDemands.FromSql($"sps_ClientsDemand {id}").FirstOrDefault(c => c.Id.Equals(id) && !c.IsDeleted);
+            return _dbContext.ClientsDemands.FromSql($"sps_ClientsDemand {id}").FirstOrDefault(c => c.Id.Equals(id) && !c.IsDeleted);
         }
+
+        public ClientsDemandDTO GetByIdDTO(int id)
+        {
+            //return  _dbContext.ClientsDemands.FromSql($"sps_ClientsDemand {id}").FirstOrDefault(c => c.Id.Equals(id) && !c.IsDeleted);
+            var cl = _dbContext.ClientsDemands.FromSql($"sps_ClientsDemand {id}").FirstOrDefault(c => c.Id.Equals(id) && !c.IsDeleted);
+            var mp = _mapper.Map<ClientsDemandDTO>(cl);
+            return mp;
+        }
+
 
         public IQueryable<ClientsDemand> GetAll()
         {
