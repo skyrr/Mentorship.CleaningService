@@ -4,10 +4,12 @@ using System;
 using System.Linq;
 using AutoMapper;
 using Mentorship.CleaningService.DTO;
+using System.Collections.Generic;
+using System.Collections;
 
 namespace Mentorship.CleaningService.BusinessLogic
 {
-    public class ClientsDemandService // : IClientsDemandService
+    public class ClientsDemandService : IClientsDemandService
     {
         public IRepositoryFactory _factory;
         public IMapper _mapper;
@@ -16,16 +18,16 @@ namespace Mentorship.CleaningService.BusinessLogic
             _mapper = mapper;
         }
 
-        public ClientsDemand CreateClientsDemand()
+        public ClientsDemandDTO CreateClientsDemand()
         {
             throw new NotImplementedException();
         }
 
-        public IQueryable<ClientsDemand> GetAll()
+        public IEnumerable<ClientsDemandDTO> GetAll()
         {
             var clientsDemand = _factory.GetRepository<ClientsDemand>().GetAll();
-            return clientsDemand;
-            //return _mapper.Map<ClientsDemandDTO>(clientsDemand);
+            IEnumerable<ClientsDemandDTO> cDTO = _mapper.Map<IEnumerable<ClientsDemand>, IEnumerable<ClientsDemandDTO>>(clientsDemand);
+            return cDTO;
         }
 
         public ClientsDemandDTO GetClientsDemandById(int id)
@@ -33,10 +35,5 @@ namespace Mentorship.CleaningService.BusinessLogic
             var clientsDemand = _factory.GetRepository<ClientsDemand>().GetById(id);
             return _mapper.Map<ClientsDemandDTO>(clientsDemand);
         }
-
-        //ClientsDemand IClientsDemandService.GetClientsDemandById(int id)
-        //{
-        //    throw new NotImplementedException();
-        //}
     }
 }
