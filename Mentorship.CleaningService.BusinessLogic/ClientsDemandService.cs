@@ -6,6 +6,7 @@ using AutoMapper;
 using Mentorship.CleaningService.DTO;
 using System.Collections.Generic;
 using System.Collections;
+using System.Data.SqlClient;
 
 namespace Mentorship.CleaningService.BusinessLogic
 {
@@ -25,9 +26,22 @@ namespace Mentorship.CleaningService.BusinessLogic
 
         public IEnumerable<ClientsDemandDTO> GetAll()
         {
-            var clientsDemand = _factory.GetRepository<ClientsDemand>().GetAll();
-            IEnumerable<ClientsDemandDTO> cDTO = _mapper.Map<IEnumerable<ClientsDemand>, IEnumerable<ClientsDemandDTO>>(clientsDemand);
-            return cDTO;
+            try
+            {
+                var clientsDemand = _factory.GetRepository<ClientsDemand>().GetAll();
+                IEnumerable<ClientsDemandDTO> cDTO = _mapper.Map<IEnumerable<ClientsDemand>, IEnumerable<ClientsDemandDTO>>(clientsDemand);
+                return cDTO;
+            }
+            catch (SqlException ex)
+            {
+                //TODO: Logging an exception
+                return new List<ClientsDemandDTO> { new ClientsDemandDTO { ErrorMessage = ex.Message } };
+            }
+            catch (Exception ex)
+            {
+                //TODO: Logging an exception
+                return new List<ClientsDemandDTO> { new ClientsDemandDTO { ErrorMessage = ex.Message } };
+            }
         }
 
         public ClientsDemandDTO GetClientsDemandById(int id)

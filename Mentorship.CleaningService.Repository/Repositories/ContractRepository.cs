@@ -21,7 +21,7 @@ namespace Mentorship.CleaningService.Repository
             return _dbContext.Contracts.FirstOrDefault(c => c.Id.Equals(id) && !c.IsDeleted);
         }
 
-        public IQueryable<Contract> GetAll()
+        public IEnumerable<Contract> GetAll()
         {
             return _dbContext.Contracts
                 .Include(c => c.Address)

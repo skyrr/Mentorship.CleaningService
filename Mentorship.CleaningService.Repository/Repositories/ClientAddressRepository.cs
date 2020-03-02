@@ -21,7 +21,7 @@ namespace Mentorship.CleaningService.Repository
             return _dbContext.ClientAddresses.FirstOrDefault(c => c.Id.Equals(id) && !c.IsDeleted);
         }
 
-        public IQueryable<ClientAddress> GetAll()
+        public IEnumerable<ClientAddress> GetAll()
         {
             return _dbContext.ClientAddresses.Where(a => !a.IsDeleted);
         }

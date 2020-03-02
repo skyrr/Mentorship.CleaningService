@@ -8,5 +8,6 @@ namespace Mentorship.CleaningService.DTO
     {
         public int ClientId { get; set; }
         public string DemandStatusName { get; set; }
+        public string ErrorMessage { get; set; }
     }
 }

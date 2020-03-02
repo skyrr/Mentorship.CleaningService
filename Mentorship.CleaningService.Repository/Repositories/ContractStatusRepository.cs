@@ -21,7 +21,7 @@ namespace Mentorship.CleaningService.Repository
             return _dbContext.ContractStatuses.FirstOrDefault(c => c.Id.Equals(id) && !c.IsDeleted);
         }
 
-        public IQueryable<ContractStatus> GetAll()
+        public IEnumerable<ContractStatus> GetAll()
         {
             return _dbContext.ContractStatuses.Where(a => !a.IsDeleted);
         }

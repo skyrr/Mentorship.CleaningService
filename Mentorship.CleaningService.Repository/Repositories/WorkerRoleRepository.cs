@@ -21,7 +21,7 @@ namespace Mentorship.CleaningService.Repository
             return _dbContext.WorkerRoles.FirstOrDefault(c => c.Id.Equals(id) && !c.IsDeleted);
         }
 
-        public IQueryable<WorkerRole> GetAll()
+        public IEnumerable<WorkerRole> GetAll()
         {
             return _dbContext.WorkerRoles.Where(a => !a.IsDeleted);
         }

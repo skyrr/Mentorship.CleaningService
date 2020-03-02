@@ -6,5 +6,6 @@ namespace Mentorship.CleaningService.DTO
 {
     public interface IEntityDTO
     {
+        string ErrorMessage { get; set; }
     }
 }

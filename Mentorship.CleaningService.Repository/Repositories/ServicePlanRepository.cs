@@ -21,7 +21,7 @@ namespace Mentorship.CleaningService.Repository
             return _dbContext.ServicePlans.FirstOrDefault(c => c.Id.Equals(id) && !c.IsDeleted);
         }
 
-        public IQueryable<ServicePlan> GetAll()
+        public IEnumerable<ServicePlan> GetAll()
         {
             return _dbContext.ServicePlans.Where(a => !a.IsDeleted);
         }

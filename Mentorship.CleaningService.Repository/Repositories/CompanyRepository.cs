@@ -21,7 +21,7 @@ namespace Mentorship.CleaningService.Repository
             return _dbContext.Companies.FirstOrDefault(c => c.Id.Equals(id) && !c.IsDeleted);
         }
 
-        public IQueryable<Company> GetAll()
+        public IEnumerable<Company> GetAll()
         {
             return _dbContext.Companies.Where(a => !a.IsDeleted);
         }

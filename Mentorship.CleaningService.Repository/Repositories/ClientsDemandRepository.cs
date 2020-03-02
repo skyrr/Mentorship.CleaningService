@@ -21,20 +21,18 @@ namespace Mentorship.CleaningService.Repository
         }
         public ClientsDemand GetById(int id)
         {
-            //return  _dbContext.ClientsDemands.FromSql($"sps_ClientsDemand {id}").FirstOrDefault(c => c.Id.Equals(id) && !c.IsDeleted);
             return _dbContext.ClientsDemands.FromSql($"sps_ClientsDemand {id}").FirstOrDefault(c => c.Id.Equals(id) && !c.IsDeleted);
         }
 
         public ClientsDemandDTO GetByIdDTO(int id)
         {
-            //return  _dbContext.ClientsDemands.FromSql($"sps_ClientsDemand {id}").FirstOrDefault(c => c.Id.Equals(id) && !c.IsDeleted);
             var cl = _dbContext.ClientsDemands.FromSql($"sps_ClientsDemand {id}").FirstOrDefault(c => c.Id.Equals(id) && !c.IsDeleted);
             var mp = _mapper.Map<ClientsDemandDTO>(cl);
             return mp;
         }
 
 
-        public IQueryable<ClientsDemand> GetAll()
+        public IEnumerable<ClientsDemand> GetAll()
         {
             return _dbContext.ClientsDemands.FromSql("sps_ClientsDemand NULL").Where(a => !a.IsDeleted);
         }
