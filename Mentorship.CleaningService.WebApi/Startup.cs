@@ -88,7 +88,8 @@ namespace Mentorship.CleaningService.WebApi
             services.AddScoped<CleaningServiceDbContext>();
             services.AddScoped<UserManager<IdentityUser>>(); 
             services.AddScoped<IRepositoryFactory, RepositoryFactory>();
-            services.AddScoped<ClientsDemandService>();
+            services.AddScoped<ClientsDemandService>(); 
+            services.AddScoped<AddressService>(); 
             services.AddMvc()
                 .AddJsonOptions(opt =>
                 {

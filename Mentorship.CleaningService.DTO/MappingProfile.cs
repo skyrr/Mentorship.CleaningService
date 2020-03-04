@@ -13,6 +13,7 @@ namespace Mentorship.CleaningService.DTO
         {
             // Add as many of these lines as you need to map your objects
             CreateMap<ClientsDemand, ClientsDemandDTO>();
+            CreateMap<Address, AddressDTO>();
             //CreateMap<ClientsDemandDTO, ClientsDemand>();
             //CreateMap<IEnumerable<ClientsDemand>, IEnumerable<ClientsDemandDTO>>();
             //CreateMap<IEnumerable<ClientsDemandDTO>, IEnumerable<ClientsDemand>>();

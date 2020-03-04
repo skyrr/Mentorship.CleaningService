@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Mentorship.CleaningService.BusinessLogic;
 using Mentorship.CleaningService.Models;
 using Mentorship.CleaningService.Repository;
 using Microsoft.AspNetCore.Authorization;
@@ -13,29 +14,33 @@ namespace Mentorship.CleaningService.WebApi.Controllers
     public class AddressController : Controller
     {
         private readonly IRepositoryFactory _factory;
+        private readonly AddressService _service;
 
-        public AddressController(IRepositoryFactory factory)
+        public AddressController(AddressService service, IRepositoryFactory factory)
         {
             _factory = factory;
+            _service = service;
         }
 
         [HttpGet]
         [Route("api/address/{id}")]
         public JsonResult Get(int id)
         {
-            using (var addressRepository = _factory.GetRepository<Address>()) {
-                return Json(addressRepository.GetById(id));
-            }          
+            //using (var addressRepository = _service.GetRepository<Address>()) {
+            //    return Json(addressRepository.GetById(id));
+            //}          
+            return Json(_service.GetAddressById(id));
         }
 
         [HttpGet]
         [Route("api/addresses")]
         public JsonResult GetAll()
         {
-            using (var addressRepository = _factory.GetRepository<Address>())
-            {
-                return Json(addressRepository.GetAll().ToList());
-            }
+            //using (var addressRepository = _factory.GetRepository<Address>())
+            //{
+            //    return Json(addressRepository.GetAll().ToList());
+            //}
+            return Json(_service.GetAll());
         }
 
         [HttpPost]
