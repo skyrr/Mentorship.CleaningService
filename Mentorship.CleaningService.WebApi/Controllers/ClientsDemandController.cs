@@ -24,7 +24,7 @@ namespace Mentorship.CleaningService.WebApi.Controllers
         [Route("api/clientsDemand/{id}")]
         public JsonResult Get(int id)
         {
-            return Json(_service.GetClientsDemandById(id));
+            return Json(_service.GetById(id));
         }
         [HttpGet]
         [Route("api/clientsDemands")]

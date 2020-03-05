@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Mentorship.CleaningService.BusinessLogic
 {
-    public interface IClientsDemandService
+    public interface IClientsDemandService<IEntityDTO>
     {
         ClientsDemandDTO CreateClientsDemand();
         ClientsDemandDTO GetClientsDemandById(int id);

@@ -10,7 +10,7 @@ using System.Data.SqlClient;
 
 namespace Mentorship.CleaningService.BusinessLogic
 {
-    public class ClientsDemandService : IClientsDemandService
+    public class ClientsDemandService : ICleaningServiceService<ClientsDemandDTO>
     {
         public IRepositoryFactory _factory;
         public IMapper _mapper;
@@ -19,9 +19,24 @@ namespace Mentorship.CleaningService.BusinessLogic
             _mapper = mapper;
         }
 
+        public ClientsDemandDTO Create(ClientsDemandDTO entity)
+        {
+            throw new NotImplementedException();
+        }
+
         public ClientsDemandDTO CreateClientsDemand()
         {
             throw new NotImplementedException();
+        }
+
+        public bool Delete(ClientsDemandDTO entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Dispose()
+        {
+            //throw new NotImplementedException();
         }
 
         public IEnumerable<ClientsDemandDTO> GetAll()
@@ -44,10 +59,21 @@ namespace Mentorship.CleaningService.BusinessLogic
             }
         }
 
-        public ClientsDemandDTO GetClientsDemandById(int id)
+        public ClientsDemandDTO GetById(int id)
         {
             var clientsDemand = _factory.GetRepository<ClientsDemand>().GetById(id);
             return _mapper.Map<ClientsDemandDTO>(clientsDemand);
+        }
+
+        //public ClientsDemandDTO GetClientsDemandById(int id)
+        //{
+        //    var clientsDemand = _factory.GetRepository<ClientsDemand>().GetById(id);
+        //    return _mapper.Map<ClientsDemandDTO>(clientsDemand);
+        //}
+
+        public ClientsDemandDTO Update(ClientsDemandDTO entity)
+        {
+            throw new NotImplementedException();
         }
     }
 }

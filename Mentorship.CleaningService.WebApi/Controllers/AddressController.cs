@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Mentorship.CleaningService.BusinessLogic;
+using Mentorship.CleaningService.DTO;
 using Mentorship.CleaningService.Models;
 using Mentorship.CleaningService.Repository;
 using Microsoft.AspNetCore.Authorization;
@@ -14,33 +15,32 @@ namespace Mentorship.CleaningService.WebApi.Controllers
     public class AddressController : Controller
     {
         private readonly IRepositoryFactory _factory;
-        private readonly AddressService _service;
+        private readonly ICleaningServiceServiceFactory _serviceFactory;
 
-        public AddressController(AddressService service, IRepositoryFactory factory)
+        public AddressController(ICleaningServiceServiceFactory serviceFactory, IRepositoryFactory factory)
         {
             _factory = factory;
-            _service = service;
+            _serviceFactory = serviceFactory;
         }
 
         [HttpGet]
         [Route("api/address/{id}")]
         public JsonResult Get(int id)
         {
-            //using (var addressRepository = _service.GetRepository<Address>()) {
-            //    return Json(addressRepository.GetById(id));
-            //}          
-            return Json(_service.GetAddressById(id));
+            using (var addressService = _serviceFactory.GetCleaningService<AddressDTO>())
+            {
+                return Json(addressService.GetById(id));
+            }
         }
 
         [HttpGet]
         [Route("api/addresses")]
         public JsonResult GetAll()
         {
-            //using (var addressRepository = _factory.GetRepository<Address>())
-            //{
-            //    return Json(addressRepository.GetAll().ToList());
-            //}
-            return Json(_service.GetAll());
+            using (var addressService = _serviceFactory.GetCleaningService<AddressDTO>())
+            {
+                return Json(addressService.GetAll());
+            }
         }
 
         [HttpPost]

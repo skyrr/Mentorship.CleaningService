@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Mentorship.CleaningService.Models;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Mentorship.CleaningService.Models
 {
@@ -9,6 +7,8 @@ namespace Mentorship.CleaningService.Models
     {
         public int Id { get; set; }
         public bool IsDeleted { get; set; }
+        [Required(ErrorMessage = "The StreetName field cannot be empty!")]
+        [MaxLength(50, ErrorMessage = "The StreetName cannot be so long!")]
         public string StreetName { get; set; }
         public string BuildingNumber { get; set; }
         public string ApartmentNumber { get; set; }

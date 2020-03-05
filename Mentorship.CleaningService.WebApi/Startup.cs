@@ -26,6 +26,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Mentorship.CleaningService.BusinessLogic;
 using AutoMapper;
+using Mentorship.CleaningService.DTO;
 
 namespace Mentorship.CleaningService.WebApi
 {
@@ -88,6 +89,8 @@ namespace Mentorship.CleaningService.WebApi
             services.AddScoped<CleaningServiceDbContext>();
             services.AddScoped<UserManager<IdentityUser>>(); 
             services.AddScoped<IRepositoryFactory, RepositoryFactory>();
+            services.AddScoped<ICleaningServiceServiceFactory, CleaningServiceServiceFactory>();
+            services.AddScoped<ICleaningServiceService<AddressDTO>, AddressService>();
             services.AddScoped<ClientsDemandService>(); 
             services.AddScoped<AddressService>(); 
             services.AddMvc()

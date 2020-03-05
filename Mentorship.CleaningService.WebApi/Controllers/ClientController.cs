@@ -64,15 +64,5 @@ namespace Mentorship.CleaningService.WebApi.Controllers
                 return ClientRepository.Delete(client);
             }
         }
-
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                //_ClientRepository?.Dispose();
-            }
-            base.Dispose(disposing);
-        }
     }
 }
