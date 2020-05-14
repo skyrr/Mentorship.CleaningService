@@ -1,11 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using System;
-using System.Collections.Generic;
 
 namespace Mentorship.CleaningService.DataAccess.Migrations
 {
-    public partial class initial : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -15,15 +13,30 @@ namespace Mentorship.CleaningService.DataAccess.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    ApartmentNumber = table.Column<string>(nullable: true),
-                    BuildingNumber = table.Column<string>(nullable: true),
-                    City = table.Column<string>(nullable: true),
                     IsDeleted = table.Column<bool>(nullable: false),
-                    StreetName = table.Column<string>(nullable: true)
+                    StreetName = table.Column<string>(maxLength: 50, nullable: false),
+                    BuildingNumber = table.Column<string>(nullable: true),
+                    ApartmentNumber = table.Column<string>(nullable: true),
+                    City = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Addresses", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ClientsDemands",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    ClientId = table.Column<int>(nullable: false),
+                    DemandStatusName = table.Column<string>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ClientsDemands", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -32,8 +45,8 @@ namespace Mentorship.CleaningService.DataAccess.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CompanyName = table.Column<string>(nullable: true),
-                    IsDeleted = table.Column<bool>(nullable: false)
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    CompanyName = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -89,11 +102,18 @@ namespace Mentorship.CleaningService.DataAccess.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     IsDeleted = table.Column<bool>(nullable: false),
-                    RoleName = table.Column<string>(nullable: true)
+                    RoleName = table.Column<string>(nullable: true),
+                    RoleId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Roles", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Roles_Roles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "Roles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -117,10 +137,10 @@ namespace Mentorship.CleaningService.DataAccess.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    AddressId = table.Column<int>(nullable: true),
-                    FirstName = table.Column<string>(nullable: true),
                     IsDeleted = table.Column<bool>(nullable: false),
-                    LastName = table.Column<string>(nullable: true)
+                    FirstName = table.Column<string>(nullable: true),
+                    LastName = table.Column<string>(nullable: true),
+                    AddressId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -139,9 +159,9 @@ namespace Mentorship.CleaningService.DataAccess.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CompanyId = table.Column<int>(nullable: true),
                     IsDeleted = table.Column<bool>(nullable: false),
-                    OfferStatusId = table.Column<int>(nullable: true)
+                    OfferStatusId = table.Column<int>(nullable: true),
+                    CompanyId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -186,9 +206,10 @@ namespace Mentorship.CleaningService.DataAccess.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CompanyId = table.Column<int>(nullable: true),
                     IsDeleted = table.Column<bool>(nullable: false),
-                    PersonId = table.Column<int>(nullable: true)
+                    PersonId = table.Column<int>(nullable: true),
+                    CompanyId = table.Column<int>(nullable: true),
+                    WorkerId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -205,10 +226,16 @@ namespace Mentorship.CleaningService.DataAccess.Migrations
                         principalTable: "Persons",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Workers_Workers_WorkerId",
+                        column: x => x.WorkerId,
+                        principalTable: "Workers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "ClientAddress",
+                name: "ClientAddresses",
                 columns: table => new
                 {
                     ClientId = table.Column<int>(nullable: false),
@@ -218,15 +245,15 @@ namespace Mentorship.CleaningService.DataAccess.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ClientAddress", x => new { x.ClientId, x.AddressId });
+                    table.PrimaryKey("PK_ClientAddresses", x => new { x.ClientId, x.AddressId });
                     table.ForeignKey(
-                        name: "FK_ClientAddress_Addresses_AddressId",
+                        name: "FK_ClientAddresses_Addresses_AddressId",
                         column: x => x.AddressId,
                         principalTable: "Addresses",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ClientAddress_Clients_ClientId",
+                        name: "FK_ClientAddresses_Clients_ClientId",
                         column: x => x.ClientId,
                         principalTable: "Clients",
                         principalColumn: "Id",
@@ -239,13 +266,13 @@ namespace Mentorship.CleaningService.DataAccess.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    AddressId = table.Column<int>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false),
                     ClientId = table.Column<int>(nullable: true),
                     CompanyId = table.Column<int>(nullable: true),
-                    CompanyId1 = table.Column<int>(nullable: true),
+                    ServicePlanId = table.Column<int>(nullable: true),
+                    AddressId = table.Column<int>(nullable: true),
                     ContractStatusId = table.Column<int>(nullable: true),
-                    IsDeleted = table.Column<bool>(nullable: false),
-                    ServicePlanId = table.Column<int>(nullable: true)
+                    CompanyId1 = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -294,9 +321,9 @@ namespace Mentorship.CleaningService.DataAccess.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    ClientId = table.Column<int>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false),
                     DemandStatusId = table.Column<int>(nullable: true),
-                    IsDeleted = table.Column<bool>(nullable: false)
+                    ClientId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -315,9 +342,35 @@ namespace Mentorship.CleaningService.DataAccess.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "WorkerRoles",
+                columns: table => new
+                {
+                    WorkerId = table.Column<int>(nullable: false),
+                    RoleId = table.Column<int>(nullable: false),
+                    Id = table.Column<int>(nullable: false),
+                    IsDeleted = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_WorkerRoles", x => new { x.WorkerId, x.RoleId });
+                    table.ForeignKey(
+                        name: "FK_WorkerRoles_Roles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "Roles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_WorkerRoles_Workers_WorkerId",
+                        column: x => x.WorkerId,
+                        principalTable: "Workers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
-                name: "IX_ClientAddress_AddressId",
-                table: "ClientAddress",
+                name: "IX_ClientAddresses_AddressId",
+                table: "ClientAddresses",
                 column: "AddressId");
 
             migrationBuilder.CreateIndex(
@@ -381,6 +434,16 @@ namespace Mentorship.CleaningService.DataAccess.Migrations
                 column: "AddressId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Roles_RoleId",
+                table: "Roles",
+                column: "RoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_WorkerRoles_RoleId",
+                table: "WorkerRoles",
+                column: "RoleId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Workers_CompanyId",
                 table: "Workers",
                 column: "CompanyId");
@@ -389,12 +452,20 @@ namespace Mentorship.CleaningService.DataAccess.Migrations
                 name: "IX_Workers_PersonId",
                 table: "Workers",
                 column: "PersonId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Workers_WorkerId",
+                table: "Workers",
+                column: "WorkerId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "ClientAddress");
+                name: "ClientAddresses");
+
+            migrationBuilder.DropTable(
+                name: "ClientsDemands");
 
             migrationBuilder.DropTable(
                 name: "Contracts");
@@ -406,10 +477,7 @@ namespace Mentorship.CleaningService.DataAccess.Migrations
                 name: "Offers");
 
             migrationBuilder.DropTable(
-                name: "Roles");
-
-            migrationBuilder.DropTable(
-                name: "Workers");
+                name: "WorkerRoles");
 
             migrationBuilder.DropTable(
                 name: "ContractStatuses");
@@ -425,6 +493,12 @@ namespace Mentorship.CleaningService.DataAccess.Migrations
 
             migrationBuilder.DropTable(
                 name: "OfferStatuses");
+
+            migrationBuilder.DropTable(
+                name: "Roles");
+
+            migrationBuilder.DropTable(
+                name: "Workers");
 
             migrationBuilder.DropTable(
                 name: "Companies");

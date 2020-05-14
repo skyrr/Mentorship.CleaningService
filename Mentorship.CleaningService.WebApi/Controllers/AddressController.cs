@@ -27,20 +27,24 @@ namespace Mentorship.CleaningService.WebApi.Controllers
         [Route("api/address/{id}")]
         public JsonResult Get(int id)
         {
-            using (var addressService = _serviceFactory.GetCleaningService<AddressDTO>())
-            {
-                return Json(addressService.GetById(id));
-            }
+            //using (var addressService = _serviceFactory.GetCleaningService<AddressDTO>())
+            //{
+            //    return Json(addressService.GetById(id));
+            //}
+            var addressService = _serviceFactory.GetCleaningService<AddressDTO>();
+            return Json(addressService.GetById(id));
         }
 
         [HttpGet]
         [Route("api/addresses")]
         public JsonResult GetAll()
         {
-            using (var addressService = _serviceFactory.GetCleaningService<AddressDTO>())
-            {
-                return Json(addressService.GetAll());
-            }
+            //using (var addressService = _serviceFactory.GetCleaningService<AddressDTO>())
+            //{
+            //    return Json(addressService.GetAll());
+            //}
+            var addressService = _serviceFactory.GetCleaningService<AddressDTO>() ;
+            return Json(addressService.GetAll());
         }
 
         [HttpPost]

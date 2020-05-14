@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Mentorship.CleaningService.DataAccess.Migrations
 {
     [DbContext(typeof(CleaningServiceDbContext))]
-    [Migration("20200224150413_SP6")]
-    partial class SP6
+    [Migration("20200409165442_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -35,7 +35,9 @@ namespace Mentorship.CleaningService.DataAccess.Migrations
 
                     b.Property<bool>("IsDeleted");
 
-                    b.Property<string>("StreetName");
+                    b.Property<string>("StreetName")
+                        .IsRequired()
+                        .HasMaxLength(50);
 
                     b.HasKey("Id");
 
@@ -84,7 +86,7 @@ namespace Mentorship.CleaningService.DataAccess.Migrations
 
                     b.Property<int>("ClientId");
 
-                    b.Property<int>("DemandStatusId");
+                    b.Property<string>("DemandStatusName");
 
                     b.Property<bool>("IsDeleted");
 

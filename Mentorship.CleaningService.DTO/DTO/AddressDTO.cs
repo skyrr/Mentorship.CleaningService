@@ -5,10 +5,10 @@ namespace Mentorship.CleaningService.DTO
     public class AddressDTO : IEntityDTO
     {
         public bool IsDeleted { get; set; }
-        public string StreetName { get; set; }
-        public string BuildingNumber { get; set; }
-        public string ApartmentNumber { get; set; }
-        public string City { get; set; }
+        public string StreetName { get; set; } = null;
+        public string BuildingNumber { get; set; } = null;
+        public string ApartmentNumber { get; set; } = null;
+        public string City { get; set; } = null;
         public string ErrorMessage { get; set; }
     }
 }

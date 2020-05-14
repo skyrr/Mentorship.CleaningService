@@ -104,7 +104,7 @@ namespace Mentorship.CleaningService.DataAccess
         public CleaningServiceDbContext CreateDbContext(string[] args)
         {
             var builder = new DbContextOptionsBuilder<CleaningServiceDbContext>();
-            builder.UseSqlServer("Server=localhost;Database=DbName;Trusted_Connection=True;MultipleActiveResultSets=true");
+            builder.UseSqlServer("Server=localhost;Database=CleaningDb;Trusted_Connection=True;MultipleActiveResultSets=true");
             return new CleaningServiceDbContext(builder.Options);
         }
     }

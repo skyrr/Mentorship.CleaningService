@@ -33,7 +33,9 @@ namespace Mentorship.CleaningService.DataAccess.Migrations
 
                     b.Property<bool>("IsDeleted");
 
-                    b.Property<string>("StreetName");
+                    b.Property<string>("StreetName")
+                        .IsRequired()
+                        .HasMaxLength(50);
 
                     b.HasKey("Id");
 
