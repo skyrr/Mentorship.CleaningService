@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Mentorship.CleaningService.BusinessLogic;
 using Mentorship.CleaningService.Models;
 using Mentorship.CleaningService.Repository;
 using Mentorship.CleaningService.WebApi.Controllers;
@@ -36,7 +37,9 @@ namespace Mentorship.CleaningService.Tests
             mock.Setup(repo => repo.GetById(It.IsAny<int>())).Returns(GetByIdTest(1));
             var factoryMock = new Mock<IRepositoryFactory>();
             factoryMock.Setup(f => f.GetRepository<Address>()).Returns(mock.Object);
-            _addressController = new AddressController(factoryMock.Object);
+            var serviceMock = new Mock<ICleaningServiceServiceFactory>();
+            factoryMock.Setup(f => f.GetRepository<Address>()).Returns(mock.Object);
+            _addressController = new AddressController(serviceMock.Object, factoryMock.Object);
 
             var json = _addressController.Get(1);
             var address = json.Value as Address;
@@ -52,7 +55,9 @@ namespace Mentorship.CleaningService.Tests
             mock.Setup(repo => repo.GetAll()).Returns(GetAllTest());
             var factoryMock = new Mock<IRepositoryFactory>();
             factoryMock.Setup(f => f.GetRepository<Address>()).Returns(mock.Object);
-            _addressController = new AddressController(factoryMock.Object);
+            var serviceMock = new Mock<ICleaningServiceServiceFactory>();
+            factoryMock.Setup(f => f.GetRepository<Address>()).Returns(mock.Object);
+            _addressController = new AddressController(serviceMock.Object, factoryMock.Object);
 
             var json = _addressController.GetAll();
             var address = json.Value as List<Address>;
@@ -86,7 +91,9 @@ namespace Mentorship.CleaningService.Tests
             });
             var factoryMock = new Mock<IRepositoryFactory>();
             factoryMock.Setup(f => f.GetRepository<Address>()).Returns(mock.Object);
-            _addressController = new AddressController(factoryMock.Object);
+            var serviceMock = new Mock<ICleaningServiceServiceFactory>();
+            factoryMock.Setup(f => f.GetRepository<Address>()).Returns(mock.Object);
+            _addressController = new AddressController(serviceMock.Object, factoryMock.Object);
             var emptyJson = _addressController.GetAll();
             Assert.IsNotNull(emptyJson);
             var emptyStore = emptyJson.Value as List<Address>;
@@ -113,7 +120,9 @@ namespace Mentorship.CleaningService.Tests
             mock.Setup(repo => repo.Create(address));
             var factoryMock = new Mock<IRepositoryFactory>();
             factoryMock.Setup(f => f.GetRepository<Address>()).Returns(mock.Object);
-            _addressController = new AddressController(factoryMock.Object);
+            var serviceMock = new Mock<ICleaningServiceServiceFactory>();
+            factoryMock.Setup(f => f.GetRepository<Address>()).Returns(mock.Object);
+            _addressController = new AddressController(serviceMock.Object, factoryMock.Object);
             //Assert.AreEqual(address, factoryMock);
         }
 
